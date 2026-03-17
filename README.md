@@ -1,16 +1,53 @@
-# React + Vite
+# AutoDM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AutoDM is a React-based web application that integrates with Firebase and the Google Gemini API to bring intelligent, customizable AI chatbot capabilities.
 
-Currently, two official plugins are available:
+## Features
+- **AI-Powered Chat**: Communicate with an AI powered by Google's latest Gemini models.
+- **Model Selection**: Switch between different Gemini models (e.g., Gemini Flash, Gemini Pro, Preview).
+- **Bring Your Own Key (BYOK)**: Securely provide your own Google Gemini API key via the in-app Settings menu.
+- **Serverless Backend**: Relies on Firebase for authentication, real-time Firestore databases, and fast hosting.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Requirements
+- Node.js installed locally
+- A [Google Gemini API Key](https://aistudio.google.com/app/apikey)
+- A Firebase project for your database and hosting configuration
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Clone the repository:**
+   ```bash
+   git clone <repository_url>
+   cd AutoDM
+   ```
 
-## Expanding the ESLint configuration
+2. **Install the dependencies:**
+   ```bash
+   npm install
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. **Configure Firebase:**
+   Ensure you have configured your Firebase project settings correctly inside `src/firebase.js`.
+
+4. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+## Deployment
+AutoDM is fully configured for deployment to Firebase Hosting. 
+
+To deploy a new version:
+1. Build the production application:
+   ```bash
+   npm run build
+   ```
+2. Deploy using the Firebase CLI:
+   ```bash
+   npx firebase-tools deploy --only hosting
+   ```
+
+## Tech Stack
+- **Frontend**: React, Vite, Vanilla CSS
+- **Backend/Infrastructure**: Firebase (Auth, Firestore, Hosting)
+- **AI Services**: `@google/genai` SDK
