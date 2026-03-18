@@ -10,8 +10,9 @@ const DiceRoller = forwardRef((props, ref) => {
     if (!containerRef.current) return;
 
     // Initialize DiceBox
-    diceBoxRef.current = new DiceBox("#dice-box-container", {
+    const diceBox = new DiceBox("#dice-box-container", {
       id: "dice-canvas",
+      assetPath: "/",
       theme_colorset: "white",
       theme_surface: "green-felt",
       baseScale: 100,
@@ -29,8 +30,13 @@ const DiceRoller = forwardRef((props, ref) => {
       }
     });
 
+    diceBox.initialize().then(() => {
+      diceBoxRef.current = diceBox;
+    }).catch(err => {
+      console.error("DiceBox initialization failed:", err);
+    });
+
     return () => {
-      // Cleanup if needed (the library doesn't seem to have an explicit destroy/cleanup)
       if (containerRef.current) {
         containerRef.current.innerHTML = '';
       }

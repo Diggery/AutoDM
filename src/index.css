@@ -172,11 +172,12 @@ p {
 /* Layout Specific Configs */
 .app-container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {

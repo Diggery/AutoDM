@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { LogOut, Settings, Send } from 'lucide-react';
+import { LogOut, Settings, Send, Trash2 } from 'lucide-react';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
 import Message from './Message';
 import SettingsModal from './SettingsModal';
 import DiceRoller from './DiceRoller';
@@ -13,6 +13,7 @@ export default function Chat({ user, onSignOut }) {
   const [messages, setMessages] = useState([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].id);
+  const [isClearing, setIsClearing] = useState(false);
   const messagesEndRef = useRef(null);
   const diceRollerRef = useRef(null);
 
@@ -38,9 +39,31 @@ export default function Chat({ user, onSignOut }) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const handleClearChat = async () => {
+    if (!window.confirm("Are you sure you want to clear the entire chat history? This action cannot be undone.")) return;
+    
+    setIsClearing(true);
+    try {
+      const q = query(collection(db, 'messages'));
+      const snapshot = await getDocs(q);
+      const batch = writeBatch(db);
+      
+      snapshot.docs.forEach((docSnap) => {
+        batch.delete(docSnap.ref);
+      });
+      
+      await batch.commit();
+    } catch (err) {
+      console.error('Error clearing chat:', err);
+      alert("Failed to clear chat history.");
+    } finally {
+      setIsClearing(false);
+    }
+  };
+
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || isClearing) return;
     
     const textToSend = newMessage;
     setNewMessage('');
@@ -77,12 +100,10 @@ export default function Chat({ user, onSignOut }) {
           if (aiData.type === 'tool_call' && aiData.name === 'roll_dice') {
             const notation = aiData.args.notation;
             
-            // Trigger 3D dice roll
             if (diceRollerRef.current) {
               const results = await diceRollerRef.current.roll(notation);
-              const totalResult = results.reduce((acc, curr) => acc + curr.value, 0);
+              const totalResult = results.total;
               
-              // Add a message about the roll result
               await addDoc(collection(db, 'messages'), {
                 text: `🎲 Rolling ${notation}... Result: **${totalResult}**`,
                 uid: 'system_ai',
@@ -92,9 +113,6 @@ export default function Chat({ user, onSignOut }) {
                 isAi: true,
                 model: selectedModel
               });
-
-              // Optional: Get a follow-up response from the AI about the result
-              // For now, we'll just stop here to avoid complexity with chat history.
             }
           } else if (aiData.type === 'text') {
             await addDoc(collection(db, 'messages'), {
@@ -182,13 +200,22 @@ export default function Chat({ user, onSignOut }) {
         </div>
 
         <form className="message-form" onSubmit={handleSend}>
+          <button 
+            type="button" 
+            className="clear-btn" 
+            title="Clear Chat History"
+            onClick={handleClearChat}
+            disabled={isClearing || messages.length === 0}
+          >
+            <Trash2 size={18} />
+          </button>
           <input
             className="input-field"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message... (use @dm to summon AI)"
           />
-          <button type="submit" className="btn send-btn" disabled={!newMessage.trim()}>
+          <button type="submit" className="btn send-btn" disabled={!newMessage.trim() || isClearing}>
             <Send size={18} />
           </button>
         </form>
