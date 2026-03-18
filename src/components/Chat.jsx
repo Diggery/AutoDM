@@ -4,6 +4,7 @@ import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import Message from './Message';
 import SettingsModal from './SettingsModal';
+import DiceRoller from './DiceRoller';
 import { getAiResponse, AVAILABLE_MODELS } from '../services/ai';
 import './Chat.css';
 
@@ -13,6 +14,7 @@ export default function Chat({ user, onSignOut }) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].id);
   const messagesEndRef = useRef(null);
+  const diceRollerRef = useRef(null);
 
   useEffect(() => {
     const q = query(
@@ -70,16 +72,41 @@ export default function Chat({ user, onSignOut }) {
         }
 
         try {
-          const aiResponse = await getAiResponse(apiKey, prompt, selectedModel);
-          await addDoc(collection(db, 'messages'), {
-            text: aiResponse,
-            uid: 'system_ai',
-            displayName: 'AutoDM Agent',
-            photoURL: '',
-            createdAt: serverTimestamp(),
-            isAi: true,
-            model: selectedModel
-          });
+          const aiData = await getAiResponse(apiKey, prompt, selectedModel);
+          
+          if (aiData.type === 'tool_call' && aiData.name === 'roll_dice') {
+            const notation = aiData.args.notation;
+            
+            // Trigger 3D dice roll
+            if (diceRollerRef.current) {
+              const results = await diceRollerRef.current.roll(notation);
+              const totalResult = results.reduce((acc, curr) => acc + curr.value, 0);
+              
+              // Add a message about the roll result
+              await addDoc(collection(db, 'messages'), {
+                text: `🎲 Rolling ${notation}... Result: **${totalResult}**`,
+                uid: 'system_ai',
+                displayName: 'AutoDM Agent',
+                photoURL: '',
+                createdAt: serverTimestamp(),
+                isAi: true,
+                model: selectedModel
+              });
+
+              // Optional: Get a follow-up response from the AI about the result
+              // For now, we'll just stop here to avoid complexity with chat history.
+            }
+          } else if (aiData.type === 'text') {
+            await addDoc(collection(db, 'messages'), {
+              text: aiData.text,
+              uid: 'system_ai',
+              displayName: 'AutoDM Agent',
+              photoURL: '',
+              createdAt: serverTimestamp(),
+              isAi: true,
+              model: selectedModel
+            });
+          }
         } catch (error) {
           await addDoc(collection(db, 'messages'), {
             text: `⚠️ AI Error: ${error.message}`,
@@ -168,6 +195,7 @@ export default function Chat({ user, onSignOut }) {
       </div>
 
       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <DiceRoller ref={diceRollerRef} onRollComplete={(results) => console.log("Roll results:", results)} />
     </div>
   );
 }
