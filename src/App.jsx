@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import Auth from './components/Auth';
 import Chat from './components/Chat';
+import DiceRoller from './components/DiceRoller';
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const diceRollerRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -25,13 +27,20 @@ function App() {
   }
 
   return (
-    <div className="app-container">
-      {user ? (
-        <Chat user={user} onSignOut={() => signOut(auth)} />
-      ) : (
-        <Auth />
-      )}
-    </div>
+    <>
+      <div className="app-container">
+        {user ? (
+          <Chat 
+            user={user} 
+            onSignOut={() => signOut(auth)} 
+            diceRollerRef={diceRollerRef}
+          />
+        ) : (
+          <Auth />
+        )}
+      </div>
+      <DiceRoller ref={diceRollerRef} onRollComplete={(results) => console.log("Roll results:", results)} />
+    </>
   );
 }
 

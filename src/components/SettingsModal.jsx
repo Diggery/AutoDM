@@ -18,7 +18,7 @@ export default function SettingsModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="modal-overlay animate-fade-in">
+    <div className="modal-overlay">
       <div className="modal-content glass-panel">
         <div className="modal-header">
           <h2>Settings</h2>

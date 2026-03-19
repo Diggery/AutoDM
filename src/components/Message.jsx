@@ -4,7 +4,7 @@ export default function Message({ message, isOwnMessage }) {
   const { text, displayName, photoURL, isAi } = message;
 
   return (
-    <div className={`message-wrapper ${isOwnMessage ? 'own-message' : ''} animate-fade-in`}>
+    <div className={`message-wrapper ${isOwnMessage ? 'own-message' : ''}`}>
       {!isOwnMessage && (
         <div className={`msg-avatar ${isAi ? 'ai-avatar' : ''}`}>
           {photoURL ? (

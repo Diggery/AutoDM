@@ -39,14 +39,14 @@ export default function Auth() {
   };
 
   return (
-    <div className="auth-container animate-fade-in">
+    <div className="auth-container">
       <div className="glass-panel auth-card">
         <div className="auth-header">
           <h2>{isLogin ? 'Welcome back' : 'Create an account'}</h2>
           <p className="subtitle">{isLogin ? 'Enter your details to sign in' : 'Start chatting with friends & AI'}</p>
         </div>
 
-        {error && <div className="auth-error animate-fade-in">{error}</div>}
+        {error && <div className="auth-error">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">

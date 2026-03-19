@@ -8,14 +8,13 @@ import DiceRoller from './DiceRoller';
 import { getAiResponse, AVAILABLE_MODELS } from '../services/ai';
 import './Chat.css';
 
-export default function Chat({ user, onSignOut }) {
+export default function Chat({ user, onSignOut, diceRollerRef }) {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].id);
   const [isClearing, setIsClearing] = useState(false);
   const messagesEndRef = useRef(null);
-  const diceRollerRef = useRef(null);
 
   useEffect(() => {
     const q = query(
@@ -41,17 +40,17 @@ export default function Chat({ user, onSignOut }) {
 
   const handleClearChat = async () => {
     if (!window.confirm("Are you sure you want to clear the entire chat history? This action cannot be undone.")) return;
-    
+
     setIsClearing(true);
     try {
       const q = query(collection(db, 'messages'));
       const snapshot = await getDocs(q);
       const batch = writeBatch(db);
-      
+
       snapshot.docs.forEach((docSnap) => {
         batch.delete(docSnap.ref);
       });
-      
+
       await batch.commit();
     } catch (err) {
       console.error('Error clearing chat:', err);
@@ -64,10 +63,10 @@ export default function Chat({ user, onSignOut }) {
   const handleSend = async (e) => {
     e.preventDefault();
     if (!newMessage.trim() || isClearing) return;
-    
+
     const textToSend = newMessage;
     setNewMessage('');
-    
+
     try {
       await addDoc(collection(db, 'messages'), {
         text: textToSend,
@@ -77,11 +76,11 @@ export default function Chat({ user, onSignOut }) {
         createdAt: serverTimestamp(),
         isAi: false
       });
-      
+
       if (textToSend.toLowerCase().includes('@dm')) {
         const prompt = textToSend.replace(/@dm/gi, '').trim() || 'Hello';
         const apiKey = localStorage.getItem('auto_dm_gemini_key');
-        
+
         if (!apiKey) {
           await addDoc(collection(db, 'messages'), {
             text: "⚠️ Please configure your Gemini API Key in Settings to use the AI Agent.",
@@ -96,14 +95,14 @@ export default function Chat({ user, onSignOut }) {
 
         try {
           const aiData = await getAiResponse(apiKey, prompt, selectedModel);
-          
+
           if (aiData.type === 'tool_call' && aiData.name === 'roll_dice') {
             const notation = aiData.args.notation;
-            
+
             if (diceRollerRef.current) {
               const results = await diceRollerRef.current.roll(notation);
               const totalResult = results.total;
-              
+
               await addDoc(collection(db, 'messages'), {
                 text: `🎲 Rolling ${notation}... Result: **${totalResult}**`,
                 uid: 'system_ai',
@@ -142,7 +141,7 @@ export default function Chat({ user, onSignOut }) {
   };
 
   return (
-    <div className="chat-layout animate-fade-in">
+    <div className="chat-layout">
       <div className="chat-header glass-panel">
         <div className="user-info">
           <div className="avatar">
@@ -157,9 +156,9 @@ export default function Chat({ user, onSignOut }) {
             <span className="status">Online</span>
           </div>
         </div>
-        
+
         <div className="header-actions">
-          <select 
+          <select
             className="model-select"
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
@@ -185,14 +184,14 @@ export default function Chat({ user, onSignOut }) {
             <div className="empty-state">
               <div className="empty-icon">✨</div>
               <h3>Welcome to AutoDM</h3>
-              <p>Start a conversation. Mention <b style={{color: 'var(--primary)'}}>@dm</b> to talk to the AI agent.</p>
+              <p>Start a conversation. Mention <b style={{ color: 'var(--primary)' }}>@dm</b> to talk to the AI agent.</p>
             </div>
           ) : (
             messages.map((msg) => (
-              <Message 
-                key={msg.id} 
-                message={msg} 
-                isOwnMessage={msg.uid === user.uid} 
+              <Message
+                key={msg.id}
+                message={msg}
+                isOwnMessage={msg.uid === user.uid}
               />
             ))
           )}
@@ -200,9 +199,9 @@ export default function Chat({ user, onSignOut }) {
         </div>
 
         <form className="message-form" onSubmit={handleSend}>
-          <button 
-            type="button" 
-            className="clear-btn" 
+          <button
+            type="button"
+            className="clear-btn"
             title="Clear Chat History"
             onClick={handleClearChat}
             disabled={isClearing || messages.length === 0}
@@ -222,7 +221,6 @@ export default function Chat({ user, onSignOut }) {
       </div>
 
       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
-      <DiceRoller ref={diceRollerRef} onRollComplete={(results) => console.log("Roll results:", results)} />
     </div>
   );
 }
