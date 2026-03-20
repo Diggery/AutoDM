@@ -5,28 +5,35 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(0.25rem);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 24px;
+  padding: 1.5rem;
 }
 
 .modal-content {
   width: 100%;
-  max-width: 500px;
+  max-width: 32rem;
   background: var(--bg-color);
-  padding: 24px;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25rem;
   animation: fadeInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-1.25rem) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modal-header {
@@ -34,37 +41,37 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--glass-border);
-  padding-bottom: 16px;
+  padding-bottom: 1rem;
 }
 
 .modal-header h2 {
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .modal-body {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 8px 0;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
 }
 
 .setting-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .setting-group label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .setting-desc {
-  font-size: 13px;
+  font-size: 1rem;
   color: var(--text-secondary);
   line-height: 1.5;
 }
@@ -72,13 +79,13 @@
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  padding-top: 16px;
+  gap: 0.75rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--glass-border);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 30rem) {
   .modal-overlay {
-    padding: 16px;
+    padding: 1rem;
   }
 }
