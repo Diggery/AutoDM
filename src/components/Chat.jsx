@@ -6,6 +6,7 @@ import Message from './Message';
 import SettingsModal from './SettingsModal';
 import DiceRoller from './DiceRoller';
 import { getAiResponse, AVAILABLE_MODELS } from '../services/ai';
+import { processPlayerIntent } from '../services/orchestrator';
 import './Chat.css';
 
 export default function Chat({ user, onSignOut, diceRollerRef }) {
@@ -94,36 +95,48 @@ export default function Chat({ user, onSignOut, diceRollerRef }) {
         }
 
         try {
-          const aiData = await getAiResponse(apiKey, prompt, selectedModel);
-
-          if (aiData.type === 'tool_call' && aiData.name === 'roll_dice') {
-            const notation = aiData.args.notation;
-
+          const handleDiceRoll = async (notation) => {
             if (diceRollerRef.current) {
-              const results = await diceRollerRef.current.roll(notation);
-              const totalResult = results.total;
-
-              await addDoc(collection(db, 'messages'), {
-                text: `🎲 Rolling ${notation}... Result: **${totalResult}**`,
-                uid: 'system_ai',
-                displayName: 'AutoDM Agent',
-                photoURL: '',
-                createdAt: serverTimestamp(),
-                isAi: true,
-                model: selectedModel
-              });
+              try {
+                // Let the physics engine handle the native notation. For a percentile (d100), explicitly request tens and ones
+                let safeNotation = notation;
+                if (safeNotation.includes('1d100')) {
+                   safeNotation = safeNotation.replace(/1d100/g, '1d100+1d10');
+                }
+                const results = await diceRollerRef.current.roll(safeNotation);
+                let total = 0;
+                
+                if (results) {
+                  // handle both array responses and object responses from dice-box libraries
+                  if (Array.isArray(results)) {
+                    total = results.reduce((acc, group) => acc + (group.value || group.total || 0), 0);
+                  } else if (results.total !== undefined) {
+                    total = results.total;
+                  }
+                  
+                  // Handle 00 + 0 on percentile dice
+                  if (notation.includes('d100') && total === 0) {
+                     total = 100;
+                  }
+                  
+                  return total > 0 ? total : 1;
+                }
+              } catch (err) {
+                console.error("Dice 3D Error:", err);
+              }
             }
-          } else if (aiData.type === 'text') {
-            await addDoc(collection(db, 'messages'), {
-              text: aiData.text,
-              uid: 'system_ai',
-              displayName: 'AutoDM Agent',
-              photoURL: '',
-              createdAt: serverTimestamp(),
-              isAi: true,
-              model: selectedModel
-            });
-          }
+            // Fallback natively 
+            const match = notation.match(/(\d*)d(\d+)/i) || [];
+            const qt = parseInt(match[1]) || 1;
+            const sd = parseInt(match[2]) || 20;
+            let sum = 0;
+            for(let i=0; i<qt; i++) sum += Math.floor(Math.random() * sd) + 1;
+            return sum;
+          };
+
+          // Use the orchestrator to process player intent through the Rules Module
+          await processPlayerIntent('default', user, prompt, apiKey, selectedModel, handleDiceRoll);
+
         } catch (error) {
           await addDoc(collection(db, 'messages'), {
             text: `⚠️ AI Error: ${error.message}`,

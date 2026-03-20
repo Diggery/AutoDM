@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { SYSTEM_PROMPTS } from '../prompts';
 
 export const AVAILABLE_MODELS = [
   { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
@@ -19,7 +20,7 @@ export async function getAiResponse(apiKey, prompt, model = AVAILABLE_MODELS[0].
 
     const modelInstance = genAI.getGenerativeModel({
       model: modelId,
-      systemInstruction: "You are AutoDM, a helpful AI Dungeon Master. You can roll dice for the players when they ask. Use the roll_dice tool to trigger a 3D dice animation. After the roll, the system will provide the results, and you should describe the outcome to the player.",
+      systemInstruction: SYSTEM_PROMPTS.AUTO_DM_BASE,
       tools: [
         {
           functionDeclarations: [

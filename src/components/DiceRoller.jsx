@@ -12,6 +12,8 @@ const DiceRoller = forwardRef((props, ref) => {
     if (!containerRef.current || isInitialized.current) return;
     isInitialized.current = true;
 
+    console.log("[DiceRoller] Initializing 3D DiceBox...");
+
     const diceBox = new DiceBox("#dice-box-portal-container", {
       id: "dice-canvas",
       assetPath: "/",
@@ -52,12 +54,24 @@ const DiceRoller = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     roll: (notation) => {
+      console.log("[DiceRoller] roll requested for:", notation);
       if (diceBoxRef.current) {
         if (containerRef.current) {
           containerRef.current.style.opacity = "1";
           containerRef.current.style.pointerEvents = "auto";
+          console.log("[DiceRoller] Target container made visible. Triggering 3D engine...");
+        } else {
+          console.warn("[DiceRoller] Warning: containerRef is null, cannot make visible!");
         }
-        return diceBoxRef.current.roll(notation);
+        return diceBoxRef.current.roll(notation).then(res => {
+          console.log("[DiceRoller] Physics engine completed roll:", res);
+          return res;
+        }).catch(err => {
+           console.error("[DiceRoller] Physics engine crashed:", err);
+           return null;
+        });
+      } else {
+        console.error("[DiceRoller] Critical: diceBoxRef.current is empty! The 3D engine failed to initialize.");
       }
       return null;
     }
