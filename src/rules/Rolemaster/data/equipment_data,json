@@ -125,132 +125,72 @@
         "weapons": {
             "One-Handed Slashing": [
                 {
-                    "name": "Dagger",
-                    "damage": "3D12"
-                },
-                {
-                    "name": "Falchion",
-                    "damage": "4D12/2D10"
-                },
-                {
-                    "name": "Handaxe",
-                    "damage": "4D10/2D8"
-                },
-                {
-                    "name": "Main Gauche",
-                    "damage": "1D20/2D10"
-                },
-                {
                     "name": "Scimitar",
-                    "damage": "5D12"
-                },
-                {
-                    "name": "Rapier",
-                    "damage": "1D20/2D12"
-                },
-                {
-                    "name": "Broadsword",
-                    "damage": "5D12"
+                    "weight_lbs": "3-5",
+                    "fumble_range": "01-04"
                 },
                 {
                     "name": "Short Sword",
-                    "damage": "2D20/D12"
+                    "weight_lbs": "2-4",
+                    "fumble_range": "01-02"
+                },
+                {
+                    "name": "Main Gauche",
+                    "weight_lbs": "1-2",
+                    "fumble_range": "01-02"
                 }
             ],
             "One-Handed Concussion": [
                 {
-                    "name": "Bare/Armored Fist",
-                    "damage": "1D20"
-                },
-                {
                     "name": "Club",
-                    "damage": "1D12/4D8"
-                },
-                {
-                    "name": "War Hammer",
-                    "damage": "2D10/4D8"
+                    "weight_lbs": "3-7",
+                    "fumble_range": "01-04"
                 },
                 {
                     "name": "Mace",
-                    "damage": "5D8/1D6"
+                    "weight_lbs": "3.5-8",
+                    "fumble_range": "01-02"
                 },
                 {
-                    "name": "Morning Star",
-                    "damage": "5D12/1D10"
+                    "name": "War Hammer",
+                    "weight_lbs": "4-7",
+                    "fumble_range": "01-04"
                 },
                 {
                     "name": "Whip",
-                    "damage": "2D12/2D10"
+                    "weight_lbs": "2-5",
+                    "fumble_range": "01-06"
                 }
             ],
             "Missile Weapons": [
                 {
-                    "name": "Bola",
-                    "damage": "5D8"
-                },
-                {
-                    "name": "Composit Bow",
-                    "damage": "3D10/3D8"
-                },
-                {
-                    "name": "Heavy Crossbow",
-                    "damage": "3D12/3D10"
-                },
-                {
-                    "name": "Light Crossbow",
-                    "damage": "2D10/4D8"
-                },
-                {
-                    "name": "Long Bow",
-                    "damage": "4D10/2D8"
-                },
-                {
                     "name": "Short Bow",
-                    "damage": "3D10/2D8"
+                    "weight_lbs": "2-3",
+                    "fumble_range": "01-04"
                 },
                 {
                     "name": "Sling",
-                    "damage": "5D8/1D6"
+                    "weight_lbs": ".5-1",
+                    "fumble_range": "01-06"
                 }
             ],
             "Two-Handed Weapons": [
                 {
-                    "name": "Battle Axe",
-                    "damage": "6D12/2D10"
-                },
-                {
-                    "name": "Flail",
-                    "damage": "4D12/4D10"
+                    "name": "Two-Hand Sword",
+                    "weight_lbs": "5-12",
+                    "fumble_range": "01-05"
                 },
                 {
                     "name": "War Mattock",
-                    "damage": "2D12/6D10"
-                },
-                {
-                    "name": "Quarterstaff",
-                    "damage": "1D20/4D12"
-                },
-                {
-                    "name": "Two-Hand Sword",
-                    "damage": "8D12"
+                    "weight_lbs": "4-8",
+                    "fumble_range": "01-06"
                 }
             ],
             "Pole Arms": [
                 {
-                    "name": "Javelin",
-                    "damage": "1D12/4D10"
-                },
-                {
-                    "name": "Lance, Mounted",
-                    "damage": "2D20/5D12"
-                },
-                {
-                    "name": "Pole Arm",
-                    "damage": "8D10"
-                },
-                {
                     "name": "Spear",
-                    "damage": "1D20/4D10"
+                    "weight_lbs": "3-8",
+                    "fumble_range": "01-05"
                 }
             ]
         }
