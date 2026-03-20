@@ -1,10 +1,12 @@
 import { GameSystemInterface } from '../RulesInterface';
+import attacksData from './data/attacks.json';
+import templateData from './data/character_template.json';
 
 /**
  * Simplified Rolemaster Test Implementation.
  */
 export class RolemasterRules extends GameSystemInterface {
-  
+
   // Simplified getCharacterStats
   getCharacterStats(rawData) {
     return {
@@ -15,6 +17,19 @@ export class RolemasterRules extends GameSystemInterface {
       armorType: rawData.armorType || "Leather",
       hp: rawData.hp || 50
     };
+  }
+
+  // Returns supported weapon lookup tables for the Orchestrator
+  getAvailableWeapons() {
+    return Object.keys(attacksData || {});
+  }
+
+  // Returns a default blank character sheet for Rolemaster
+  getCharacterTemplate(name) {
+    // Deep clone the JSON template so we don't accidentally mutate the import
+    const freshTemplate = JSON.parse(JSON.stringify(templateData));
+    freshTemplate.name = name || 'Unknown Adventurer';
+    return freshTemplate;
   }
 
   // Simplified validateMove
@@ -30,7 +45,7 @@ export class RolemasterRules extends GameSystemInterface {
       // Very basic 1d100 roll + skill
       const roll = diceRoller ? await diceRoller('1d100') : (Math.floor(Math.random() * 100) + 1);
       const total = roll + (character.weaponSkill || 0);
-      
+
       let resultText = "Miss";
       let damage = 0;
 

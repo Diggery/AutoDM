@@ -1,0 +1,2082 @@
+{
+  "stat_descriptions": {
+    "Constitution": {
+      "abbreviation": "Co",
+      "description": "General health, stamina, resistance to disease, and the ability to absorb damage"
+    },
+    "Agility": {
+      "abbreviation": "Ag",
+      "description": "Manual dexterity, adroitness, and litheness"
+    },
+    "Self Discipline": {
+      "abbreviation": "SD",
+      "description": "Willpower, concentration, determination, and the control of mind over body"
+    },
+    "Memory": {
+      "abbreviation": "Me",
+      "description": "The ability to retain, recall, and detail facts"
+    },
+    "Reasoning": {
+      "abbreviation": "Re",
+      "description": "Intelligence, comprehension, and logical deduction"
+    },
+    "Strength": {
+      "abbreviation": "St",
+      "description": "Power, force, and the ability to use muscles to their greatest advantage"
+    },
+    "Quickness": {
+      "abbreviation": "Qu",
+      "description": "Speed, reflexes, dodging ability, and conscious reaction time"
+    },
+    "Presence": {
+      "abbreviation": "Pr",
+      "description": "Charisma, self-esteem, morale, and the ability to influence or control others"
+    },
+    "Intuition": {
+      "abbreviation": "In",
+      "description": "Luck, wisdom, insight, and precognitive or psychic abilities"
+    },
+    "Empathy": {
+      "abbreviation": "Em",
+      "description": "Emotional capacity, magical prowess, and the character's relationship to natural and supernatural forces"
+    }
+  },
+  "stat_bonuses": [
+    {
+      "range": [
+        100,
+        100
+      ],
+      "bonus": 25
+    },
+    {
+      "range": [
+        98,
+        99
+      ],
+      "bonus": 20
+    },
+    {
+      "range": [
+        95,
+        97
+      ],
+      "bonus": 15
+    },
+    {
+      "range": [
+        90,
+        94
+      ],
+      "bonus": 10
+    },
+    {
+      "range": [
+        85,
+        89
+      ],
+      "bonus": 5
+    },
+    {
+      "range": [
+        75,
+        84
+      ],
+      "bonus": 5
+    },
+    {
+      "range": [
+        25,
+        74
+      ],
+      "bonus": 0
+    },
+    {
+      "range": [
+        15,
+        24
+      ],
+      "bonus": -5
+    },
+    {
+      "range": [
+        10,
+        14
+      ],
+      "bonus": -5
+    },
+    {
+      "range": [
+        5,
+        9
+      ],
+      "bonus": -10
+    },
+    {
+      "range": [
+        3,
+        4
+      ],
+      "bonus": -15
+    },
+    {
+      "range": [
+        2,
+        2
+      ],
+      "bonus": -20
+    },
+    {
+      "range": [
+        1,
+        1
+      ],
+      "bonus": -25
+    }
+  ],
+  "skill_rank_progression": {
+    "ranks_0": -25,
+    "ranks_1_to_10": 5,
+    "ranks_11_to_20": 2,
+    "ranks_21_to_30": 1,
+    "ranks_31_plus": 0.5
+  },
+  "professions": {
+    "Fighter": {
+      "prime_requisites": "CO/ST"
+    },
+    "Thief": {
+      "prime_requisites": "QU/AG"
+    },
+    "Magician": {
+      "prime_requisites": "EM/RE"
+    },
+    "Cleric": {
+      "prime_requisites": "IN/ME"
+    },
+    "Ranger": {
+      "prime_requisites": "IN/CO"
+    },
+    "Rogue": {
+      "prime_requisites": "AG/ST"
+    },
+    "Warrior Monk": {
+      "prime_requisites": "QU/SD"
+    },
+    "Illusionist": {
+      "prime_requisites": "EM/PR"
+    },
+    "Alchemist": {
+      "prime_requisites": "EM/RE"
+    },
+    "Animist": {
+      "prime_requisites": "IN/EM"
+    },
+    "Healer": {
+      "prime_requisites": "IN/PR"
+    },
+    "Mentalist": {
+      "prime_requisites": "PR/SD"
+    },
+    "Lay Healer": {
+      "prime_requisites": "PR/EM"
+    },
+    "Seer": {
+      "prime_requisites": "PR/IN"
+    },
+    "Sorcerer": {
+      "prime_requisites": "EM/IN"
+    },
+    "Mystic": {
+      "prime_requisites": "EM/PR"
+    },
+    "Astrologer": {
+      "prime_requisites": "IN/PR"
+    },
+    "Monk": {
+      "prime_requisites": "EM/SD"
+    },
+    "Bard": {
+      "prime_requisites": "PR/ME"
+    }
+  },
+  "primary_skills": [
+    {
+      "skill": "Chain",
+      "category": "Maneuvering in Armor",
+      "development_costs": {
+        "Fighter": "2/*",
+        "Thief": "3/*",
+        "Magician": "10",
+        "Cleric": "10",
+        "Ranger": "3/*",
+        "Rogue": "3/*",
+        "Warrior Monk": "2/*",
+        "Illusionist": "10",
+        "Alchemist": "10",
+        "Animist": "10",
+        "Healer": "10",
+        "Mentalist": "10",
+        "Lay Healer": "10",
+        "Seer": "10",
+        "Sorcerer": "10",
+        "Mystic": "10",
+        "Astrologer": "10",
+        "Monk": "3/*",
+        "Bard": "3/*"
+      }
+    },
+    {
+      "skill": "Plate",
+      "category": "Maneuvering in Armor",
+      "development_costs": {
+        "Fighter": "2/*",
+        "Thief": "4/*",
+        "Magician": "11",
+        "Cleric": "11",
+        "Ranger": "4/*",
+        "Rogue": "4/*",
+        "Warrior Monk": "2/*",
+        "Illusionist": "11",
+        "Alchemist": "11",
+        "Animist": "11",
+        "Healer": "11",
+        "Mentalist": "11",
+        "Lay Healer": "11",
+        "Seer": "11",
+        "Sorcerer": "11",
+        "Mystic": "11",
+        "Astrologer": "11",
+        "Monk": "4/*",
+        "Bard": "4/*"
+      }
+    },
+    {
+      "skill": "Rigid Leather",
+      "category": "Maneuvering in Armor",
+      "development_costs": {
+        "Fighter": "1/*",
+        "Thief": "2/*",
+        "Magician": "9",
+        "Cleric": "2/*",
+        "Ranger": "2/*",
+        "Rogue": "2/*",
+        "Warrior Monk": "1/*",
+        "Illusionist": "9",
+        "Alchemist": "9",
+        "Animist": "2/*",
+        "Healer": "2/*",
+        "Mentalist": "9",
+        "Lay Healer": "9",
+        "Seer": "9",
+        "Sorcerer": "9",
+        "Mystic": "9",
+        "Astrologer": "9",
+        "Monk": "2/*",
+        "Bard": "2/*"
+      }
+    },
+    {
+      "skill": "Soft Leather",
+      "category": "Maneuvering in Armor",
+      "development_costs": {
+        "Fighter": "1/*",
+        "Thief": "1/*",
+        "Magician": "9",
+        "Cleric": "1/*",
+        "Ranger": "1/*",
+        "Rogue": "1/*",
+        "Warrior Monk": "1/*",
+        "Illusionist": "9",
+        "Alchemist": "9",
+        "Animist": "1/*",
+        "Healer": "1/*",
+        "Mentalist": "9",
+        "Lay Healer": "9",
+        "Seer": "9",
+        "Sorcerer": "9",
+        "Mystic": "9",
+        "Astrologer": "9",
+        "Monk": "1/*",
+        "Bard": "1/*"
+      }
+    },
+    {
+      "skill": "Weapon Skills",
+      "category": "Weapon Skills",
+      "development_costs": {
+        "Fighter": [
+          "1/5",
+          "2/5",
+          "2/7",
+          "2/7",
+          "2/7",
+          "5"
+        ],
+        "Thief": [
+          "2/7",
+          "3/8",
+          "4",
+          "4",
+          "4",
+          "6"
+        ],
+        "Magician": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Cleric": [
+          "6",
+          "7",
+          "9",
+          "9",
+          "9",
+          "20"
+        ],
+        "Ranger": [
+          "3/7",
+          "4",
+          "6",
+          "6",
+          "6",
+          "9"
+        ],
+        "Rogue": [
+          "2/5",
+          "2/7",
+          "3/8",
+          "4",
+          "4",
+          "6"
+        ],
+        "Warrior Monk": [
+          "1/5",
+          "2/6",
+          "2/7",
+          "2/7",
+          "3/8",
+          "6"
+        ],
+        "Illusionist": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Alchemist": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Animist": [
+          "6",
+          "7",
+          "9",
+          "9",
+          "9",
+          "20"
+        ],
+        "Healer": [
+          "6",
+          "7",
+          "9",
+          "9",
+          "9",
+          "20"
+        ],
+        "Mentalist": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Lay Healer": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Seer": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Sorcerer": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Mystic": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Astrologer": [
+          "9",
+          "20",
+          "20",
+          "20",
+          "20",
+          "20"
+        ],
+        "Monk": [
+          "3/7",
+          "4",
+          "6",
+          "6",
+          "6",
+          "9"
+        ],
+        "Bard": [
+          "3/7",
+          "4",
+          "6",
+          "6",
+          "6",
+          "9"
+        ]
+      }
+    },
+    {
+      "skill": "Climbing",
+      "category": "General Skills",
+      "development_costs": {
+        "Fighter": "3/7",
+        "Thief": "2/5",
+        "Magician": "6",
+        "Cleric": "5",
+        "Ranger": "3/9",
+        "Rogue": "2/5",
+        "Warrior Monk": "3/7",
+        "Illusionist": "6",
+        "Alchemist": "6",
+        "Animist": "5",
+        "Healer": "5",
+        "Mentalist": "6",
+        "Lay Healer": "6",
+        "Seer": "6",
+        "Sorcerer": "6",
+        "Mystic": "6",
+        "Astrologer": "6",
+        "Monk": "3/9",
+        "Bard": "3/9"
+      }
+    },
+    {
+      "skill": "Disarming Traps",
+      "category": "General Skills",
+      "development_costs": {
+        "Fighter": "3/8",
+        "Thief": "1/3",
+        "Magician": "7",
+        "Cleric": "7",
+        "Ranger": "4",
+        "Rogue": "1/3",
+        "Warrior Monk": "3/8",
+        "Illusionist": "7",
+        "Alchemist": "7",
+        "Animist": "7",
+        "Healer": "7",
+        "Mentalist": "7",
+        "Lay Healer": "7",
+        "Seer": "7",
+        "Sorcerer": "7",
+        "Mystic": "7",
+        "Astrologer": "7",
+        "Monk": "4",
+        "Bard": "4"
+      }
+    },
+    {
+      "skill": "Perception",
+      "category": "General Skills",
+      "development_costs": {
+        "Fighter": "2/5",
+        "Thief": "1/3",
+        "Magician": "3",
+        "Cleric": "3",
+        "Ranger": "2/7",
+        "Rogue": "1/3",
+        "Warrior Monk": "2/5",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/7",
+        "Bard": "2/7"
+      }
+    },
+    {
+      "skill": "Picking Locks",
+      "category": "General Skills",
+      "development_costs": {
+        "Fighter": "3/9",
+        "Thief": "1/3",
+        "Magician": "8",
+        "Cleric": "8",
+        "Ranger": "4",
+        "Rogue": "1/3",
+        "Warrior Monk": "3/9",
+        "Illusionist": "8",
+        "Alchemist": "8",
+        "Animist": "8",
+        "Healer": "8",
+        "Mentalist": "8",
+        "Lay Healer": "8",
+        "Seer": "8",
+        "Sorcerer": "8",
+        "Mystic": "8",
+        "Astrologer": "8",
+        "Monk": "4",
+        "Bard": "4"
+      }
+    },
+    {
+      "skill": "Riding",
+      "category": "General Skills",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Magician": "3",
+        "Cleric": "3",
+        "Ranger": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/6",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/6",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Stalking & Hiding",
+      "category": "General Skills",
+      "development_costs": {
+        "Fighter": "2/5",
+        "Thief": "1/3",
+        "Magician": "5",
+        "Cleric": "5",
+        "Ranger": "1/5",
+        "Rogue": "1/3",
+        "Warrior Monk": "2/5",
+        "Illusionist": "5",
+        "Alchemist": "5",
+        "Animist": "5",
+        "Healer": "5",
+        "Mentalist": "5",
+        "Lay Healer": "5",
+        "Seer": "5",
+        "Sorcerer": "5",
+        "Mystic": "5",
+        "Astrologer": "5",
+        "Monk": "1/5",
+        "Bard": "1/5"
+      }
+    },
+    {
+      "skill": "Swimming",
+      "category": "General Skills",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "1/3",
+        "Magician": "3",
+        "Cleric": "3",
+        "Ranger": "2/6",
+        "Rogue": "1/3",
+        "Warrior Monk": "2/6",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/6",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Channeling",
+      "category": "Magical Skills",
+      "development_costs": {
+        "Fighter": "25",
+        "Thief": "20",
+        "Magician": "7",
+        "Cleric": "1/4",
+        "Ranger": "3",
+        "Rogue": "20",
+        "Warrior Monk": "25",
+        "Illusionist": "7",
+        "Alchemist": "7",
+        "Animist": "1/4",
+        "Healer": "1/4",
+        "Mentalist": "20",
+        "Lay Healer": "20",
+        "Seer": "20",
+        "Sorcerer": "7",
+        "Mystic": "7",
+        "Astrologer": "7",
+        "Monk": "3",
+        "Bard": "3"
+      }
+    },
+    {
+      "skill": "Directed Spells",
+      "category": "Magical Skills",
+      "development_costs": {
+        "Fighter": "20",
+        "Thief": "20",
+        "Magician": "2/5",
+        "Cleric": "3",
+        "Ranger": "15",
+        "Rogue": "20",
+        "Warrior Monk": "20",
+        "Illusionist": "2/5",
+        "Alchemist": "2/5",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "2/5",
+        "Lay Healer": "2/5",
+        "Seer": "2/5",
+        "Sorcerer": "2/5",
+        "Mystic": "2/5",
+        "Astrologer": "2/5",
+        "Monk": "15",
+        "Bard": "15"
+      }
+    },
+    {
+      "skill": "Learning Spell Lists",
+      "category": "Magical Skills",
+      "development_costs": {
+        "Fighter": "20",
+        "Thief": "10",
+        "Magician": "1/*",
+        "Cleric": "1/*",
+        "Ranger": "4/*",
+        "Rogue": "10",
+        "Warrior Monk": "20",
+        "Illusionist": "1/*",
+        "Alchemist": "1/*",
+        "Animist": "1/*",
+        "Healer": "1/*",
+        "Mentalist": "1/*",
+        "Lay Healer": "1/*",
+        "Seer": "1/*",
+        "Sorcerer": "1/*",
+        "Mystic": "1/*",
+        "Astrologer": "1/*",
+        "Monk": "4/*",
+        "Bard": "4/*"
+      }
+    },
+    {
+      "skill": "Runes",
+      "category": "Magical Skills",
+      "development_costs": {
+        "Fighter": "7",
+        "Thief": "6",
+        "Magician": "1/4",
+        "Cleric": "2/6",
+        "Ranger": "5",
+        "Rogue": "6",
+        "Warrior Monk": "7",
+        "Illusionist": "1/4",
+        "Alchemist": "1/4",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "1/4",
+        "Lay Healer": "1/4",
+        "Seer": "1/4",
+        "Sorcerer": "1/4",
+        "Mystic": "1/4",
+        "Astrologer": "1/4",
+        "Monk": "5",
+        "Bard": "5"
+      }
+    },
+    {
+      "skill": "Staves & Wands",
+      "category": "Magical Skills",
+      "development_costs": {
+        "Fighter": "9",
+        "Thief": "7",
+        "Magician": "1/4",
+        "Cleric": "2/5",
+        "Ranger": "6",
+        "Rogue": "7",
+        "Warrior Monk": "9",
+        "Illusionist": "1/4",
+        "Alchemist": "1/4",
+        "Animist": "2/5",
+        "Healer": "2/5",
+        "Mentalist": "1/4",
+        "Lay Healer": "1/4",
+        "Seer": "1/4",
+        "Sorcerer": "1/4",
+        "Mystic": "1/4",
+        "Astrologer": "1/4",
+        "Monk": "6",
+        "Bard": "6"
+      }
+    },
+    {
+      "skill": "Adrenal Defense",
+      "category": "Special Skills",
+      "development_costs": {
+        "Fighter": "20",
+        "Thief": "20",
+        "Magician": "20",
+        "Cleric": "20",
+        "Ranger": "20",
+        "Rogue": "20",
+        "Warrior Monk": "20",
+        "Illusionist": "20",
+        "Alchemist": "20",
+        "Animist": "20",
+        "Healer": "20",
+        "Mentalist": "20",
+        "Lay Healer": "20",
+        "Seer": "20",
+        "Sorcerer": "20",
+        "Mystic": "20",
+        "Astrologer": "20",
+        "Monk": "20",
+        "Bard": "20"
+      }
+    },
+    {
+      "skill": "Adrenal Moves",
+      "category": "Special Skills",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Magician": "6",
+        "Cleric": "5",
+        "Ranger": "2/7",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/6",
+        "Illusionist": "6",
+        "Alchemist": "6",
+        "Animist": "5",
+        "Healer": "5",
+        "Mentalist": "6",
+        "Lay Healer": "6",
+        "Seer": "6",
+        "Sorcerer": "6",
+        "Mystic": "6",
+        "Astrologer": "6",
+        "Monk": "2/7",
+        "Bard": "2/7"
+      }
+    },
+    {
+      "skill": "Ambush",
+      "category": "Special Skills",
+      "development_costs": {
+        "Fighter": "3/8",
+        "Thief": "1/3",
+        "Magician": "9",
+        "Cleric": "9",
+        "Ranger": "3",
+        "Rogue": "1/3",
+        "Warrior Monk": "3/8",
+        "Illusionist": "9",
+        "Alchemist": "9",
+        "Animist": "9",
+        "Healer": "9",
+        "Mentalist": "9",
+        "Lay Healer": "9",
+        "Seer": "9",
+        "Sorcerer": "9",
+        "Mystic": "9",
+        "Astrologer": "9",
+        "Monk": "3",
+        "Bard": "3"
+      }
+    },
+    {
+      "skill": "Body Development",
+      "category": "Special Skills",
+      "development_costs": {
+        "Fighter": "1/3",
+        "Thief": "3/7",
+        "Magician": "8",
+        "Cleric": "6",
+        "Ranger": "2/7",
+        "Rogue": "3/7",
+        "Warrior Monk": "1/3",
+        "Illusionist": "8",
+        "Alchemist": "8",
+        "Animist": "6",
+        "Healer": "6",
+        "Mentalist": "8",
+        "Lay Healer": "8",
+        "Seer": "8",
+        "Sorcerer": "8",
+        "Mystic": "8",
+        "Astrologer": "8",
+        "Monk": "2/7",
+        "Bard": "2/7"
+      }
+    },
+    {
+      "skill": "Linguistics",
+      "category": "Special Skills",
+      "development_costs": {
+        "Fighter": "3/*",
+        "Thief": "3/*",
+        "Magician": "2/*",
+        "Cleric": "2/*",
+        "Ranger": "3/*",
+        "Rogue": "3/*",
+        "Warrior Monk": "3/*",
+        "Illusionist": "2/*",
+        "Alchemist": "2/*",
+        "Animist": "2/*",
+        "Healer": "2/*",
+        "Mentalist": "2/*",
+        "Lay Healer": "2/*",
+        "Seer": "2/*",
+        "Sorcerer": "2/*",
+        "Mystic": "2/*",
+        "Astrologer": "2/*",
+        "Monk": "3/*",
+        "Bard": "3/*"
+      }
+    },
+    {
+      "skill": "Martial Arts",
+      "category": "Special Skills",
+      "development_costs": {
+        "Fighter": "3/7",
+        "Thief": "3/7",
+        "Magician": "9",
+        "Cleric": "6",
+        "Ranger": "4",
+        "Rogue": "3/7",
+        "Warrior Monk": "1/4",
+        "Illusionist": "9",
+        "Alchemist": "9",
+        "Animist": "6",
+        "Healer": "6",
+        "Mentalist": "9",
+        "Lay Healer": "9",
+        "Seer": "9",
+        "Sorcerer": "9",
+        "Mystic": "9",
+        "Astrologer": "9",
+        "Monk": "4",
+        "Bard": "4"
+      }
+    }
+  ],
+  "secondary_skills": [
+    {
+      "skill": "Acrobatics",
+      "stat": "Ag/Qu",
+      "description": "Bonus for in-air maneuvers (e.g., flying or levitation) or swinging on objects [1]. Helps reduce the effects of falls [1].",
+      "development_costs": {
+        "Fighter": "2/5",
+        "Thief": "1/3",
+        "Rogue": "1/4",
+        "Warrior Monk": "1/3",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/7",
+        "Animist": "2/7",
+        "Healer": "2/7",
+        "Mentalist": "3/7",
+        "Lay Healer": "3/7",
+        "Seer": "3/7",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "1/5",
+        "Ranger": "2/6",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Acting",
+      "stat": "Pr/Em",
+      "description": "Bonus for impersonating others, devising new identities, etc [1].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/5",
+        "Rogue": "1/3",
+        "Warrior Monk": "2/5",
+        "Magician": "3/6",
+        "Illusionist": "1/3",
+        "Alchemist": "3/6",
+        "Cleric": "2/7",
+        "Animist": "2/7",
+        "Healer": "2/7",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "2/6",
+        "Sorcerer": "2/7",
+        "Mystic": "1/2",
+        "Astrologer": "2/7",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "1/5"
+      }
+    },
+    {
+      "skill": "Animal Healing",
+      "stat": "Em/Re",
+      "description": "Bonus for administering medical aid to injured animals [1]. Allows one to stabilize or repair light wounds and illnesses [1]. Successful static maneuver can stop (or reduce) up to 5 hits/round bleeding [1].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/5",
+        "Warrior Monk": "2/5",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/5",
+        "Cleric": "1/5",
+        "Animist": "1/4",
+        "Healer": "1/3",
+        "Mentalist": "2/6",
+        "Lay Healer": "1/2",
+        "Seer": "2/5",
+        "Sorcerer": "2/6",
+        "Mystic": "2/5",
+        "Astrologer": "2/6",
+        "Monk": "2/5",
+        "Ranger": "2/5",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Caving",
+      "stat": "SD/Re",
+      "description": "Bonus chance of determining natural course and lay of a cave or cavern (passage or chamber) [1]. Bonus when attempting an unassisted maneuver in a cave [1].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "1/4",
+        "Rogue": "2/4",
+        "Warrior Monk": "2/5",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/7",
+        "Animist": "2/7",
+        "Healer": "2/7",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "1/2",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Contortions",
+      "stat": "Ag/SD",
+      "description": "Bonus for manipulating one's body in order to move through small openings or absorb sudden crushing impact (other than falls) [2]. Helps escape from bonds, etc [2].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "1/3",
+        "Rogue": "2/4",
+        "Warrior Monk": "1/2",
+        "Magician": "5",
+        "Illusionist": "4",
+        "Alchemist": "3",
+        "Cleric": "2/6",
+        "Animist": "2/6",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "5",
+        "Sorcerer": "4",
+        "Mystic": "5",
+        "Astrologer": "2/4",
+        "Monk": "2/6",
+        "Ranger": "2/5",
+        "Bard": "3/6"
+      }
+    },
+    {
+      "skill": "Cookery",
+      "stat": "In/Re",
+      "description": "Bonus when detecting bad food, or preparing/neutralizing dangerous herbs and food ingredients [2]. Includes poison preparations as well as normal cooking [2].",
+      "development_costs": {
+        "Fighter": "2/5",
+        "Thief": "1/5",
+        "Rogue": "2/5",
+        "Warrior Monk": "2/5",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "1/2",
+        "Cleric": "2/4",
+        "Animist": "1/4",
+        "Healer": "1/5",
+        "Mentalist": "2/6",
+        "Lay Healer": "1/2",
+        "Seer": "2/6",
+        "Sorcerer": "2/4",
+        "Mystic": "2/6",
+        "Astrologer": "2/6",
+        "Monk": "2/6",
+        "Ranger": "2/4",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Dance",
+      "stat": "Ag/In",
+      "description": "Bonus when attempting to recreate a dance one witnesses [3]. Also used to create new dances, this skill can be a factor in Magic Rituals [3].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/4",
+        "Rogue": "2/4",
+        "Warrior Monk": "2/4",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/6",
+        "Cleric": "1/5",
+        "Animist": "1/5",
+        "Healer": "2/4",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "2/5",
+        "Sorcerer": "2/7",
+        "Mystic": "2/4",
+        "Astrologer": "2/5",
+        "Monk": "1/5",
+        "Ranger": "2/5",
+        "Bard": "1/3"
+      }
+    },
+    {
+      "skill": "Diving",
+      "stat": "SD/Ag",
+      "description": "Bonus for controlled falling maneuvers [4].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "1/3",
+        "Rogue": "2/4",
+        "Warrior Monk": "1/4",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/5",
+        "Animist": "2/5",
+        "Healer": "2/5",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/4",
+        "Ranger": "2/5",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Falsification",
+      "stat": "SD/Re",
+      "description": "Bonus for creation of false but believable writings or illustrations or records from scratch [5]. It is used to falsify bank records and accounts, change testimony records to misrepresent the facts, etc [5].",
+      "development_costs": {
+        "Fighter": "3",
+        "Thief": "2/6",
+        "Rogue": "3/5",
+        "Warrior Monk": "3",
+        "Magician": "3",
+        "Illusionist": "2/4",
+        "Alchemist": "1/3",
+        "Cleric": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "2/6",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "2/4",
+        "Astrologer": "3",
+        "Monk": "3",
+        "Ranger": "3",
+        "Bard": "3"
+      }
+    },
+    {
+      "skill": "First Aid",
+      "stat": "SD/Em",
+      "description": "Bonus for applications of emergency aid or treatment (limited to type of creature), such as attempts to halt or slow bleeding or damaging deterioration [6].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/6",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/5",
+        "Cleric": "1/5",
+        "Animist": "1/5",
+        "Healer": "1/2",
+        "Mentalist": "2/6",
+        "Lay Healer": "1/2",
+        "Seer": "2/6",
+        "Sorcerer": "3/6",
+        "Mystic": "2/6",
+        "Astrologer": "2/6",
+        "Monk": "2/6",
+        "Ranger": "2/4",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Fletching",
+      "stat": "Ag/SD",
+      "description": "Bonus for making an arrow out of available wood, metal, paper, and/or feathers [7]. Note: With this skill, sophisticated types of special purpose arrows may be crafted [7].",
+      "development_costs": {
+        "Fighter": "2/4",
+        "Thief": "2/4",
+        "Rogue": "2/4",
+        "Warrior Monk": "2/5",
+        "Magician": "2/6",
+        "Illusionist": "2/7",
+        "Alchemist": "1/3",
+        "Cleric": "2/5",
+        "Animist": "2/5",
+        "Healer": "2/6",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/5",
+        "Seer": "2/6",
+        "Sorcerer": "2/6",
+        "Mystic": "2/6",
+        "Astrologer": "2/6",
+        "Monk": "2/5",
+        "Ranger": "2/5",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Foraging",
+      "stat": "In/Me",
+      "description": "Bonus chance of finding any local source of potable water or edible plants and animals [8]. Includes basic food acquisition such as gathering or fishing [8].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/5",
+        "Warrior Monk": "2/6",
+        "Magician": "2/6",
+        "Illusionist": "2/7",
+        "Alchemist": "2/5",
+        "Cleric": "2/5",
+        "Animist": "1/5",
+        "Healer": "2/5",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/5",
+        "Seer": "1/4",
+        "Sorcerer": "2/6",
+        "Mystic": "2/6",
+        "Astrologer": "2/6",
+        "Monk": "2/6",
+        "Ranger": "1/3",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Frenzy",
+      "stat": "Em/SD",
+      "description": "Bonus to attempt to go into a state of single-minded, unpredictable rage which results in an additional +30 to the OB, the ability to take twice normal concussion damage and the ability to deliver double the concussion hit damage [7].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/5",
+        "Magician": "5",
+        "Illusionist": "5",
+        "Alchemist": "6",
+        "Cleric": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "2/4",
+        "Lay Healer": "2/5",
+        "Seer": "6",
+        "Sorcerer": "3/6",
+        "Mystic": "3",
+        "Astrologer": "5",
+        "Monk": "1/3",
+        "Ranger": "2/6",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Gambling",
+      "stat": "Me/Pr",
+      "description": "Bonus when playing any game with a significant element of luck [9]. Also includes cheating as a form of improving one's luck at any game [9].",
+      "development_costs": {
+        "Fighter": "2/4",
+        "Thief": "1/3",
+        "Rogue": "1/4",
+        "Warrior Monk": "2/4",
+        "Magician": "2/6",
+        "Illusionist": "2/5",
+        "Alchemist": "2/6",
+        "Cleric": "1/4",
+        "Animist": "2/6",
+        "Healer": "2/4",
+        "Mentalist": "2/5",
+        "Lay Healer": "2/5",
+        "Seer": "1/3",
+        "Sorcerer": "2/7",
+        "Mystic": "2/5",
+        "Astrologer": "1/5",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Herding",
+      "stat": "Em/Pr",
+      "description": "Bonus for gathering, befriending, or manipulating herd animals [10]. Skill normally deals with one group of animals at a time [10].",
+      "development_costs": {
+        "Fighter": "3/7",
+        "Thief": "3/5",
+        "Rogue": "3/7",
+        "Warrior Monk": "3/7",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/6",
+        "Cleric": "2/5",
+        "Animist": "1/2",
+        "Healer": "2/5",
+        "Mentalist": "3/7",
+        "Lay Healer": "3/7",
+        "Seer": "3/7",
+        "Sorcerer": "2/7",
+        "Mystic": "3/5",
+        "Astrologer": "3/7",
+        "Monk": "3/7",
+        "Ranger": "2/7",
+        "Bard": "2/7"
+      }
+    },
+    {
+      "skill": "Leather-working",
+      "stat": "Ag/Re",
+      "description": "Bonus for working with hides and creating leather goods (e.g., leather armor, bolas, etc) [11].",
+      "development_costs": {
+        "Fighter": "2/4",
+        "Thief": "2/4",
+        "Rogue": "2/4",
+        "Warrior Monk": "2/4",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/6",
+        "Animist": "2/5",
+        "Healer": "2/5",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/6",
+        "Ranger": "2/5",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Mathematics",
+      "stat": "Re/Me",
+      "description": "Bonus for calculating distances, angles, and applying basic principles of physics to a given situation [12].",
+      "development_costs": {
+        "Fighter": "3/7",
+        "Thief": "2/7",
+        "Rogue": "3/6",
+        "Warrior Monk": "3/6",
+        "Magician": "2/6",
+        "Illusionist": "2/4",
+        "Alchemist": "1/4",
+        "Cleric": "2/5",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "2/5",
+        "Lay Healer": "2/4",
+        "Seer": "2/5",
+        "Sorcerer": "1/5",
+        "Mystic": "2/5",
+        "Astrologer": "1/2",
+        "Monk": "2/5",
+        "Ranger": "2/6",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Meditation",
+      "stat": "Pr/SD",
+      "description": "Bonus for entering, leaving, and exploiting meditative trances [13].",
+      "development_costs": {
+        "Fighter": "3/7",
+        "Thief": "3/6",
+        "Rogue": "3/6",
+        "Warrior Monk": "2/4",
+        "Magician": "1/5",
+        "Illusionist": "2/4",
+        "Alchemist": "2/4",
+        "Cleric": "1/2",
+        "Animist": "1/3",
+        "Healer": "1/2",
+        "Mentalist": "1/4",
+        "Lay Healer": "1/4",
+        "Seer": "1/2",
+        "Sorcerer": "2/4",
+        "Mystic": "1/3",
+        "Astrologer": "1/2",
+        "Monk": "1/5",
+        "Ranger": "2/4",
+        "Bard": "2/4"
+      }
+    },
+    {
+      "skill": "Music",
+      "stat": "Ag/Em",
+      "description": "Bonus for writing music language which other musicians can understand and use [14].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/6",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/6",
+        "Cleric": "2/5",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "2/5",
+        "Sorcerer": "2/6",
+        "Mystic": "2/5",
+        "Astrologer": "2/4",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "1/2"
+      }
+    },
+    {
+      "skill": "Navigation",
+      "stat": "Re/In",
+      "description": "Bonus for determining proper directions and distances when using a map in conjunction with various directional aids, such as a compass, a landmark, or the stars [14].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/5",
+        "Warrior Monk": "2/6",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/6",
+        "Cleric": "2/4",
+        "Animist": "1/5",
+        "Healer": "2/4",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "1/2",
+        "Sorcerer": "2/6",
+        "Mystic": "2/6",
+        "Astrologer": "1/3",
+        "Monk": "2/6",
+        "Ranger": "1/4",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Public-speaking",
+      "stat": "Em/Pr",
+      "description": "Bonus for impressing, entertaining, or manipulating of groups of people directly [15].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/4",
+        "Warrior Monk": "2/6",
+        "Magician": "2/6",
+        "Illusionist": "2/5",
+        "Alchemist": "2/6",
+        "Cleric": "2/5",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "2/5",
+        "Lay Healer": "2/5",
+        "Seer": "2/4",
+        "Sorcerer": "1/3",
+        "Mystic": "2/4",
+        "Astrologer": "2/5",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "1/4"
+      }
+    },
+    {
+      "skill": "Rope-mastery",
+      "stat": "Me/Ag",
+      "description": "Bonus proficiency in knot recognition, knot-tying, braiding, and splicing, or when making a maneuver while suspended from a rope or analogous flexible line, or when throwing a line [16].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "1/3",
+        "Rogue": "1/5",
+        "Warrior Monk": "2/5",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/5",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/4",
+        "Ranger": "2/5",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Rowing",
+      "stat": "SD/St",
+      "description": "Bonus for self-powered boat maneuvers, including rowing, poling, etc [16].",
+      "development_costs": {
+        "Fighter": "1/4",
+        "Thief": "1/4",
+        "Rogue": "1/3",
+        "Warrior Monk": "1/4",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/5",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "1/5",
+        "Ranger": "2/4",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Sailing",
+      "stat": "Em/In",
+      "description": "Bonus for sailing maneuvers [17].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/6",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/4",
+        "Animist": "2/5",
+        "Healer": "2/5",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/4",
+        "Ranger": "2/5",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Seduction",
+      "stat": "Em/Pr",
+      "description": "Bonus when attempting to emotionally, sensually, or sexually manipulate someone [18].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/5",
+        "Warrior Monk": "2/6",
+        "Magician": "2/5",
+        "Illusionist": "2/5",
+        "Alchemist": "2/5",
+        "Cleric": "2/6",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "2/4",
+        "Sorcerer": "2/5",
+        "Mystic": "1/3",
+        "Astrologer": "2/6",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "1/4"
+      }
+    },
+    {
+      "skill": "Signaling",
+      "stat": "Me/SD",
+      "description": "Bonus when using any form of signal communications [19].",
+      "development_costs": {
+        "Fighter": "1/4",
+        "Thief": "1/3",
+        "Rogue": "1/4",
+        "Warrior Monk": "1/4",
+        "Magician": "1/5",
+        "Illusionist": "2/4",
+        "Alchemist": "1/5",
+        "Cleric": "2/5",
+        "Animist": "2/5",
+        "Healer": "2/6",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "2/6",
+        "Sorcerer": "2/6",
+        "Mystic": "1/3",
+        "Astrologer": "1/4",
+        "Monk": "2/6",
+        "Ranger": "1/5",
+        "Bard": "1/5"
+      }
+    },
+    {
+      "skill": "Singing",
+      "stat": "Pr/In",
+      "description": "Bonus for attempts to mimic tunes and vocalized notes [20].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/6",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/6",
+        "Cleric": "2/5",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "2/5",
+        "Sorcerer": "2/6",
+        "Mystic": "2/5",
+        "Astrologer": "2/4",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "1/2"
+      }
+    },
+    {
+      "skill": "Skiing",
+      "stat": "Ag/SD",
+      "description": "Bonus for skiing maneuvers [21].",
+      "development_costs": {
+        "Fighter": "2/7",
+        "Thief": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/5",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/6",
+        "Animist": "2/7",
+        "Healer": "2/7",
+        "Mentalist": "3/5",
+        "Lay Healer": "3/5",
+        "Seer": "3/5",
+        "Sorcerer": "3/7",
+        "Mystic": "3/7",
+        "Astrologer": "3/7",
+        "Monk": "2/6",
+        "Ranger": "2/6",
+        "Bard": "2/7"
+      }
+    },
+    {
+      "skill": "Smithing",
+      "stat": "St/Ag",
+      "description": "Bonus for working with normal metals to create or repair desired objects (e.g., horse shoes, metal ornaments) [21]. Bonus for oven or kiln building, and doubling effects of fires [21].",
+      "development_costs": {
+        "Fighter": "3/5",
+        "Thief": "2/6",
+        "Rogue": "2/7",
+        "Warrior Monk": "3/5",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "1/2",
+        "Cleric": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/6",
+        "Ranger": "2/7",
+        "Bard": "3/5"
+      }
+    },
+    {
+      "skill": "Spell-mastery",
+      "stat": "Varies",
+      "description": "Description not provided in excerpts.",
+      "development_costs": {
+        "Fighter": "6",
+        "Thief": "6",
+        "Rogue": "5",
+        "Warrior Monk": "5",
+        "Magician": "2/5",
+        "Illusionist": "2/5",
+        "Alchemist": "2/5",
+        "Cleric": "2/4",
+        "Animist": "2/4",
+        "Healer": "2/4",
+        "Mentalist": "2/5",
+        "Lay Healer": "2/5",
+        "Seer": "2/5",
+        "Sorcerer": "2/5",
+        "Mystic": "2/5",
+        "Astrologer": "2/5",
+        "Monk": "3/5",
+        "Ranger": "3/5",
+        "Bard": "3/5"
+      }
+    },
+    {
+      "skill": "Star-gazing",
+      "stat": "In/Me",
+      "description": "Bonus chance of determining dates, directions, and locations when the stars are visible [22]. Provides an ideal complement to one's navigation skill [22].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/6",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/5",
+        "Magician": "2/6",
+        "Illusionist": "2/6",
+        "Alchemist": "2/6",
+        "Cleric": "1/3",
+        "Animist": "1/3",
+        "Healer": "1/4",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "1/3",
+        "Sorcerer": "1/3",
+        "Mystic": "1/4",
+        "Astrologer": "1/2",
+        "Monk": "2/5",
+        "Ranger": "2/4",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Stone-carving",
+      "stat": "SD/Ag",
+      "description": "Bonus for working with stone and creating sculptures, writings, or any other form of inscription or relief [22].",
+      "development_costs": {
+        "Fighter": "2/7",
+        "Thief": "3/7",
+        "Rogue": "3/7",
+        "Warrior Monk": "3/5",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "1/3",
+        "Cleric": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "2/7",
+        "Ranger": "2/6",
+        "Bard": "2/7"
+      }
+    },
+    {
+      "skill": "Subduing",
+      "stat": "Ag/Qu",
+      "description": "Bonus for attempts to immobilize (render unconscious) a foe by applying a sharp, hand-delivered blow to a precise point on the victim's upper body [22].",
+      "development_costs": {
+        "Fighter": "2/5",
+        "Thief": "1/4",
+        "Rogue": "1/5",
+        "Warrior Monk": "1/2",
+        "Magician": "6",
+        "Illusionist": "4",
+        "Alchemist": "6",
+        "Cleric": "3/6",
+        "Animist": "3/6",
+        "Healer": "3/6",
+        "Mentalist": "6",
+        "Lay Healer": "1/3",
+        "Seer": "5",
+        "Sorcerer": "6",
+        "Mystic": "3/5",
+        "Astrologer": "6",
+        "Monk": "3",
+        "Ranger": "4",
+        "Bard": "5"
+      }
+    },
+    {
+      "skill": "Tracking",
+      "stat": "In/Re",
+      "description": "Bonus for visual tracking and following of a trail left by someone or something [23].",
+      "development_costs": {
+        "Fighter": "1/4",
+        "Thief": "1/3",
+        "Rogue": "1/4",
+        "Warrior Monk": "1/3",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/6",
+        "Animist": "1/4",
+        "Healer": "3/5",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "1/5",
+        "Sorcerer": "3",
+        "Mystic": "2/4",
+        "Astrologer": "2/4",
+        "Monk": "2/6",
+        "Ranger": "1/5",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Trading",
+      "stat": "Re/Em",
+      "description": "Bonus for transactions involving a bargained exchange of money or goods, particularly with respect to rolls on purchase or resale price charts [24].",
+      "development_costs": {
+        "Fighter": "3/6",
+        "Thief": "2/4",
+        "Rogue": "2/4",
+        "Warrior Monk": "3/5",
+        "Magician": "3/5",
+        "Illusionist": "2/4",
+        "Alchemist": "3/5",
+        "Cleric": "2/5",
+        "Animist": "2/6",
+        "Healer": "2/6",
+        "Mentalist": "3/5",
+        "Lay Healer": "3/5",
+        "Seer": "3/6",
+        "Sorcerer": "3/6",
+        "Mystic": "3/6",
+        "Astrologer": "3/6",
+        "Monk": "3/6",
+        "Ranger": "3/5",
+        "Bard": "2/4"
+      }
+    },
+    {
+      "skill": "Trap-building",
+      "stat": "Re/Em",
+      "description": "Allows building traps out of available resources [25].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "1/3",
+        "Rogue": "1/3",
+        "Warrior Monk": "2/5",
+        "Magician": "3/6",
+        "Illusionist": "2/6",
+        "Alchemist": "1/2",
+        "Cleric": "2/6",
+        "Animist": "2/5",
+        "Healer": "2/6",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/5",
+        "Seer": "3/7",
+        "Sorcerer": "3/5",
+        "Mystic": "3/6",
+        "Astrologer": "3/7",
+        "Monk": "2/6",
+        "Ranger": "2/5",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Trickery",
+      "stat": "Pr/Qu",
+      "description": "Bonus for any maneuvers involving slight of hand; confusing sight tricks and slight-of-hand diversions [25].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "1/2",
+        "Rogue": "1/3",
+        "Warrior Monk": "1/4",
+        "Magician": "3",
+        "Illusionist": "1/4",
+        "Alchemist": "3",
+        "Cleric": "3",
+        "Animist": "3",
+        "Healer": "3",
+        "Mentalist": "3",
+        "Lay Healer": "3",
+        "Seer": "1/5",
+        "Sorcerer": "3",
+        "Mystic": "1/5",
+        "Astrologer": "3",
+        "Monk": "2/5",
+        "Ranger": "2/5",
+        "Bard": "2/4"
+      }
+    },
+    {
+      "skill": "Tumbling",
+      "stat": "Ag/SD",
+      "description": "Bonus for horizontal dives, rolling, or vaulting maneuvers, or swinging on stationary objects [17].",
+      "development_costs": {
+        "Fighter": "1/5",
+        "Thief": "1/3",
+        "Rogue": "1/3",
+        "Warrior Monk": "1/2",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "3",
+        "Cleric": "2/6",
+        "Animist": "2/5",
+        "Healer": "2/5",
+        "Mentalist": "2",
+        "Lay Healer": "2",
+        "Seer": "2",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "1/4",
+        "Ranger": "2/4",
+        "Bard": "2/5"
+      }
+    },
+    {
+      "skill": "Weather-watching",
+      "stat": "In/Em",
+      "description": "Bonus chance of determining local weather for next 24 hours [17].",
+      "development_costs": {
+        "Fighter": "3/7",
+        "Thief": "3/7",
+        "Rogue": "3/7",
+        "Warrior Monk": "2/7",
+        "Magician": "1/4",
+        "Illusionist": "1/4",
+        "Alchemist": "1/4",
+        "Cleric": "1/3",
+        "Animist": "1/3",
+        "Healer": "1/3",
+        "Mentalist": "2/6",
+        "Lay Healer": "2/6",
+        "Seer": "1/2",
+        "Sorcerer": "1/3",
+        "Mystic": "1/4",
+        "Astrologer": "1/2",
+        "Monk": "1/5",
+        "Ranger": "1/5",
+        "Bard": "2/6"
+      }
+    },
+    {
+      "skill": "Wood-carving",
+      "stat": "Ag/Em",
+      "description": "Bonus for fashioning any object out of the required amount of wood, bone, or similar material [17].",
+      "development_costs": {
+        "Fighter": "2/6",
+        "Thief": "2/7",
+        "Rogue": "2/6",
+        "Warrior Monk": "2/6",
+        "Magician": "3",
+        "Illusionist": "3",
+        "Alchemist": "1/3",
+        "Cleric": "2/6",
+        "Animist": "2/5",
+        "Healer": "2/6",
+        "Mentalist": "3",
+        "Lay Healer": "1/2",
+        "Seer": "3",
+        "Sorcerer": "3",
+        "Mystic": "3",
+        "Astrologer": "3",
+        "Monk": "1/5",
+        "Ranger": "2/4",
+        "Bard": "2/4"
+      }
+    }
+  ],
+  "races": {
+    "Common Men": {
+      "stat_modifiers": {
+        "St": 5,
+        "Qu": 5,
+        "Pr": 5,
+        "In": 0,
+        "Em": 0,
+        "Co": 5,
+        "Ag": 5,
+        "SD": 0,
+        "Me": 0,
+        "Re": 0
+      },
+      "resistances": {
+        "Essence": 0,
+        "Channeling": 0,
+        "Mentalism": 0,
+        "Poison": 0,
+        "Disease": 0
+      },
+      "base_hit_die": 10,
+      "soul_departure": "12 rounds",
+      "recovery_multiplier": 1,
+      "languages": 4
+    },
+    "High Men": {
+      "stat_modifiers": {
+        "St": 10,
+        "Qu": -5,
+        "Pr": 10,
+        "In": 0,
+        "Em": 0,
+        "Co": 10,
+        "Ag": 0,
+        "SD": 0,
+        "Me": 5,
+        "Re": 0
+      },
+      "resistances": {
+        "Essence": 0,
+        "Channeling": 0,
+        "Mentalism": 0,
+        "Poison": 0,
+        "Disease": 10
+      },
+      "base_hit_die": 10,
+      "soul_departure": "12 rounds",
+      "recovery_multiplier": 1,
+      "languages": 5
+    },
+    "Wood Elves": {
+      "stat_modifiers": {
+        "St": 0,
+        "Qu": 15,
+        "Pr": 5,
+        "In": 0,
+        "Em": 5,
+        "Co": -5,
+        "Ag": 10,
+        "SD": 5,
+        "Me": 5,
+        "Re": 0
+      },
+      "resistances": {
+        "Essence": 10,
+        "Channeling": 0,
+        "Mentalism": 10,
+        "Poison": 0,
+        "Disease": 100
+      },
+      "base_hit_die": 10,
+      "soul_departure": "1 round",
+      "recovery_multiplier": 0.5,
+      "languages": 5
+    },
+    "Dwarves": {
+      "stat_modifiers": {
+        "St": 5,
+        "Qu": -5,
+        "Pr": -5,
+        "In": 0,
+        "Em": -5,
+        "Co": 15,
+        "Ag": -5,
+        "SD": 5,
+        "Me": 0,
+        "Re": 0
+      },
+      "resistances": {
+        "Essence": 40,
+        "Channeling": 0,
+        "Mentalism": 0,
+        "Poison": 20,
+        "Disease": 20
+      },
+      "base_hit_die": 10,
+      "soul_departure": "12 rounds",
+      "recovery_multiplier": 0.5,
+      "languages": 4
+    },
+    "Halflings": {
+      "stat_modifiers": {
+        "St": -15,
+        "Qu": 15,
+        "Pr": -5,
+        "In": 5,
+        "Em": 0,
+        "Co": 10,
+        "Ag": 15,
+        "SD": 5,
+        "Me": 5,
+        "Re": 0
+      },
+      "resistances": {
+        "Essence": 50,
+        "Channeling": 50,
+        "Mentalism": 50,
+        "Poison": 20,
+        "Disease": 20
+      },
+      "base_hit_die": 6,
+      "soul_departure": "12 rounds",
+      "recovery_multiplier": 1,
+      "languages": 4
+    }
+  }
+}

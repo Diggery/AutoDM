@@ -1,0 +1,258 @@
+{
+    "equipment_list": {
+        "armor": {
+            "Cloth-Skin Base": [
+                {
+                    "AT": 1,
+                    "name": "Skin"
+                },
+                {
+                    "AT": 2,
+                    "name": "Robes"
+                },
+                {
+                    "AT": 3,
+                    "name": "Light Hide"
+                },
+                {
+                    "AT": 4,
+                    "name": "Heavy Hide"
+                }
+            ],
+            "Soft Leather Base": [
+                {
+                    "AT": 5,
+                    "name": "Leather Jerkin"
+                },
+                {
+                    "AT": 6,
+                    "name": "Leather Coat"
+                },
+                {
+                    "AT": 7,
+                    "name": "Reinforced Leather Coat"
+                },
+                {
+                    "AT": 8,
+                    "name": "Reinforced Full-Length Leather Coat"
+                }
+            ],
+            "Rigid Leather Base": [
+                {
+                    "AT": 9,
+                    "name": "Leather Breastplate"
+                },
+                {
+                    "AT": 10,
+                    "name": "Leather Breastplate and Greaves"
+                },
+                {
+                    "AT": 11,
+                    "name": "Half-Hide Plate"
+                },
+                {
+                    "AT": 12,
+                    "name": "Full-Hide Plate"
+                }
+            ],
+            "Chain Mail Base": [
+                {
+                    "AT": 13,
+                    "name": "Chain Shirt"
+                },
+                {
+                    "AT": 14,
+                    "name": "Chain Shirt and Greaves"
+                },
+                {
+                    "AT": 15,
+                    "name": "Full Chain"
+                },
+                {
+                    "AT": 16,
+                    "name": "Chain Hauberk"
+                }
+            ],
+            "Plate Base": [
+                {
+                    "AT": 17,
+                    "name": "Metal Breastplate"
+                },
+                {
+                    "AT": 18,
+                    "name": "Metal Breastplate and Greaves"
+                },
+                {
+                    "AT": 19,
+                    "name": "Half Plate"
+                },
+                {
+                    "AT": 20,
+                    "name": "Full Plate"
+                }
+            ]
+        },
+        "shields": [
+            {
+                "name": "Wall Shield",
+                "bonus_versus_melee": 30,
+                "bonus_versus_missile": 40,
+                "weight_lbs": "45-50",
+                "parry_limitations": "None"
+            },
+            {
+                "name": "Full Shield",
+                "bonus_versus_melee": 25,
+                "bonus_versus_missile": 25,
+                "weight_lbs": "25-30",
+                "parry_limitations": "None"
+            },
+            {
+                "name": "Normal Shield",
+                "bonus_versus_melee": 20,
+                "bonus_versus_missile": 20,
+                "weight_lbs": "15-20",
+                "parry_limitations": "None"
+            },
+            {
+                "name": "Target Shield",
+                "bonus_versus_melee": 20,
+                "bonus_versus_missile": 10,
+                "weight_lbs": "5-10",
+                "parry_limitations": "None"
+            }
+        ],
+        "weapons": {
+            "One-Handed Slashing": [
+                {
+                    "name": "Dagger",
+                    "damage": "3D12"
+                },
+                {
+                    "name": "Falchion",
+                    "damage": "4D12/2D10"
+                },
+                {
+                    "name": "Handaxe",
+                    "damage": "4D10/2D8"
+                },
+                {
+                    "name": "Main Gauche",
+                    "damage": "1D20/2D10"
+                },
+                {
+                    "name": "Scimitar",
+                    "damage": "5D12"
+                },
+                {
+                    "name": "Rapier",
+                    "damage": "1D20/2D12"
+                },
+                {
+                    "name": "Broadsword",
+                    "damage": "5D12"
+                },
+                {
+                    "name": "Short Sword",
+                    "damage": "2D20/D12"
+                }
+            ],
+            "One-Handed Concussion": [
+                {
+                    "name": "Bare/Armored Fist",
+                    "damage": "1D20"
+                },
+                {
+                    "name": "Club",
+                    "damage": "1D12/4D8"
+                },
+                {
+                    "name": "War Hammer",
+                    "damage": "2D10/4D8"
+                },
+                {
+                    "name": "Mace",
+                    "damage": "5D8/1D6"
+                },
+                {
+                    "name": "Morning Star",
+                    "damage": "5D12/1D10"
+                },
+                {
+                    "name": "Whip",
+                    "damage": "2D12/2D10"
+                }
+            ],
+            "Missile Weapons": [
+                {
+                    "name": "Bola",
+                    "damage": "5D8"
+                },
+                {
+                    "name": "Composit Bow",
+                    "damage": "3D10/3D8"
+                },
+                {
+                    "name": "Heavy Crossbow",
+                    "damage": "3D12/3D10"
+                },
+                {
+                    "name": "Light Crossbow",
+                    "damage": "2D10/4D8"
+                },
+                {
+                    "name": "Long Bow",
+                    "damage": "4D10/2D8"
+                },
+                {
+                    "name": "Short Bow",
+                    "damage": "3D10/2D8"
+                },
+                {
+                    "name": "Sling",
+                    "damage": "5D8/1D6"
+                }
+            ],
+            "Two-Handed Weapons": [
+                {
+                    "name": "Battle Axe",
+                    "damage": "6D12/2D10"
+                },
+                {
+                    "name": "Flail",
+                    "damage": "4D12/4D10"
+                },
+                {
+                    "name": "War Mattock",
+                    "damage": "2D12/6D10"
+                },
+                {
+                    "name": "Quarterstaff",
+                    "damage": "1D20/4D12"
+                },
+                {
+                    "name": "Two-Hand Sword",
+                    "damage": "8D12"
+                }
+            ],
+            "Pole Arms": [
+                {
+                    "name": "Javelin",
+                    "damage": "1D12/4D10"
+                },
+                {
+                    "name": "Lance, Mounted",
+                    "damage": "2D20/5D12"
+                },
+                {
+                    "name": "Pole Arm",
+                    "damage": "8D10"
+                },
+                {
+                    "name": "Spear",
+                    "damage": "1D20/4D10"
+                }
+            ]
+        }
+    }
+}

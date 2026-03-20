@@ -1,0 +1,2397 @@
+{
+  "Unbalancing": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Nary a thing extra. +0 hits",
+      "2": "Fairly weak. +0 zip.",
+      "3": "Nope.",
+      "4": "+1 hit.",
+      "5": "+2 hits."
+    },
+    {
+      "0": "06-10",
+      "1": "Sorry pal, maybe next time.",
+      "2": "+1 hit",
+      "3": "+2 hits.",
+      "4": "+3 hits.",
+      "5": "+5 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "Glancing strike. +3 hits.",
+      "2": "Lame side strike. +4 hits.",
+      "3": "Weak blow. +5 hits.",
+      "4": "Back strike. +6 hits.",
+      "5": "Blow to back. +7 hits."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe must parry next rnd.",
+      "2": "Glancing side blow. +4 hits and foe must parry next rnd.",
+      "3": "Side strike. Foe must parry next rnd. +5 hits.",
+      "4": "Blow to foe's side. Foe is at -10 next rnd. +7 hits.",
+      "5": "Side blow. Foe is at -20 next rnd. +8 hits."
+    },
+    {
+      "0": "21-35",
+      "1": "On line, but weak. Foe must parry next rnd. +4 hits.",
+      "2": "Foe is unbalanced and is at -20 next rnd. +5 hits.",
+      "3": "Chest strike. Foe is stunned next rnd. +6 hits.",
+      "4": "Blow is weak but stuns foe for next rnd. +8 hits.",
+      "5": "Blow cracks ribs. Foe is stunned and at -10 next rnd. +9 hits."
+    },
+    {
+      "0": "36-45",
+      "1": "Break foe's concentration. You have initiative next rnd. +4 hits.",
+      "2": "Leg strike unsteadies foe. +5 hits. You have initiative next rnd. Foe is at -5 for 2 rnds.",
+      "3": "Blow to leg. Foe is at -40 next rnd. +5 hits.",
+      "4": "Calf strike. Foe's hurt muscle impairs maneuvers by -25. You have initiative next rnd. +7 hits.",
+      "5": "Hard, glancing blow to leg. If leg armor, +10 hits. If not, +12 hits and foe stunned 2 rnds."
+    },
+    {
+      "0": "46-50",
+      "1": "Back strike. +5 hits. Foe must parry next rnd at -10. Good, glancing shot.",
+      "2": "Back hit forces foe to parry next rnd at -20. +5 hits.",
+      "3": "Lower back strike. Foe reels and is stunned and unable to parry next rnd. +5 hits.",
+      "4": "Blow to back spins foe. +8 hits and foe is stunned and unable to parry next rnd.",
+      "5": "Strong back blow staggers foe. +12 hits. Foe is stunned and is unable to parry next rnd."
+    },
+    {
+      "0": "51-55",
+      "1": "Chest strike knocks foe back. Foe must parry next rnd at -20. +5 hits.",
+      "2": "Blow stuns foe for next rnd. +5 hits.",
+      "3": "Blast staggers foe. +6 hits and foe is stunned and unable to parry next rnd.",
+      "4": "Chest strike takes wind out of foe. +10 hits. Foe is stunned and unable to parry next rnd.",
+      "5": "Foe is knocked down. +12 hits. Foe is stunned and sadly unable to parry next rnd."
+    },
+    {
+      "0": "56-60",
+      "1": "Glancing leg strike. If foe has leg armor, +5 hits. If not, +7 hits and foe is stunned next rnd.",
+      "2": "Thigh strike bruises foe. +6 hits. Foe is forced to parry at -30 next rnd.",
+      "3": "Calf strike. If leg armor, +7 hits. If not, +9 hits, foe is stunned 2 rnds, and at -10.",
+      "4": "Thigh strike. +12 hits. Foe is stunned for 2 rnds. You have initiative next 3 rnds.",
+      "5": "Glancing strike to leg. Foe is stunned for 3 rnds. +14 hits."
+    },
+    {
+      "0": "61-65",
+      "1": "Arm strike. Foe is stunned for next rnd. +6 hits.",
+      "2": "Forearm strike disarms foe. +6 hits.",
+      "3": "Shoulder strike disarms foe and leaves foe stunned for 2 rnds. +6 hits.",
+      "4": "Arm strike disarms foe. Foe is stunned for 2 rounds. Add 20 to next action. +7 hits.",
+      "5": "Blow to shoulder spins foe. +13 hits. Foe is stunned and unable to parry for 2 rnds."
+    },
+    {
+      "0": "66",
+      "1": "Shoulder strike sends foe spinning. +7 hits. Foe is stunned and unable to parry for 2 rnds while regaining bearings.",
+      "2": "Elbow strike numbs foe's forearm. +8 hits. Foe drops his weapon and is stunned and unable to parry 2 rnds.",
+      "3": "Knee strike knocks foe down. +9 hits. Foe is at -80 due to broken knee and is stunned and unable to parry 3 rnds.",
+      "4": "Hard hit strike. If foe has helm, he is knocked back 10' and stunned for 6 rnds. If not, foe is knocked out for 24 hours.",
+      "5": "Foe is knocked down and is unconscious. +30 hits."
+    },
+    {
+      "0": "67-70",
+      "1": "Chest strike unbalances foe. +6 hits. Foe is unbalanced and fights at -50 for 2 rnds.",
+      "2": "Blow to foe's chest. +7 hits. Confused foe is stunned and unable to parry next rnd.",
+      "3": "Strike to chest. Foe is at -20 due to broken ribs. +8 hits. Foe is stunned for 2 rnds.",
+      "4": "Shoulder strike spins foe. +10 hits. Foe is at -25 due to a broken collar bone and is stunned and unable to parry next rnd.",
+      "5": "Shoulder blast knocks foe down. Foe is stunned and unable to parry for 2 rnds and is at -10 due to minor fracture."
+    },
+    {
+      "0": "71-75",
+      "1": "Blow to foe's lower leg. Foe is stunned for 2 rounds. +7 hits.",
+      "2": "Blow bruises foe's calf. Foe is stunned next round. +9 hits. Foe is at -10.",
+      "3": "Bruise foe's leg. +10 hits. Foe is stunned and unable to parry next round. Foe operates at -20.",
+      "4": "Blow break foe's leg. Foe moves at -75. +12 hits. Foe is stunned and unable to parry next rnd.",
+      "5": "Hard blow to foe's thigh knocks foe down. +15 hits. Foe stunned and unable to parry 3 rnds."
+    },
+    {
+      "0": "76-80",
+      "1": "Blow to shield arm. If foe has a shield, it is torn away and +8 hits. If not, +12 hits and foe is stunned for 2 rnds.",
+      "2": "Strike to foe's shield arm. Foe is stunned for 2 rnds and is knocked backwards 5'. +10 hits. Foe is at -10.",
+      "3": "Strike to foe's weapon arm. Foe is knocked back 5' and is stunned for 3 rnds. +11 hits. slight fracture. Foe is at -25.",
+      "4": "Strong blow to foe's weapon arm. Foe is knocked back 10'. +10 hits. Foe is at -25 and drops weapon. Foe is stunned for 3 rnds.",
+      "5": "Strike to foe's shield arm. Foe stumbles back 3' and falls down. +15 hits. Foe is stunned and unable to parry for 4 rnds and is disarmed."
+    },
+    {
+      "0": "81-85",
+      "1": "Side strike. +12 hits. Foe is stunned and unable to parry next rnd. Add +10 to your next roll.",
+      "2": "Blow to foe's side. Foe is knocked sideways 3' and is stunned for 3 rnds. +15 hits.",
+      "3": "Shot to side knocks foe 5' sideways. Foe drops anything carried in shield hand (and any shield) and is stunned for 6 rnds.",
+      "4": "Strike to foe's shield side knocks foe 5' sideways. Foe breaks ankle and falls down. Foe is at -50. +11 hits.",
+      "5": "Awesome side shot sends foe sideways. Foe breaks leg and rolls 5'. Foe is at -50, is stunned and unable to parry 6 rnds."
+    },
+    {
+      "0": "86-90",
+      "1": "Blow to back. Foe stumbles 5' sideways and it stunned for 3 rnds. +13 hits. Add +20 to your next roll.",
+      "2": "Strike to foe's back knocks foe sideways 10'. +12 hits. Foe is stunned and unable to parry for 2 rnds.",
+      "3": "Precise back strike knocks foe down. Foe is disarmed and stunned for 6 rnds. +14 hits. Add +20 to your next roll.",
+      "4": "Brutal back strike knocks foe down. +12 hits. Foe is disarmed and stunned and unable to parry for 4 rnds.",
+      "5": "Cruel head strike.. Foe sees stars. +20 hits. Foe is knocked 10' backwards and is stunned and unable to parry 12 rnds."
+    },
+    {
+      "0": "91-95",
+      "1": "Head strike breaks foe's nose. If foe has helm, he is stunned 3 rnds. If not, foe is knocked out for at least 2 hours.",
+      "2": "Blow to side of foe's head crushes ear area. Foe is stunned for 6 rnds. +9 hits. Foe is at -50 for 3 weeks; impaired balance.",
+      "3": "Side strike spins foe 10' sideways. Foe must roll on appropriate fumble table next 3 rnds. +8 hits.",
+      "4": "Strike to foe's arm. If foe has shield, he loses it and take +10 hits. If not foe's arm is useless and he is stunned for 9 rnds.",
+      "5": "Blow to foe's shield shoulder. If foe has shield, he is stunned 6 rnds. If not, he is knocked down, has a useless arm, passes out."
+    },
+    {
+      "0": "96-99",
+      "1": "Nicely placed strike sends foe sprawling on his face. +10 hits. Foe is stunned and unable to parry for 3 rnds.",
+      "2": "Side strike causes foe to stumble to an embarrassing prone position. Foe in stunned and unable to parry 6 rnds.",
+      "3": "Smooth and snazzy strike sends foe to his knees. If foe was using 1-hand weapon, it is thrown backwards 10'. Foe is stunned 24 hours.",
+      "4": "Strike to foe's head sends him 10' backwards. If helmed, +9 hits, the helm is destroyed, and foe stunned 6 rnds. If not, foe is in a coma for 4 weeks.",
+      "5": "Pinpoint strike breaks foe's neck. Foe falls back 5' spins, and stumbles to the ground. Foe dies of shock and suffocation in 3 rnds."
+    },
+    {
+      "0": "100",
+      "1": "Brutal hip strike knocks foe down, tears tendon and shatters joint. Foe stunned and unable to parry for 9 hours. Leg useless, foe is at -90.",
+      "2": "Inspired back strike sends foe flying 10' and onto his face. Severe nerve damage. Foe is paralyzed from waist down.",
+      "3": "Upper chest strike knocks foe 10' sideways. Foe falls down and breaks both arms. Foe is sent into a 2 month coma.",
+      "4": "Savage blow to foe's head knocks foe down. Foe falls into coma and dies in 12 rnds due to severed vein. Add +20 next roll.",
+      "5": "Frightening strike to foe's temple knocks foe back 20'. Foe dies instantly. Add +20 to your next 3 rolls. Be kind now."
+    }
+  ],
+  "Krush": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Zip.",
+      "2": "Weak grip. No extra damage.",
+      "3": "+1 hit",
+      "4": "+2 hits",
+      "5": "+3 hits"
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit.",
+      "2": "+2 hits.",
+      "3": "+3 hits",
+      "4": "+4 hits",
+      "5": "Glancing blow +6 hits. You have initiative next round."
+    },
+    {
+      "0": "11-15",
+      "1": "Glancing blow. +3 hits. You have initiative next round.",
+      "2": "Glancing blow. +3 hits. You have initiative next round.",
+      "3": "Blow to foe's side. +7 hits. You have initiative next round.",
+      "4": "+5 hits. Foe must parry next round at -10.",
+      "5": "+6 hits. Foe is stunned for 1 round. Add +5 to your next swing."
+    },
+    {
+      "0": "16-20",
+      "1": "+2 hits. Foe must parry next round.",
+      "2": "Blow to foe's side. +4 hits. Foe must parry next round at -10.",
+      "3": "Blow to foe's side. +6 hits. Foe must parry next round at -20.",
+      "4": "Minor frib fracture. +5 hits. Foe fights at -5. You have initiative next round.",
+      "5": "Strong blow. Foe is stunned and unable to parry next round. +10 to your parry next round."
+    },
+    {
+      "0": "21-35",
+      "1": "Foe must parry next round. +3 hits. +5 to your next swing.",
+      "2": "Foe must parry next round at -20. +4 hits.",
+      "3": "Break foe's rib. +5 hits. Foe is stunned next round.",
+      "4": "Strike to foe's side. +4 hits. Foe is stunned and unable to parry next round.",
+      "5": "Strike cracks foe's ribs. +6 hits. Foe is at -10. You have initiative next round."
+    },
+    {
+      "0": "36-45",
+      "1": "Bruise foe's calf. +6 hits. You have initiative. Foe fights at -5 for next round.",
+      "2": "Bruise foe's calf. +6 hits. You have initiative. Foe fights at -20 for next 2 rounds.",
+      "3": "Bruise foe's calf. +9 hits. You have initiative. Foe fights at -25 for next 2 rounds.",
+      "4": "Major calf bruise. +10 hits. Foe fights at -10. You have initiative next round.",
+      "5": "Strike to upper leg. Minor fracture. +12 hits. Foe fights at -10. You have initiative next round."
+    },
+    {
+      "0": "46-50",
+      "1": "Blow to foe's back. +4 hits. Foe must parry next round at -25.",
+      "2": "Blow to foe's back. +6 hits. Foe must parry next round at -25.",
+      "3": "Blow to back. +5 hits. Foe is stunned and unable to parry for 1 round. You have initiative for 2 rounds.",
+      "4": "Hard blow to back. +10 hits. Foe is stunned and unable to parry next round.",
+      "5": "Strike to foe's lower back. +15 hits. Foe is stunned and unable to parry next round."
+    },
+    {
+      "0": "51-55",
+      "1": "Blow to foe's chest. +5 hits. Foe must parry next round at -25. Foe has a bruised rib.",
+      "2": "Blow to foe's chest. +6 hits. Foe must parry for next 2 rounds.",
+      "3": "Hard blow to chest. +5 hits. Foe fights at -10. Foe is stunned next round.",
+      "4": "Blow to chest. +10 hits. Foe has a pair of broken ribs and must fight at -15.",
+      "5": "Blow to chest. +15 hits. Foe is stunned for 2 rounds. Foe fights at -15."
+    },
+    {
+      "0": "56-60",
+      "1": "Strike foe's thigh. +5 hits. Foe is forced to parry next round at -25.",
+      "2": "Strike foe's thigh. +6 hits. Foe is bruised, at -5 and must parry for 1 round.",
+      "3": "Strike foe's thigh. +6 hits. Foe is at -5. +10 to your next swing. Foe must parry next round.",
+      "4": "Blow to thigh. Foe is stunned next round. +6 hits. Foe is at -10 and is upset.",
+      "5": "Blow to thigh. Foe is stunned and unable to parry next round. +10 hits. Foe is at -10."
+    },
+    {
+      "0": "61-65",
+      "1": "Blow to foe's forearm. +5 hits. Foe is stunned 1 round. Add +20 to your next swing.",
+      "2": "Blow to foe's forearm. Foe is at -10. +9 hits. Foe is stunned next round.",
+      "3": "Disarm foe with a blow to forearm. +8 hits. Foe is stunned next round.",
+      "4": "Blow to forearm. Foe is stunned and unable to parry next round. +10 hits. Foe at -10.",
+      "5": "Blow to forearm. Foe drops weapon. Foe is at -15. +10 hits. Foe is stunned next round."
+    },
+    {
+      "0": "66",
+      "1": "Shatter shoulder in foe's shield arm. Arm is quite useless. Foe is stunned and unable to parry for the next 2 rounds. +8 hits.",
+      "2": "Shatter elbow in foe's weapon arm. Arm is useless. Foe drops weapon, and is stunned and unable to parry for 3 rounds.",
+      "3": "Shatter foe's knee. +9 hits. Foe is knocked down and is stunned and unable to parry for 3 rounds. Foe at -90.",
+      "4": "Blow to side of foe's head. If foe has no helm, you crush his skull. If foe has helm, you knock him out for 4 hours. +20 hits.",
+      "5": "Blow to back of neck, crushes backbone and severs spine. +15 hits. Foe dies instantly. +10 to your next swing."
+    },
+    {
+      "0": "67-70",
+      "1": "Strike upper chest area. +8 hits. Foe is stunned for 3 rounds and unable to parry during next round.",
+      "2": "Strike upper chest area. Foe is stunned and unable to parry for 2 rounds +10 hits. Foe is at -10.",
+      "3": "Strike upper chest area. Foe is stunned for 3 rounds and unable to parry during next 2 rounds, +10 hits. Foe is at-10.",
+      "4": "Blow to foe's shoulder area. Minor fracture. Foe is at -20. Foe is stunned and unable to parry for 2 rounds.",
+      "5": "Blow to foe's shield shoulder. If foe has a shield, it if broken. If foe has no shield, the shoulder is shattered, arm useless."
+    },
+    {
+      "0": "71-75",
+      "1": "Blow to foe's lower leg. Bad bruise. +5 hits. Foe is stunned for 2 rounds and unable to parry next round. Foe at -20.",
+      "2": "Blow bruises foe's calf. Foe is at -35. +10 hits. Foe is stunned 2 rounds and unable to parry next round.",
+      "3": "Blow bruises foe's knee. Foe is at -40. +10 hits. Foe is stunned and unable to parry for 2 rounds.",
+      "4": "Blow breaks bone in leg. Foe is at -50. +12 hits. Foe is stunned and unable to parry for 2 rounds. Major cartilage damage.",
+      "5": "Blow breaks foe's hip. Foe is at -75 and is knocked down. +15 hits. Foe is stunned 3 rounds."
+    },
+    {
+      "0": "76-80",
+      "1": "Blow to foe's shield arm. If foe has a shield, it is broken. If foe has no shield, the arm is badly broken and useless.",
+      "2": "Blow to foe's shield arm shatters wrist. Arm is useless. Foe is stunned for next round. +6 hits.",
+      "3": "Blow to foe's weapon arm. Bad bruise. +9 hits. Foe is stunned and unable to parry for next round. Foe is at -50.",
+      "4": "Blow breaks foe's weapon arm. Foe is stunned and unable to parry for 1 round. Arm is useless. +8 hits. Tendon damage.",
+      "5": "Blow to foe's elbow. +9 hits. Joint is shattered. Arm is useless. Foe is stunned and unable to parry for 2 rounds."
+    },
+    {
+      "0": "81-85",
+      "1": "Blow to foe's side. +10 hits. Foe is stunned and unable to parry for 2 rounds. Foe is at -20.",
+      "2": "Blow to foe's side. +12 hits. Foe has broken ribs. Foe is stunned and unable to parry for 2 rounds. Foe is at -25.",
+      "3": "Strike to foe's side. Breaks 3 ribs. Foe is at-40. +12 hits. Foe is stunned and unable to parry for 3 rounds.",
+      "4": "Strike to foe's side +15 hits. Foe is knocked down. Add +10 to your next swing. Foe is stunned and unable to parry 3 rounds.",
+      "5": "Catch foe in armpit. +30 hits. Crush foe's ribs and destroy side. Foe drops and dies of nerve and organ damage in 3 rounds."
+    },
+    {
+      "0": "86-90",
+      "1": "Strike foe in back. +12 hits. Muscle and cartilage damage. Foe is stunned and unable to parry for 3 rounds. Foe is at -25.",
+      "2": "Strike to back knocks foe down and smashes tendons. Foe is stunned and unable to parry for 4 rounds. Foe is at -30.",
+      "3": "Blow to back smashes muscle and breaks bone. +20 hits. Foe is at -50. Foe is knocked down and stunned for 6 rounds.",
+      "4": "Blow to foe's neck area breaks backbone and destroys spine. +25 hits. Foe falls and dies in 2 rounds.",
+      "5": "Neck strike shatters bone and severs an artery. Foe cannot breath and is inactive for 12 rounds. The poor fool then expires."
+    },
+    {
+      "0": "91-95",
+      "1": "Break foe's nose. Foe is stunned and unable to parry for 3 rounds. +15 hits. Foe fights at -30 for 2 days.",
+      "2": "Foe's upper head hit. If no helm, he is in a coma for 3 weeks. If foe has a helm, +20 hits and foe is stunned 12 rounds.",
+      "3": "Blow shatters thigh. +9 hits and a compound fracture. Bone severs an artery. Foe dies after 12 rounds of inactivity.",
+      "4": "Blow shatters shield arm. Bone severs vein and an artery. Foe dies of shock and blood loss after 9 inactive rounds.",
+      "5": "Blast to foe's back. +25 hits. Bone is driven into vital organs and foe is down for 6 rounds ...Then dies, sad."
+    },
+    {
+      "0": "96-99",
+      "1": "Blow to foe's head. If foe has no helm he is dead. If foe has a helm, he is knocked down and stunned 6 rounds. +20 hits.",
+      "2": "Blast foe's chest. Send ribcage through heart. Foe drops and dies. +20 to your next swing.",
+      "3": "Blow to foe's abdomen destroys a variety of organs. The poor fool expires after 6 rounds of inactivity.",
+      "4": "Blow to foe's side crushes chest cavity. Foe drops and dies in 3 rounds. Add +25 to your next swing.",
+      "5": "Crush foe's skull. +30 hits. Opponent dies immediately. Add +20 to your next swing. You have a half round left to act."
+    },
+    {
+      "0": "100",
+      "1": "Blow to foe's jaw. Drives bone through brain. Foe dies instantly. +50 hits, add +20 to your next swing.",
+      "2": "Blow to back of neck paralyzes foe from the shoulders down. +25 hits. Foe is quite stunned.",
+      "3": "Strike to forehead. +30 hits. You squash foe's eyes and destroy them. Foe is stunned and is unable to parry 24 rounds.",
+      "4": "Blast to foe's chest area. Destroy foe's heart. Foe dies immediately. +25 hits. Fine work.",
+      "5": "Crush foe's hip. +35 hits. Opponent is stunned for 2 rounds, is then active for 4 rounds at -30, then dies of nerve damage."
+    }
+  ],
+  "Strikes": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Sorry.",
+      "2": "Missed it by that much.",
+      "3": "+1 hit.",
+      "4": "+2 hits.",
+      "5": "+3 hits."
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hits.",
+      "2": "+2 hits.",
+      "3": "+3 hits.",
+      "4": "+4 hits.",
+      "5": "Foe respect you a little more. +5 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "Weak, but you have initiative. +3 hits.",
+      "2": "Soft blow. You have initiative next round. +4 hits.",
+      "3": "Soft blow. You have initiative next round. +5 hits.",
+      "4": "Kick to foe's side. +6 hits. You have initiative next round.",
+      "5": "Strike stuns foe for 1 round. +7 hits."
+    },
+    {
+      "0": "16-20",
+      "1": "Kick to foe's side. +4 hits and you have initiative next round.",
+      "2": "Side strike. Foe loses initiative next 2 rounds. +5 hits.",
+      "3": "Side strike forces foe to parry next round. +6 hits.",
+      "4": "Side strike forces foe to parry at -10 next round. +8 hits.",
+      "5": "Crack foe's ribs and stun foe for 1 round. +5 hits. Foe is at -10."
+    },
+    {
+      "0": "21-35",
+      "1": "Light well-placed strike forces foe to parry 1 round. +5 hits.",
+      "2": "Strong, but poorly aimed strike forces foe to parry next round. +6 hits.",
+      "3": "Kick foe in ribs and stun him for 1 round. +6 hits.",
+      "4": "Side strike. Foe is stunned next round and loses initiative for 3 rounds. +2 hits.",
+      "5": "Fine side strike cracks 3 ribs. Foe is at -20. +6 hits."
+    },
+    {
+      "0": "36-45",
+      "1": "Weak chest strike forces foe to parry next round at -10. +6 hits.",
+      "2": "Chest strike. Foe must parry next round at -20. +7 hits.",
+      "3": "Fine but light chest strike. Foe is stunned 1 round. +8 hits.",
+      "4": "Chest strike. Foe is stunned and unable to parry next round. +5 hits.",
+      "5": "Back strike stuns foe 1 round. You have a clear shot to foe's rear next round."
+    },
+    {
+      "0": "46-50",
+      "1": "Acrobatic move forces foe to parry next round at -25. +6 hit.",
+      "2": "Glancing kick to foe's back stuns foe 1 round. +5 hits.",
+      "3": "Strike to foe's back. Foe is stunned and unable to parry for 1 round.",
+      "4": "Chest strike. Foe is stunned for 2 rounds. Broken ribs. Foe is at -10. +3 hits.",
+      "5": "Chest strike. Foe is stunned 2 rounds and unable to parry 1 round. +5 hits."
+    },
+    {
+      "0": "51-55",
+      "1": "Strike to hip stuns foe for 1 round. +3 hits.",
+      "2": "Strike to foe's chest stuns him for 1 round. +6 hits.",
+      "3": "Side strike. Foe is stunned and unable to parry next round. +20 to next attack.",
+      "4": "Upper leg strike causes deep bruise. Foe is at -25. +6 hits.",
+      "5": "Hip strike spins foe. +5 hits. Foe stunned for 3 rounds."
+    },
+    {
+      "0": "56-60",
+      "1": "Strike to foe's lower chest stuns foe for 1 round. +5 hits.",
+      "2": "Back strike. Foe is stunned for 2 rounds. +3 hits.",
+      "3": "Wheel kick sends foe 10' in any desired direction. Foe is stunned 2 rounds. +8 hits.",
+      "4": "Back strike. Foe is stunned for 3 rounds. +4 hits.",
+      "5": "Chest strike. Foe is stunned 2 rounds, unable to parry next round and operates at -10."
+    },
+    {
+      "0": "61-65",
+      "1": "Misplaced but quick blow to the top of foe's foot. Foe operates at -20 +5 hits.",
+      "2": "Strike to back of lower leg. Foe is stunned for 2 rounds. +7 hits.",
+      "3": "Upper leg strike. Foe has deep bruise and operates at -25. +5 hits.",
+      "4": "Blow to nerve in upper leg. Foe is stunned 2 rounds and operates at -25 for 6 rounds.",
+      "5": "Forearm strike cleanly disarms foe. +3 hits."
+    },
+    {
+      "0": "66",
+      "1": "Strike to Achilles tendon. Nasty bruise. Foe is at -50. +7 hits and foe stunned 2 rounds.",
+      "2": "Kick to foe's head sprains neck and fractures jaw. Foe is stunned 9 rounds, operates at -50.",
+      "3": "Knife hand strike breaks foe's weapon arm, leaving it useless. Follow-up punch to solar plexus knocks foe out.",
+      "4": "Superb move. Break foe's weapon. Foe is stunned for 3 rounds. Add +20 next roll.",
+      "5": "Simultaneous open palm strikes destroy foe's hearing and balance. Foe at -95. He is stunned for 24 rounds."
+    },
+    {
+      "0": "67-70",
+      "1": "Weak spear hand blow stuns foe for 2 rounds. +2 hits.",
+      "2": "Spear hand to foe's chest. Foe is stunned 3 rounds.",
+      "3": "Strong knife hand to upper portion of foe's shield arm. Arm is broken and useless.",
+      "4": "Strike top of foe's foot. Foe is stunned and unable to parry for 2 rounds.",
+      "5": "Elbow to solar plexus and back fist to face drops foe. Foe stunned 3 rounds and unable to parry 2 rounds."
+    },
+    {
+      "0": "71-75",
+      "1": "Knife hand, spear hand combo. Foe must roll on fumble table and is stunned 1 round.",
+      "2": "Strike to foe's weapon arm. Deep bruise. Foe is at -20. +6 hits. Foe stunned 2 rounds.",
+      "3": "Strike to back of lower leg. Foe is stunned and unable to parry for 2 rounds.",
+      "4": "Knife hand strike breaks foe's collarbone. Foe is stunned and unable to parry 2 rounds, acts at -25.",
+      "5": "Heel kick breaks bone is foe's foot. Foe is at -50. +5 hits. Fool stunned for 3 rounds."
+    },
+    {
+      "0": "76-80",
+      "1": "Kick to foe's shield arm. If foe has shield, it is broken. If not, arm is useless and +6 hits.",
+      "2": "Blow to back of foe's knee damages tendons. Foe is stunned 2 rounds and operates at -25.",
+      "3": "Kick disarms foe and stuns him for 1 round. Foe fights at -10 due to cartilage damage.",
+      "4": "Strike to area behind foe's knee. Tendon and cartilage damage. Foe is at -75.",
+      "5": "Front kick to midsection doubles foe over. You follow with knee strike which breaks foe's nose and knocks him out."
+    },
+    {
+      "0": "81-85",
+      "1": "Kick to foe's weapon arm disarms him. +3 hits.",
+      "2": "Kick foe's weapon 5' away and break 2 fingers. Foe stunned 2 rounds and fights it -20.",
+      "3": "Heel kick breaks bone in foe's foot. Foe is at -50; he is also stunned and unable to parry for 2 rounds.",
+      "4": "Kick breaks foe's leg. Foe is stunned and unable to parry 2 rounds and operates at -75. +5 hits.",
+      "5": "Strike to knee shatters joint. Foe drops and is stunned and unable to parry 6 rounds. Foe is at -80. +6 hits."
+    },
+    {
+      "0": "86-90",
+      "1": "Fluid move followed by a leaping kick to foe's back knocks foe down and stuns foe 3 rounds.",
+      "2": "Wheel kick knocks foe flat. Smash tendons and tear muscle. Foe is at -30. He is stunned 9 rounds.",
+      "3": "Strike to leg severs Achilles tendon and drops foe. +10 hits. Foe stunned 9 rounds, acts at -80.",
+      "4": "Open-handed blow to foe's Adam's apple (neck) crushes windpipe. Foe dies in 18 rounds from shock and asphyxiation.",
+      "5": "Roundhouse kick hits kidney drops foe. Your follow-up knife hand snaps foe's neck. He is knocked out, dies in 9 rounds."
+    },
+    {
+      "0": "91-95",
+      "1": "Strike to nerve in upper leg. +8 hits. Foe stunned and unable to parry for 2 rounds, and operates at -40 for 6 rounds.",
+      "2": "Strike to foe's knee shatters joint. Foe drops, is at -85. He is stunned and unable to parry 4 rounds.",
+      "3": "Plying kick to foe's back. You knock foe down, disarm him, and leave him stunned and unable to parry for 12 rounds.",
+      "4": "Jab to foe's eyes blinds him. Crescent kick sends foe 10' to right or left. Sucker is at -100. He is stunned 10 rounds.",
+      "5": "Strike to stomach destroys a variety of organs. Foe drops helplessly and dies in 12 rounds. Add +10 to your next attack."
+    },
+    {
+      "0": "96-99",
+      "1": "A chop deflects foe's attack, and a follow-up strike knocks him down. Foe stunned and unable to parry for 3 rounds.",
+      "2": "Roundhouse kick knocks foe out and fractures collarbone. Foe has sprained neck and shoulder. Foe is unconscious for 20 rounds.",
+      "3": "Kick to solar plexus drops foe and leaves him stunned and unable to parry 30 rounds. +30 hits.",
+      "4": "Brutal head kick flips foe onto his head. Skull fracture is minor but concussion severe. Foe dies of hemorrhage in 9 rounds.",
+      "5": "Double palmstrike to foe's nose breaks cartilage and drives bone into brain. Foe drops helplessly and dies in 6 rounds."
+    },
+    {
+      "0": "100",
+      "1": "Gooseneck strike. Foe's inner ear ruptured. He hears at -50, operates at -75. Foe is knocked out by follow-up strike.",
+      "2": "Knife hand strike to foe's weapon arm breaks bone. Kick to lower back breaks backbone, leaving foe paralyzed from waist down.",
+      "3": "Sweep lays foe out and heel strike to foe's sternum collapses the ribcage. Foe is helpless and dies in 4 rounds.",
+      "4": "Awesome spear hand strike finds seam, penetrates solar plexus and ruptures the heart. Foe dies instantly.",
+      "5": "Kick disarms foe. A follow-up chop snaps his neck and subsequent flip sends foe 5' in any desired direction. Foe dies."
+    }
+  ],
+  "Sweeps": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Acrobatic, but weak. +0 hits.",
+      "2": "Poor form. +0 hits.",
+      "3": "+1 hit",
+      "4": "+2 hits",
+      "5": "+3 hits"
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit.",
+      "2": "+1 hit",
+      "3": "+2 hits",
+      "4": "+3 hits",
+      "5": "Unbalance foe. You have initiative next round. +4 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "You have initiative next round. +1 hit.",
+      "2": "Foe takes 3 extra hits and you have the initiative next round.",
+      "3": "You have the initiative next round. +20 to your next attack. Foe is confused.",
+      "4": "Foe must parry next round. +4 hits.",
+      "5": "Stun foe with your fine moves. +10 to next attack. Foe is stunned 1 round."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe must parry next round. +2 hits.",
+      "2": "Dazzle foe. He must parry next round at -10.",
+      "3": "Foe unbalanced and must parry next round at -20. +3 hits.",
+      "4": "Foe is stunned for 1 round. +4 hits.",
+      "5": "Sweep staggers foe. +2 hits. Foe is stunned and unable to parry 1 round."
+    },
+    {
+      "0": "21-35",
+      "1": "Sweep forces foe to parry next round at -10. +2 hits.",
+      "2": "Sweep unbalances foe. +3 hits. Foe must parry next round at -20.",
+      "3": "Sweep stuns foe for 1 round. +4 hits.",
+      "4": "Sweep sends foe to his knees. Foe is stunned and unable to parry for 1 round. +4 hits.",
+      "5": "Sweep downs foe. Foe is stunned for 2 rounds."
+    },
+    {
+      "0": "36-45",
+      "1": "Sweep staggers foe. Foe must parry next round at -20. +3 hits.",
+      "2": "Sweep bruises foe's leg. Foe operates at -25 for 3 rounds. +4 hits.",
+      "3": "Sweep bruises foe's leg. Foe fights at -10. You have initiative next round.",
+      "4": "Sweep bruises foe's calf. Foe operates at -20. +5 hits.",
+      "5": "Sweep drops foe and bruises thigh. Foe is stunned 1 round. +5 hits. Foe is at -20."
+    },
+    {
+      "0": "46-50",
+      "1": "Sweep forces foe to parry next round at -25. +4 hits.",
+      "2": "Sweep stuns foe for 1 round. +5 hits.",
+      "3": "Sweep downs foe. +4 hits. Foe is stunned for 2 rounds while trying to rally.",
+      "4": "Sweep drops foe. +5 hits. Foe is stunned and unable to parry for 1 round.",
+      "5": "Foe slips to his knees. +7 hits. Foe is stunned for 2 rounds and is unable to parry next round."
+    },
+    {
+      "0": "51-55",
+      "1": "Sweep drives foe back 3'. Foe must parry next round at -30. +5 hits.",
+      "2": "Throw knocks wind out of foe. He is stunned 1 round. +6 hits.",
+      "3": "Throw stuns foe for 2 rounds. +6 hits.",
+      "4": "Throw breaks 3 ribs. Foe is stunned 1 round and at -20. +6 hits.",
+      "5": "Throw drops foe. +8 hits. Foe is stunned for 3 rounds."
+    },
+    {
+      "0": "56-60",
+      "1": "Throw stuns foe for 1 round. +6 hits.",
+      "2": "Throw stuns foe for 1 round and sprains a finger on his weapon hand. Foe is at -10.",
+      "3": "Sweep knocks foe back 5'. Foe is stunned and unable to parry for 1 round.",
+      "4": "Sweep unbalances foe. Foe is stunned and unable to parry for 1 round. +7 hits.",
+      "5": "Surprise sweep sends foe reeling. Foe is stunned for 3 rounds. +9 hits."
+    },
+    {
+      "0": "61-65",
+      "1": "Throw downs foe, but he recovers. Foe is stunned 1 round. +7 hits.",
+      "2": "Throw pulls muscle in foe's weapon arm. Foe is stunned 1 round. +3 hits. Foe is at -20.",
+      "3": "Throw disarms foe. +3 hits. Foe is stunned 1 round. If you want to run, the time is now.",
+      "4": "Throw disarms foe and leaves him stunned for 2 rounds.",
+      "5": "Fine throw. Foe lands on his weapon arm, is disarmed, and is stunned for 3 rounds."
+    },
+    {
+      "0": "66",
+      "1": "Throw dislocates foe's shield shoulder. Foe is stunned and unable to parry 3 rounds, and is -50.",
+      "2": "Nifty throw. Foe is pinned, on his face, and in an arm lock. +9 hits. Foe is disarmed and immobilized.",
+      "3": "Sweep shatters foe's knee. He is stunned and unable to parry 4 rounds, and operates -80.",
+      "4": "Throw pitches foes on to his head. If he has helm, he is unconscious. If not. he is paralyzed from the waist down.",
+      "5": "Perfect toss sends foe flying over your shoulder and 10'. Foe dies on impact. +10 to your next roll."
+    },
+    {
+      "0": "67-70",
+      "1": "Hard awkward throw stuns foe for 2 rounds. +7 hits.",
+      "2": "Strong throw stuns foe for 2 rounds. You have initiative for 6 rounds. +8 hits.",
+      "3": "Foe is knocked back 5' and has a bruised chest Foe is stunned 2 rounds, is at -10.",
+      "4": "Throw drops foe on his shield shoulder, breaking his arm and collar bone. +5 hits.",
+      "5": "Foe lands on shield arm. If foe has shield, +10 hits and shield is broken. If not, foe's aim shattered. +20 hits."
+    },
+    {
+      "0": "71-75",
+      "1": "Fall bruises foe's thigh. Foe is stunned and unable to parry for 1 round. +2 hits. Foe is at -5.",
+      "2": "Fall tears ligament in leg. Foe is at -10. +5 hits. Foe stunned and unable to parry for 1 round.",
+      "3": "Fall pulls muscle in foe's leg. Foe stunned 2 rounds and unable to parry next round. Operates at -25.",
+      "4": "Foe falls and breaks leg. Minor fracture, but foe operates at -30. Poor fool is stunned for 3 rounds.",
+      "5": "Foe falls and breaks his hip. Mild fracture, foe is at -40. He is stunned and unable to parry 2 rounds."
+    },
+    {
+      "0": "76-80",
+      "1": "Foe lands on shield arm. If foe has shield, it is broken. If not, foe is stunned for 2 rounds, is at -10, and his arm is sprained .",
+      "2": "Foe breaks fall with his weapon hand and sprains 2 fingers. Foe is at -25 and is stunned for 2 rounds.",
+      "3": "Foe falls and dislocates shield shoulder, +6 hits. Foe is at -40 and must parry for 6 rounds.",
+      "4": "Throw puts foe on back an breaks shoulder blade. Foe is at -20. +9 hits. Foe stunned and unable to parry 2 rounds.",
+      "5": "Throw sends foe down on his elbow. Joint shattered and arm is useless. Foe is stunned 4 rounds."
+    },
+    {
+      "0": "81-85",
+      "1": "Sweep unbalances foe. +3 hits. Foe is stunned for 3 rounds. Add +25 to your next round.",
+      "2": "Sweep knocks foe 10' to side. Foe stunned and unable to parry 2 rounds. +9 hits.",
+      "3": "Sweep staggers foe. +7 hits. Foe is stunned and unable to parry 2 rounds. Add +30 to next attack.",
+      "4": "Break foe's wrist on weapon arm. Arm is useless. +10 hits. Fine hand throw",
+      "5": "Throw foe 10'. Foe is down on face, disarmed and stunned and unable to parry 6 rounds."
+    },
+    {
+      "0": "86-90",
+      "1": "Foe lands on his back, damaging muscle and car- tilage. Foe quickly recovers, but is stunned and unable to parry for 2 rounds. Foe is at -20.",
+      "2": "Foe lands on his back and is stunned and unable to parry for 2 rounds. Torn tendons and broken bone, foe is at -25.",
+      "3": "Throw drops foe on his back. Vertebrae cracked and foe is at -50. Foe is stunned and unable to parry 3 rounds.",
+      "4": "Throw drops foe and you put him into a severely immobilizing arm lock. Foe is stunned and unable to parry for 6 rounds.",
+      "5": "Throw sends foe flying into nearest enemy within 10'. All involved are stunned and unable to parry 3 rounds, take +9 hits."
+    },
+    {
+      "0": "91-95",
+      "1": "Throw downs foe and breaks his nose. Foe is at -25. +7 hits. Foe is stunned and unable to parry 2 rounds.",
+      "2": "Fall breaks ribs, disarms foe, and sends him rolling 10'. Foe is at -30 and is stunned and unable to parry for 12 rounds.",
+      "3": "Sweep downs foe and you put him in a leg-breaking hold. +9 hits. Foe is pinned, stunned and unable to parry 15 rounds.",
+      "4": "Throw bashes foe against nearby hard surface. Foe is knocked out and you can use a killing kick if you so desire.",
+      "5": "Sly rolling throw sends foe into air. Foe is left disarmed and unconscious. You spring to your feet 10' away."
+    },
+    {
+      "0": "96-99",
+      "1": "Throw sends foe down on his head. If foe has helm. he is stunned 9 rounds. If not, foe is knocked out.",
+      "2": "Sweep stuns foe; kick disarms him; and another sweep knocks him flat on his back. Foe is unconscious. +20 hits.",
+      "3": "Throw cracks foe's skull. If foe has helm, he is in a coma. If not, he dies of brain damage in 1 round.",
+      "4": "Throw sends foe down. He is impaled by broken rib or his own weapon and dies in 6 rounds.",
+      "5": "Fall snaps foe's neck, killing him instantly. Add +25 to your next attack."
+    },
+    {
+      "0": "100",
+      "1": "Snazzy throw. Foe is stunned and unable to parry 6 rounds. Foe is down and helpless, you can finish him (if you desire) with a knee to the solar plexus.",
+      "2": "Fabulous throw sends foe flying. Foe's neck is broken on impact and he dies after rolling 15'.",
+      "3": "Fall breaks foe's back. +12 hits. Foe paralyzed from the neck down. Add +20 next roll.",
+      "4": "Sweeps sends foe twisting backwards 5'. Foe's spine is snapped and he is left a quadriplegic.",
+      "5": "Using but half the round, you use a rolling throw to send foe against nearest hard surface. Foe dies, you are up, press on."
+    }
+  ],
+  "Puncture": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Zip.",
+      "2": "Glancing blow. +0.",
+      "3": "+1 hit.",
+      "4": "+2 hits.",
+      "5": "+3 hits."
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit.",
+      "2": "+2 hits",
+      "3": "+3 hits.",
+      "4": "+4 hits.",
+      "5": "Grazing strike unbalances foe. You have initiative +5 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "You receive initiative next round. +1 hit.",
+      "2": "Glancing blow. +3 hits. You have initiative next round.",
+      "3": "Blow to foe's side. +5 hits. You have initiative next round.",
+      "4": "+2 hits. Foe must parry next round.",
+      "5": "+3 hits Foe must parry next round."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe must parry next round. +1 hit.",
+      "2": "Blow to side. +2 hits. Foe must parry next round at -10.",
+      "3": "Blow to side. Foe must parry next round at -20. +3 hits.",
+      "4": "Minor side wound. Foe fights at -10. You have initiative next round.",
+      "5": "Stun foe for 1 round. Add +20 to your next attack."
+    },
+    {
+      "0": "21-35",
+      "1": "Foe must parry next round. +2 hits. Add +10 to next attack.",
+      "2": "Foe must parry next round at -20. +2 hits.",
+      "3": "You wound foe along side of chest. Foe is stunned 1 round and takes 1 hit/round.",
+      "4": "You wound foe along side of hip. Foe is stunned 1 round and takes 2 hits/round.",
+      "5": "Foe receives minor side wound. +2 hits. Foe is at -10. Foe takes 2 hits/round."
+    },
+    {
+      "0": "36-45",
+      "1": "Minor calf wound. Foe takes 1 hit/round.",
+      "2": "Minor calf wound. Foe takes 1 hit/round. +2 hits.",
+      "3": "Minor calf wound. Foe takes 2 hits/round.",
+      "4": "Minor thigh wound. Foe takes 3 hits/round.",
+      "5": "Thigh strike. If foe has leg armor, +3 hits. If none, +2 hits, 3 hits/round."
+    },
+    {
+      "0": "46-50",
+      "1": "Strike to foe's back. +2 hits. Foe must parry next round at -30.",
+      "2": "Strike to foe's back. Foe is stunned for 1 round and takes 1 hit/round.",
+      "3": "Strike across foe's back stuns foe for 2 rounds. Foe takes 1 hit/round.",
+      "4": "Strike to foe's lower back. Foe is stunned and unable to parry next round. +6 hits.",
+      "5": "Strike to foe's lower back. Foe takes 3 hits/round. +5 hits. Foe is stunned and unable to parry next round."
+    },
+    {
+      "0": "51-55",
+      "1": "Strike to foe's chest. Foe must parry next round at -25. Foe takes 2 hits/round.",
+      "2": "Minor chest wound. Foe takes 2 hits per round. +3 hits. Foe must parry next 2 rounds.",
+      "3": "Minor chest wound. Foe takes 2 hits/round. +3 hits. Foe is stunned for 2 rounds.",
+      "4": "Strike to chest. +5 hits. Foe takes 3 hits/round and fights at -15. Foe must parry next round.",
+      "5": "Chest wound. Foe takes 4 hits/round. +5 hits. Foe fights at -10. Foe is stunned and unable to parry 1 round."
+    },
+    {
+      "0": "56-60",
+      "1": "Minor thigh wound. Foe takes 2 hits/round. +2 hits. Foe is stunned next round.",
+      "2": "Minor thigh wound. Foe takes 2 hits/round. +3 hits. Foe is stunned and unable to parry next round.",
+      "3": "Minor thigh wound. +5 hits. Foe takes 2 hits/round and is at -10. Foe is stunned for 2 rounds.",
+      "4": "Strike to thigh. Foe takes 3 hits/round. Foe is stunned and unable to parry for the next round. +3 hits.",
+      "5": "Thigh wound. Foe takes 5 hits/round. +6 hits. Foe is stunned and unable to parry next round."
+    },
+    {
+      "0": "61-65",
+      "1": "Minor forearm wound. +2 hits. Foe takes 2 hits/round. Foe is at-10.",
+      "2": "Minor forearm wound. Foe is stunned next round. +2 hits, is at -10 and takes 2 hits/round.",
+      "3": "Forearm wound. Foe takes 2 hits/round and is at -10. +3 hits. Foe is stunned for 2 rounds.",
+      "4": "Forearm wound. Foe takes 3 hits/round and is at -10. +3 hits. Foe is stunned for 2 rounds.",
+      "5": "Forearm wound. Foe takes 3 hits/round and is at -15. +5 hits. Foe is stunned for 2 rounds."
+    },
+    {
+      "0": "66",
+      "1": "Strike through foe's shield shoulder. Arm is useless. Add +10 to your next attack. Foe is stunned for 3 rounds.",
+      "2": "Strike shatters elbow in foe's weapon arm. +3 hits. Arm is useless. Foe is stunned 4 rounds and cannot parry for 2 rounds.",
+      "3": "Strike shatters foe's knee. Foe is knocked down. is at -90, and stays down for 3 rounds. Foe is unable to parry 2 rounds.",
+      "4": "Strike to side of head. Foe is knocked out for 6 hours. +10 hits. If foe has no helm, you kill him.",
+      "5": "Strike through both of foe's lungs. Foe drops and passes out. Foe dies in 6 rounds. Add +10 to your next attack."
+    },
+    {
+      "0": "67-70",
+      "1": "Strike foe's neck. +5 hits. Foe is stunned for 3 rounds and cannot parry next round.",
+      "2": "Strike to foe's neck. Foe takes 3 hits/round and is at -5. Foe is stunned for 2 rounds.",
+      "3": "Strike foe's neck. Foe is stunned for 4 rounds and cannot parry for 2 rounds. Add +15 to your next attack.",
+      "4": "Strike foe in shoulder. +3 hits. Foe is stunned and unable to parry for 2 rounds. Foe is at -20.",
+      "5": "Strike to foe's shoulder severs muscle and tendons. Arm is useless. Foe takes 3 hits/round. Foe is stunned for 6 rounds."
+    },
+    {
+      "0": "71-75",
+      "1": "Strike to lower leg tears tendons. Foe is at -25. +3 hits. Foe is stunned and unable to parry next round.",
+      "2": "Strike to foe's calf slashes muscle. Foe is at -40. +3 hits. Foe is stunned and unable to parry for 2 rounds.",
+      "3": "Strike to lower leg slashes muscle and tendons. Foe is stunned and unable to parry for 2 rounds. +5 hits. Foe is at -50.",
+      "4": "Strike to lower leg slashes muscle and tendons. Foe is at -50, +6 hits. Foe is stunned and unable to parry for 2 rounds.",
+      "5": "Strike through lower leg. Foe is stunned and unable to parry for 3 rounds. Sever muscle. Foe is at -75."
+    },
+    {
+      "0": "76-80",
+      "1": "Strike to foe's upper arm. +3 hits. Foe takes 3 hits/round and is at -25. Foe is stunned for 2 rounds.",
+      "2": "Strike through muscle in foe's shield arm. Foe is at -30 and takes 3 hits/round. Foe is stunned for 3 rounds.",
+      "3": "Strike to shield arm tears muscle and tendons. Foe takes 3 hits/round, fights at -25. Foe is stunned 6 rounds.",
+      "4": "Strike to shield arm. Arm is useless. Foe is stunned for 6 rounds. Foe takes 3 hits/round. +12 hits.",
+      "5": "Strike foe is weapon arm, bone is broken. Foe is stunned and unable to parry for 3 rounds. +10 hits."
+    },
+    {
+      "0": "81-85",
+      "1": "Side wound. Foe takes 5 hits per round and is stunned for 6 rounds. Add +20 to your next attack.",
+      "2": "Side wound. +6 hits. Foe takes 5 hits/round. Foe is at -25. Foe is stunned and unable to parry for 3 rounds.",
+      "3": "Side wound. +6 hits. Foe takes 5 hits/round. Foe is at -25. Foe is stunned and unable to parry for 3 rounds.",
+      "4": "Major abdominal wound. Foe takes 6 hits /round. +10 hits. Foe is stunned and unable to parry for 3 rounds. Foe is at -20.",
+      "5": "Strike through foe's back severs a vein. Foe is stunned and unable to parry for 12 rounds., then dies."
+    },
+    {
+      "0": "86-90",
+      "1": "Strike foe in back. Foe is at -20 and takes 3 hits/round. Foe is stunned and unable to parry 2 rounds.",
+      "2": "Strike to back of head. If foe has no helm, he dies. If foe has a helm, +6 hits and foe is down for 2 rounds.",
+      "3": "Strike to back of head. If foe has no helm, he dies. If foe has a helm, +6 hits and too is down for 2 rounds.",
+      "4": "Strike through roe's kidneys. Foe drops. +9 hits. Foe dies after 6 rounds of very intense agony.",
+      "5": "Strike through leg severs an artery. Foe drops, lapses into unconsciousness, and dies after 12 rounds."
+    },
+    {
+      "0": "91-95",
+      "1": "Rip off foe's ear. +3 hits. Foe takes 2 hits/round, hears at -50. Foe is stunned and not able to parry for 2 rounds.",
+      "2": "Strike through foe's hip. Foe takes 3 hits/round. +5 hits. Foe is stunned next round. Foe is at -25.",
+      "3": "Strike through foe's chest severs a vein. Foe drops immediately and dies in 9 rounds due to shock and blood loss.",
+      "4": "Strike through foe's side destroys a variety of organs. Foe fights normally for 6 rounds then dies.",
+      "5": "Sever artery in foe's arm. Foe is stunned for 12 rounds and then dies."
+    },
+    {
+      "0": "96-99",
+      "1": "Strike foe's nose, leaving a permanent scar. Foe takes 3 hits/round. Foe is stunned and unable to parry 3 rounds.",
+      "2": "Strike through foe's cheek. Foe drops and dies after 9 rounds of incapacity. Add +20 to your next attack.",
+      "3": "Strike through foe's neck breaks backbone and severe spine. Foe is paralyzed from the neck down — permanently.",
+      "4": "Nail sucker in lower back. Internal bleeding and shock kill foe in 6 rounds. Foe is down and out.",
+      "5": "Shot through heart send foe reeling back 10' to a spot suitable for dying. Weapon is stuck in reeling foe."
+    },
+    {
+      "0": "100",
+      "1": "Strike through neck severs vein and artery. Foe cannot breath. Foe drops and dies of a massive heart failure.",
+      "2": "Strike through foe's eye. Foe dies instantly. Add +10 to all friendly attacks within 30' next round.",
+      "3": "Shot through both ears proves effective. Foe dies instantly. Add +20 to your next 6 attacks. Pretty shot.",
+      "4": "Strike through brain makes life difficult for foe. You have a half round left to act. Add +20 to your next attack.",
+      "5": "Strike through foe's eye. Foe dies instantly. Add +25 to our next attack. Carry on."
+    }
+  ],
+  "Slash": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Zip.",
+      "2": "Weak strike. +0 hits.",
+      "3": "+1 hit",
+      "4": "+2 hits",
+      "5": "+3 hits"
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit.",
+      "2": "+2 hits.",
+      "3": "+3 hits",
+      "4": "+4 hits",
+      "5": "Unbalance foe. +5 hits. You have initiative next round."
+    },
+    {
+      "0": "11-15",
+      "1": "You have initiative next round. +1 hit.",
+      "2": "Glancing blow to side. +3 hits. You have initiative next round.",
+      "3": "Blow to foe's side. +6 hits. You have initiative next round.",
+      "4": "+3 hits. Foe must parry next round.",
+      "5": "+4 hits. Foe must parry next round."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe must parry next round. +1 hit.",
+      "2": "Blow to side. +2 hits. Foe must parry next round at -10.",
+      "3": "Blow to side. +4 hits. Foe must parry next round -20.",
+      "4": "Minor side wound. Foe at -10. +2 hits. Receive initiative next round.",
+      "5": "Stun foe for 1 round. Foe may not parry. Add +10 to your next swing."
+    },
+    {
+      "0": "21-35",
+      "1": "Foe must parry next round. +2 hits. Add +10 to next swing.",
+      "2": "Foe must parry next round at -20. +2 hits.",
+      "3": "You break foe's rib. +3 hits. Foe is stunned next round.",
+      "4": "Strike to side. Foe is stunned for next round and cannot parry. +3 hits.",
+      "5": "Foe receives minor side wound, fights at -10 and takes 1 hit/round, +3hits."
+    },
+    {
+      "0": "36-45",
+      "1": "Minor calf wound. Foe receives 1 hit/round.",
+      "2": "Minor calf wound. Foe takes 1 hit/round. +2 hits.",
+      "3": "You slash foe's leg. Foe takes 2 hits/round. +2 hits.",
+      "4": "Slash foe's upper leg. +3 hits. Foe takes 2 hits/round.",
+      "5": "Blow to foe's upper leg. If foe has leg armor +5 hits. If foe has no armor, +3 hits and +3 hits/round."
+    },
+    {
+      "0": "46-50",
+      "1": "Blow to foe's back. +2 hits. Foe must parry next round at -30.",
+      "2": "Blow to foe's back. Foe must parry next round at -30. +4 hits.",
+      "3": "Blow to foe's back stuns foe for 1 round. Foe takes 1 hit/round. +3 hits. Foe cannot parry for 1 round.",
+      "4": "Strike foe's lower back. Foe may not parry and is out next round. +3 hits. Foe takes 2 hits/round.",
+      "5": "Strike to foe's lower back. Foe may not parry and is out next round. +4 hits. Foe takes 3 hits/round."
+    },
+    {
+      "0": "51-55",
+      "1": "Blow to foe's chest. Foe must parry next round - 25. Wound gives 1 hit/round. +2 hits.",
+      "2": "Minor chest wound. Foe takes 1 hit/round and must parry next 2 rounds. +3 hits. Foe fights at -5.",
+      "3": "Minor chest wound. +4 hits. Foe takes 2 hits/round and fights at -10. Foe must parry next round.",
+      "4": "Medium chest wound. +5 hits. Foe takes 3 hits/round, fights at -15, and must parry next round.",
+      "5": "Chest wound. Foe takes 4 hits/round, is at -10, and is stunned 2 rounds. +6 hits."
+    },
+    {
+      "0": "56-60",
+      "1": "Minor thigh wound. Foe takes 2 hits/round and must parry next round. +3 hits.",
+      "2": "Minor thigh wound. Foe takes 2 hits/round. +4 hits. Foe must parry next 2 rounds.",
+      "3": "Minor thigh wound. Foe takes 2 hits/round. +5 hits. Foe is stunned next round.",
+      "4": "Medium thigh wound. +6 hits. Foe takes 2 hits/round and is stunned 2 rounds.",
+      "5": "Thigh wound. Foe is stunned for 2 rounds. +8 hits. Foe takes 5 hits/round."
+    },
+    {
+      "0": "61-65",
+      "1": "Minor forearm wound. +3 hits. Foe takes 2 hits/round and is at -10.",
+      "2": "Minor forearm wound. Foe is stunned next round, takes 2 hits/round and is at -10. +4 hits.",
+      "3": "Medium forearm wound. +4 hits. Foe takes 3 hits/round, is at -10, and is stunned next round.",
+      "4": "Medium forearm wound. +4 hits. Foe takes 3 hits/round, is at -10, and is stunned next 2 rounds.",
+      "5": "Forearm wound. Foe is stunned for 2 rounds. +6 hits. Foe takes 3 hits /round and is at -15."
+    },
+    {
+      "0": "66",
+      "1": "Shatter foe's shield arm shoulder. Arm is useless. +10 next swing. Foe is stunned 3 rounds. +9 hits. Your initiative.",
+      "2": "Shatter foe's weapon arm elbow. +8 hits. Foe is stunned for 4 rounds and cannot parry for 2 rounds.",
+      "3": "Shatter foe's knee. Foe is knocked down. +6 hits. Foe at -90 and is down for 3 rounds and cannot parry.",
+      "4": "You knock foe out for 6 hours with a strike to side of head. +15 hits. If foe has no helm, you kill him instantly.",
+      "5": "Sever foe's weapon arm. +12 hits. Foe expires in 12 rounds, drops immediately. Add +10 to your next swing."
+    },
+    {
+      "0": "67-70",
+      "1": "Slash foe's neck. +6 hits. Foe is stunned for 3 rounds and cannot parry next round.",
+      "2": "Blow to foe's neck . Foe takes 3 hits/round and fights at-5. Stun foe for 2 rounds. +7 hits.",
+      "3": "Slash foe's neck. Foe is stunned 4 rounds and cannot parry next 2 rounds. +8 hits. +10 next round.",
+      "4": "Slash muscle in foe's shoulder. +5 hits. Foe is stunned 3 rounds, and is at -20. Add +10 to your next swing.",
+      "5": "Slash tendons and crush the bone in foe's shield shoulder. Arm is useless and foe takes 2 hits/round. Foe is stunned for 4 rounds."
+    },
+    {
+      "0": "71-75",
+      "1": "Slash tendons in foe's lower leg. Foe at-30 and takes 2 hits/round. +4 hits. Stun foe for 2 rounds. Poor sucker.",
+      "2": "Slash muscle in foe's calf. Foe is stunned for 3 rounds and cannot parry next round. +6 hits. Foe at -40.",
+      "3": "Slash muscle and tendons in foe's lower leg. Foe is stunned for 2 rounds and cannot parry. +7 hits. Foe at -45.",
+      "4": "Slash muscle and sever tendons in foe's lower leg. Foe is stunned for 3 rounds and cannot parry for next 2 rounds. Foe is at -50.",
+      "5": "Slash foe's lower leg and sever muscle and tendons. Foe at -70. +8 hits. Foe is stunned for 6 rounds."
+    },
+    {
+      "0": "76-80",
+      "1": "Slash foe's upper arm. +5 hits. Foe takes 3 hits/round and is at -25. Foe is stunned and unable to parry 2 rounds.",
+      "2": "Slash muscle in foe's shield arm. Foe is at -30 and takes 3 hits/round. Stunned and unable to parry for 2 rounds. +6 hits.",
+      "3": "Slash muscle and tendons in foe's shield arm. +9 hits. Foe takes 4 hits/round and arm is useless. Foe is stunned 6 rounds.",
+      "4": "Slash muscle and tendons in foe's weapon arm. Arm is useless and foe is stunned 4 rounds. Foe cannot parry next 2 rounds. +10 hits.",
+      "5": "Slash tendons and break bone in foe's shield arm. Arm is useless. +12 hits. Foe is stunned and unable to parry for next 3 rounds."
+    },
+    {
+      "0": "81-85",
+      "1": "Slash foe's side. +6 hits and a major wound. Foe takes 6 hits/round and is stunned 5 rounds. Add +20 to your next swing.",
+      "2": "Slash foe's side. +7 hits and a major wound. Foe takes 6 hits/round. Foe is stunned and cannot parry for next 2 rounds.",
+      "3": "Strike to foe's side. +8 hits. Foe takes 4 hits/round and is at -20. Foe is stunned and cannot parry for next 2 rounds.",
+      "4": "Major abdominal wound. +10 hits. Foe takes 8 hits/round, is stunned for 4 rounds, and is unable to parry for next 2 rounds. Foe at -10.",
+      "5": "Sever opponent's hand. +5 hits. Foe is stunned and unable to parry for next 12 rounds. Foe then dies."
+    },
+    {
+      "0": "86-90",
+      "1": "Slash foe's back. +8 hits. Foe is stunned and cannot parry for 2 rounds. Foe takes 2 hits/round and is at -10.",
+      "2": "Strike to back knocks foe down. Foe is stunned and unable to parry for 3 rounds. +10 hits. Foe takes 3 hits/round.",
+      "3": "Blast to back breaks bone and knocks foe down. +9 hits and foe at -10. Foe is stunned and unable to parry for 4 rounds.",
+      "4": "Sever opponent's hand. +6 hits. Foe is stunned for 6 rounds, unable to parry. Foe then drops and dies 6 rounds later.",
+      "5": "Sever foe's leg. +15 hits. Foe drops and lapses into unconsciousness. Foe dies in 9 rounds. Add +10 to your next swing."
+    },
+    {
+      "0": "91-95",
+      "1": "Cut off foe's ear. +3 hits. Foe takes 3 hits/round and hears at -50. Foe is stunned 3 rounds and unable to parry next round.",
+      "2": "Strike to foe's hip. +7 hits and foe is stunned 3 rounds. Foe cannot parry next round and fights -20. Add +10 to your next swing.",
+      "3": "Sever foe's leg. Foe drops immediately and dies in 6 rounds due to shock and blood loss. +20 hits.",
+      "4": "Sever foe's weapon arm. Foe is stunned and unable to parry for next 9 rounds. Foe then dies. +15 hits.",
+      "5": "Sever foe's spine. +20 hits. Foe collapses in a second, and is paralyzed from the neck down permanently."
+    },
+    {
+      "0": "96-99",
+      "1": "Slash foe's nose. Minor wound. +2 hits and a permanent scar. Foe takes 2 hits/round and is at -30. Foe stunned 6 rounds.",
+      "2": "Strike to foe's head and neck breaks skull and causes massive brain damage. Foe drops and dies in 6 rounds. +20 hits.",
+      "3": "Sever foe's shield arm. Foe is stunned and unable to parry for 20 rounds. +18 hits.",
+      "4": "Slash foe's side. +20 hits. Foe dies in 3 rounds due to massive internal organ damage. Foe is down and unconscious immediately.",
+      "5": "Strike to foe's head destroys brain and makes life difficult for the poor fool. Foe expires in a heap —immediately."
+    },
+    {
+      "0": "100",
+      "1": "Neck strike severs carotid artery and jugular vein. Foe's neck is broken. Foe dies in 1 round of intense agony.",
+      "2": "Disembowel foe, killing him instantly. 25% chance your weapon is stuck in opponent during next round.",
+      "3": "Destroy foe's eyes. +5 hits and foe is stunned and unable to parry for next 30 rounds.",
+      "4": "Impale adversary in heart. +12 hits. Foe dies instantly. Heart is destroyed. 25% chance your weapon is stuck in foe 2 rounds.",
+      "5": "Strike to foe's groin area. +10 hits. All vitals are destroyed immediately Foe is stunned and unable to parry for 12 rounds and then dies."
+    }
+  ],
+  "Tiny": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Dubious strike. +0 hits.",
+      "2": "Not enough, +0 hits.",
+      "3": "Real weak. +0 hits.",
+      "4": "HA!",
+      "5": "+1 hit."
+    },
+    {
+      "0": "06-10",
+      "1": "Zip.",
+      "2": "No bonus, +0 hits.",
+      "3": "Nothing extra.",
+      "4": "+1 hit.",
+      "5": "+2 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "Looking bad. +0 hits.",
+      "2": "+1 hit.",
+      "3": "+1 hit.",
+      "4": "+1 hit.",
+      "5": "+2 hits."
+    },
+    {
+      "0": "16-20",
+      "1": "+1 hit.",
+      "2": "+1 hit.",
+      "3": "+1 hit.",
+      "4": "+2 hits.",
+      "5": "Cutting strike. +2 hits and foe takes +1 hit/round."
+    },
+    {
+      "0": "21-35",
+      "1": "+1 hit.",
+      "2": "+2 hits.",
+      "3": "+2 hits.",
+      "4": "+3 hits.",
+      "5": "Minor calf wound, +2 hits and foe takes +1 hit/round."
+    },
+    {
+      "0": "36-45",
+      "1": "Cruel blow. +2 hits.",
+      "2": "+3 hits.",
+      "3": "Light wound. +2 hits and foe takes +1 hit/round.",
+      "4": "Leg strike. If foe has no leg armor, +5 hits and he takes +1 hit/round.",
+      "5": "Leg hit. +3 hits and foe takes +1 hit/round."
+    },
+    {
+      "0": "46-50",
+      "1": "Poor follow through. You lose a claw and fight at +5 for 2 rounds. Foe takes +4 hits.",
+      "2": "+3 hits.",
+      "3": "+4 hits.",
+      "4": "Mild puncture. +3 hits and foe takes +1 hit/round.",
+      "5": "Lower back strike. +5 hits. Foe must parry next round and takes +1 hit/round."
+    },
+    {
+      "0": "51-55",
+      "1": "Leaping chest strike yields +3 hits.",
+      "2": "Light wound. Foe takes +1 hit per round. +3 hits.",
+      "3": "Slight chest wound. Foe takes +2 hits per round. +4 hits.",
+      "4": "Slash foe's lower chest. If foe has no metal chest armor, +5 hits and +3 hits/round.",
+      "5": "Chest strike. +6 hits and foe is forced to parry next round. Foe takes +2 hits/round."
+    },
+    {
+      "0": "56-60",
+      "1": "Light thigh wound. Foe takes +1 hit/round. +1 hit.",
+      "2": "Thigh strike, but no real penetration. +6 hits.",
+      "3": "Mild thigh wound stuns foe next round. +4 hits and foe takes +2 hits/round.",
+      "4": "Thigh strike stuns foe for next round. +6 hits and foe takes +2 hits/round.",
+      "5": "Thigh wound. Foe is stunned for next round. +7 hits and foe takes +3 hits/round."
+    },
+    {
+      "0": "61-65",
+      "1": "Forearm wound. Foe takes +2 hits/round. +2 hits.",
+      "2": "Raking forearm strike leaves nasty scar. Foe takes +2 hits/round. +3 hits.",
+      "3": "Forearm strike. Foe is forced to parry for 2 rounds. +3 hits and foe takes +2 hits/round.",
+      "4": "Forearm wound. Foe must parry for 2 rounds. +5 hits. Foe takes +2 hits/round. Add +10 to your next roll.",
+      "5": "Forearm strike. Foe is stunned next round and you have initiative next 2 rounds. Foe takes +3 hits/round. +6 hits."
+    },
+    {
+      "0": "66",
+      "1": "Leg strike. Foe is stunned and unable to parry next round. +4 hits. Foe takes +2 hits/round.",
+      "2": "Calf strike. Foe tears muscle, is stunned 2 rounds, and is at -20. +5 hits.",
+      "3": "Bizarre wrist strike disarms foe. +4 hits. Foe is stunned next round. Add +10 to your next roll.",
+      "4": "Astounding head strike. If foe has a helm, +4 hits. If not, +7 hits and foe is unable to parry for 6 rounds.",
+      "5": "Bizarre strike to eyes destroys 1 eye and blinds the other eye for 2 days. Foe is at -95 and is stunned for 24 rounds."
+    },
+    {
+      "0": "67-70",
+      "1": "Shoulder strike. Foe takes +1 hit/round and must parry next round. +3 hits.",
+      "2": "Upper chest strike. Foe is stunned next round. +4 hits. Foe takes +1 hit/round.",
+      "3": "Strike to foe's shoulder. Foe takes +2 hits/round. +5 hits. Foe is stunned next round at -20.",
+      "4": "Upper arm strike. Foe stunned and unable to parry next round. Foe takes +2 hits/round. +6 hits.",
+      "5": "Inspired shoulder strike tears muscle. Foe is stunned and unable to parry next round. Foe is at -20. +7 hits."
+    },
+    {
+      "0": "71-75",
+      "1": "Lower leg strike. If foe has leg armor, +1 hit. If not, foe takes +4 hits and +2 hits/round. Foe has initiative next round.",
+      "2": "Strike to lower leg. If foe has leg armor, +3 hits. If not, foe takes +6 hits, +2 hits/round, and must parry next 2 rounds.",
+      "3": "Calf strike. Slash muscle. Foe is at -20. Wound gives foe +2 hits/round, and stuns him for 2 rounds.",
+      "4": "Lower leg strike. If foe has leg armor, +3 hits and he is stunned next round. It not, foe is stunned 2 rounds, is unable to parry next round.",
+      "5": "Vicious leg wound. Foe takes +4 hits/round and is stunned 3 rounds. +5 hits."
+    },
+    {
+      "0": "76-80",
+      "1": "Weak, but precise strike to foe's arm. Foe takes +1 hit/round and is stunned next round. +3 hits.",
+      "2": "Strong, but imprecise arm strike. Foe takes +2 hits/round and is at -15. +5 hits.",
+      "3": "Forearm strike slashes muscle and tendon. Foe fights at -25, takes +2 hits/round, and is stunned 2 rounds. +5 hits.",
+      "4": "Arm strike tears muscle and tendon. Foe fights at -25, takes +2 hits/round, and is stunned 3 rounds. +5 hits.",
+      "5": "Arm strike gives foe a troublesome wound. Foe is stunned and unable to parry for 2 rounds and takes 3 hits/round."
+    },
+    {
+      "0": "76-80",
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": ""
+    },
+    {
+      "0": "81-85",
+      "1": "Strike to foe's face. +4 hits. Foe is stunned next round and takes +2 hits/round.",
+      "2": "Flying face strike. If facial armor, +2 hits and foe must parry next round. If not, foe takes +3 hits/round and stunned for 3 rounds.",
+      "3": "Head strike. If foe has helm, +3 hits and he is stunned next round. If not, foe has a nasty scar, takes +3 hits/round, and is at -40.",
+      "4": "Acrobatic face strike. If facial armor, +5 hits. If not, foe's nose torn and he takes +3 hits/round, is stunned 3 rounds, and is at -40.",
+      "5": "Head strike. If foe has helm, +4 hits and he is stunned next round. If not, foe takes +3 hits/round, fights at -25, and is stunned 9 rounds."
+    },
+    {
+      "0": "86-90",
+      "1": "Sudden, well-placed blow. Foe is stunned for 2 rounds. +6 hits.",
+      "2": "Slash foe's neck. Foe takes +2 hits/round and is stunned for 3 rounds. +5 hits.",
+      "3": "Shoulder strike spins foe. Foe is stunned and unable to parry 2 rounds. +6 hits.",
+      "4": "Strike to foe's weapon arm. Foe is disarmed and stunned next round. +5 hits.",
+      "5": "Upper thigh wound tears muscle. Foe is at -40 and takes +3 hits /round. +4 hits. Foe is stunned for 3 rounds, unable to parry 1 round."
+    },
+    {
+      "0": "91-95",
+      "1": "Leaping head strike. If foe has helm, +3 hits and foe is stunned next round. If not, foe is at -30 and stunned 2 rounds. Ear torn.",
+      "2": "Wrist strike. +2 hits/round. Foe is stunned for 3 rounds and unable to parry next round. +5 hits.",
+      "3": "Neck strike. Foe is stunned and unable to parry for 2 rounds and takes +2 hits/round. Foe fights at - 20. +3 hits.",
+      "4": "Well-timed attack tears muscle in thumb . Foe is disarmed, stunned and unable to parry 2 rounds. Foe fights at -50.",
+      "5": "Dazzling leap knocks foe down. Foe is disarmed and unconscious. +9 hits."
+    },
+    {
+      "0": "96-99",
+      "1": "Insulting strike to foe's nose. If foe has full helm, he is stunned 2 rounds. If not, foe has shredded nose, takes +3 hits/round, and is stunned 9 rounds.",
+      "2": "Head strike. Foe is blinded by bleeding, takes +3 hits/round, and is stunned and unable to parry for 3 rounds. Foe at -40 while bleeding.",
+      "3": "Slash foe's Achilles tendon. Foe is knocked down and is stunned and unable to parry for 3 rounds. Foe takes +1 hit/round, operates at -75.",
+      "4": "Strike to foe's eyes. If foe has full helm, he is blind and at -95 for 1 week. If not, foe loses 1 eye and is blind in the other...and at -100.",
+      "5": "Head strike knocks foe down. Foe has massive concussion and dies in 9 rounds due to shock and internal bleeding. Pitiful sight."
+    },
+    {
+      "0": "100",
+      "1": "Strike to foe's eyes. If foe has full helm, he is stunned and unable to parry for 2 rounds. If not, foe loses 1 eye, is at -75, and is stunned and unable to parry for 3 rounds.",
+      "2": "Slashing throat attack knocks foe down. Foe is stunned and unable to parry for 6 rounds, takes +3 hits/rounds, and fights -50.",
+      "3": "Bizarre attack to foe's head causes foe to strike himself. Foe must roll on the \"E\" column on the crush critical strike table.",
+      "4": "Strike to foe's eyes. +10 hits. Foe is stunned and unable to parry for 6 rounds, takes +2 hits/round, and is at -95. Blindness permanent.",
+      "5": "Unbelievable neck strike knocks foe down. Vein and artery are severed. Foe takes +20 hits/round, dies after 6 inactive rounds."
+    }
+  ],
+  "Large": [
+    {
+      "0": "",
+      "1": "Normal",
+      "2": "Magic",
+      "3": "Mithril",
+      "4": "Holy Arms",
+      "5": "Slaying"
+    },
+    {
+      "0": "01-05",
+      "1": "+12 hits. Your weapon breaks. You are upset.",
+      "2": "+15 hits. You fumble your weapon and must parry next round. Good luck pal.",
+      "3": "+18 hits you move poorly and yield the initiative next round.",
+      "4": "+20 hits. Flat blow. Subtract 10 from your next swing.",
+      "5": "+5 hits."
+    },
+    {
+      "0": "06-10",
+      "1": "+3 hits.",
+      "2": "+4 hits.",
+      "3": "+5 hits.",
+      "4": "+9 hits.",
+      "5": "+10 hits."
+    },
+    {
+      "0": "11-20",
+      "1": "+6 hits.",
+      "2": "+8 hits.",
+      "3": "+9 hits.",
+      "4": "+12 hits.",
+      "5": "+15 hits."
+    },
+    {
+      "0": "21-30",
+      "1": "+9 hits.",
+      "2": "+10 hits.",
+      "3": "+12 hits.",
+      "4": "+15 hits.",
+      "5": "+20 hits."
+    },
+    {
+      "0": "31-40",
+      "1": "+12 hits.",
+      "2": "+15 hits.",
+      "3": "+20 hits.",
+      "4": "+25 hits.",
+      "5": "+30 hits."
+    },
+    {
+      "0": "41-50",
+      "1": "+15 hits.",
+      "2": "+18 hits.",
+      "3": "+25 hits.",
+      "4": "+30 hits.",
+      "5": "Light wound. +12 hits. Foe takes 5 hits/round and is forced to parry 1 round. Add +10 to your next swing,"
+    },
+    {
+      "0": "51-65",
+      "1": "+20 hits.",
+      "2": "+25 hits.",
+      "3": "+30 hits.",
+      "4": "Light wound. +10 hits. Foe takes 3 hits/round and is forced to parry next round. You have initiative for 3 rounds.",
+      "5": "Hard flat swing. +15 hits and foe is staggered. Foe is stunned and unable to parry for the next round."
+    },
+    {
+      "0": "66",
+      "1": "Well placed strike to foe's neck severs the jugular vein. +15 hits. Foe dies in 6 rounds, and is inactive until then.",
+      "2": "Vicious strike to abdominal region destroys a variety of important organs. Foe drops and dies in 3 rounds. +30 hits.",
+      "3": "Strike to foe's heart. +12 hits and foe dies instantly. Add +10 to your next swing. Very clean kill.",
+      "4": "Inspired strike that catches foe between the eyes. +20 hits. Foe dies instantly. You have 1/2 a round left to act.",
+      "5": "Strike through foe's ear destroys brain. Foe dies immediately. Add +10 to all friends' swings next round."
+    },
+    {
+      "0": "67-70",
+      "1": "+25 hits.",
+      "2": "+30 hits.",
+      "3": "Light wound. +15 hits. Foe is stunned for 2 rounds and fights at -20. Add +10 to your next swing.",
+      "4": "Hard strike. +20 hits. Foe is stunned and unable to parry for 2 rounds. Add +10 to next swing.",
+      "5": "Brutal strike through foe's heart. +20 hits. Foe dies immediately. Add +10 to your next swing."
+    },
+    {
+      "0": "71-80",
+      "1": "+30 hits.",
+      "2": "Light wound. +13 hits. Foe is stunned for 3 rounds and is unable to parry for the next round.",
+      "3": "Hard blow. +20 hits. Foe is stunned and unable to parry for 2 rounds. Foe takes 3 hits /round due to light wound.",
+      "4": "Strike to foe's leg. +9 hits. Foe is stunned and unable to parry for 1 round. Foe is at -10, takes 3 hits/round.",
+      "5": "Shatter shoulder in foe's weapon arm. +15 hits. Foe is stunned for 3 rounds. Arm is quite useless."
+    },
+    {
+      "0": "81-90",
+      "1": "Strong blast staggers foe. +20 hits. Foe is stunned and unable to parry for 2 rounds. Add +5 to next swing.",
+      "2": "Hard blow stuns foe for 3 rounds. Foe is unable to parry next round. +22 hits. Add +10 to your next swing.",
+      "3": "Strike to foe's leg. +15 hits. Foe is stunned for 2 rounds and fights at -20. Foe takes 2 hits/round.",
+      "4": "Strike to foe's forehead. If foe has no helm, you kill him. if foe has a helm, you knock him out. +30 hits.",
+      "5": "Strike to foe's chest destroys the heart. +25 hits. Foe dies immediately. Add +15 to your next swing."
+    },
+    {
+      "0": "91-95",
+      "1": "Fine strike to foe's leg. +18 hits. Foe takes 5 hits/round and is at -10. Foe is stunned for 3 rounds.",
+      "2": "Strike foe in face. +5 hits. Foe takes 3 hits/round and fights at -25. Add +20 to your next swing.",
+      "3": "Strike foe in head. +30 hits and foe is knocked out. Add +10 to all friendly swings next round. Fine shot.",
+      "4": "Cruel strike to foe's chest severs a vein. Foe is stunned for 2 rounds, falls into unconsciousness, then dies after 6 rounds.",
+      "5": "Sever an artery in foe's leg. +10 hits. Foe dies after 12 sad rounds of inactivity."
+    },
+    {
+      "0": "96-98",
+      "1": "Strike foe in heart. Foe dies instantly and falls upon you. You then take 20 hits and are pinned for 6 rounds.",
+      "2": "Strike foe through both lungs. Foe dies in 3 rounds. Your weapon is stuck in foe for 12 rounds. +25 hits.",
+      "3": "Strike foe in nose and drive bone into brain. Foe dies instantly and you have a half round to act. Clean kill.",
+      "4": "Strike through foe's ear drops sucker.+15 hits. Foe dies next round. Add +25 to your next swing.",
+      "5": "Shatter foe's skull. +30 hits. Foe dies instantly. A piece of foe's skull sails straight back to 10 feet. Not pretty."
+    },
+    {
+      "0": "99-100",
+      "1": "Strike through foe's lungs. Foe falls down and dies after 6 rounds. +24 hits. Add +20 to all friendly swings next round.",
+      "2": "Hard but flat strike. Foe takes +35 hits, is stunned for 1 round, and is unable to parry. Your weapon breaks in half.",
+      "3": "Strike foe in neck. +20 hits. Foe is stunned and unable to parry for 6 rounds - then dies. Your weapon is stuck 2 rounds.",
+      "4": "Blind for cleanly. Foe is stunned and unable to parry for 2 rounds. +5 hits. Foe is at -100. Precision surgery.",
+      "5": "Strike foe through cheek. Foe dies immediately. +15 hits. Unfortunately, your weapon is stuck in the bone for 2 rounds."
+    },
+    {
+      "0": "101-150",
+      "1": "Awesome strike. +50 hits. Foe is stunned for 3 rounds and is unable to parry. Foe fights at -25.",
+      "2": "Strike to side of foe's head knocks foe out. +20 hits. Foe is out for at least 3 hours. Add +10 to your next swing.",
+      "3": "Strike to foe's chin shatters jaw and knocks foe out. +60 hits and foe is in a coma foe 30 days.",
+      "4": "Shatter foe's knee. Foe takes 2 hits per round, fights at -30, and is stunned for 3 rounds.",
+      "5": "Sever a vein in foe's forelimb. Foe is stunned and unable to parry for 6 rounds. Foe then falls dead. +20 hits."
+    },
+    {
+      "0": "151-175",
+      "1": "Strike drives bone into kidneys and liver. Foe falls, taking 40 hits. Foe then dies —pity.",
+      "2": "Strike drives shattered remnants of foe's jaw into the brain. Foe dies instantly. You have 1/2 round left to act.",
+      "3": "Strike to foe's abdomen destroys a variety of important organs. Foe drops and dies after 6 rounds. +30 hits.",
+      "4": "Smooth strike through foe's cheek. +10 hits. Foe dies immediately. You have a half round left in which to act.",
+      "5": "Strike through foe's neck. Foe dies instantly. +25 hits. Add +10 to your next swing. Fine piece of work."
+    },
+    {
+      "0": "176-200",
+      "1": "Strike to bowels destroys foe's abdominal areas. Foe falls and dies after 12 rounds. +35 hits. Add +15 to your next swing.",
+      "2": "Strike through foe's ear kills foe with ease. +10 hits. Add +20 to the swings of all nearby allies next round.",
+      "3": "Strike severs and artery in foe's leg. Foe fights at -20 for 2 rounds, then drops. Foe is then inactive and dies after 6 rounds.",
+      "4": "Strike severs foe's spine. +20 hits. Foe drops immediately and is paralyzed from the waist down.",
+      "5": "Strike foe through the eye. Foe dies immediately. +15 hits. +20 to your next swing. You have a half round to act."
+    },
+    {
+      "0": "201-250",
+      "1": "Blow to foe's forelimb severs a vein and stuns foe for 6 rounds. Foe drops on round 7. passes out, then dies. +15 hits.",
+      "2": "Strike severs foe's spine. +15 hits. Foe is paralyzed from the neck down. Sadly, your weapon breaks in half.",
+      "3": "Strike to foe's heart. +20 hits foe dies instantly. Add +15 to all friendly swings for the next 2 rounds of action.",
+      "4": "Strike to foe's heart. +25 hits. Foe dies. Add +20 to all friendly swings for the next 3 rounds of action.",
+      "5": "Strike carries all the way through foe's head. Foe dies instantly. The action carries onto any nearby opponent this round."
+    },
+    {
+      "0": "251 +",
+      "1": "Extremely hard but flat swing. +35 hits. Foe is stunned and unable to parry for 3 rounds. Unfortunately, you knock yourself out.",
+      "2": "Strike through foe's eye proves fatal. Foe dies immediately. +20 hits. Add +25 to your next swing.",
+      "3": "Blind roe with vicious crossing strike. Foe is at -100 and is upset. +10 hits and foe is quite stunned for 6 rounds.",
+      "4": "Strike through foe's ribs punctures a lung. +30 hits. Foe is knocked out. Your weapon is stuck for 6 rounds. Good luck.",
+      "5": "Blind foe with precision strike across eyes. +6 hits. Foe is stunned and unable to parry for 24 rounds."
+    }
+  ],
+  "SuperLarge": [
+    {
+      "0": "",
+      "1": "Normal",
+      "2": "Magic",
+      "3": "Mithril",
+      "4": "Holy Arms",
+      "5": "Slaying"
+    },
+    {
+      "0": "01-05",
+      "1": "+10 hits, but your weapon breaks in half. Shoddy workmanship.",
+      "2": "+10 hits, but you drop your weapon and it will take 2 rounds to get it back. Bum luck buddy.",
+      "3": "+10 hits, but you fumble your weapon for remainder of round. You are stunned next round.",
+      "4": "+10 hits, but you fumble your weapon for remainder of round. You must parry next round at -5.",
+      "5": "+10 hits, but you must parry next round."
+    },
+    {
+      "0": "06-10",
+      "1": "+2 hits.",
+      "2": "+3 hits.",
+      "3": "+4 hits.",
+      "4": "+6 hits.",
+      "5": "+8 hits."
+    },
+    {
+      "0": "11-20",
+      "1": "+3 hits.",
+      "2": "+4 hits.",
+      "3": "+5 hits.",
+      "4": "+8 hits.",
+      "5": "+10 hits."
+    },
+    {
+      "0": "21-30",
+      "1": "+4 hits.",
+      "2": "+5 hits.",
+      "3": "+6 hits.",
+      "4": "+10 hits.",
+      "5": "+12 hits."
+    },
+    {
+      "0": "31-40",
+      "1": "+5 hits.",
+      "2": "+6 hits.",
+      "3": "+7 hits.",
+      "4": "+12 hits.",
+      "5": "+15 hits."
+    },
+    {
+      "0": "41-50",
+      "1": "+6 hits.",
+      "2": "+7 hits.",
+      "3": "+8 hits.",
+      "4": "+15 hits.",
+      "5": "+18 hits."
+    },
+    {
+      "0": "51-65",
+      "1": "+7 hits.",
+      "2": "+8 hits.",
+      "3": "+9 hits.",
+      "4": "+18 hits.",
+      "5": "+20 hits."
+    },
+    {
+      "0": "66",
+      "1": "+20 hits.",
+      "2": "Light wound. +12 hits. Foe takes 3 hits/round and fights at -10. Your weapon breaks.",
+      "3": "Light wound. +15 hits foe takes 5 hits per round, fights at -10, and yields initiative next round.",
+      "4": "Heavy wound. +20 hits. Foe is stunned and unable to parry next round. Foe fights -15 and takes 10 hits/round.",
+      "5": "Strike foe's heart and kill sucker. Add +20 to your next swing you are, however, covered with foe's blood. +50 hits."
+    },
+    {
+      "0": "67-70",
+      "1": "+8 hits.",
+      "2": "+9 hits.",
+      "3": "+10 hits,",
+      "4": "+20 hits.",
+      "5": "Heavy blow breaks bones in foe's upper body. +30 hits. Foe is stunned and unable to parry for 2 rounds. Flat strike."
+    },
+    {
+      "0": "71-80",
+      "1": "+9 hits.",
+      "2": "+10 hits.",
+      "3": "+15 hits.",
+      "4": "Light wound. +13 hits. Foe takes 5 hits/round, fights -10, and yields the initiative. Add +10 to your next swing.",
+      "5": "Hard blow. +24 hits and foe fights at -20. Foe is stunned for 3 rounds and unable to parry. Foe takes 5 hits per round."
+    },
+    {
+      "0": "81-90",
+      "1": "+10 hits.",
+      "2": "+15 hits.",
+      "3": "+20 hits.",
+      "4": "Light wound. +12 hits. Foe takes 4 hits/round and must parry next round. Add +20 to your next round.",
+      "5": "Heavy wound. Foe is stunned and unable to parry for 3 rounds. Foe takes 20 hits/round and fights at -25. +25 hits."
+    },
+    {
+      "0": "91-95",
+      "1": "+15 hits.",
+      "2": "+20 hits.",
+      "3": "Light wound. +12 hits. Foe takes 4 hits/round and you have the initiative next 2 rounds. Add +10 next swing.",
+      "4": "Hard blow. +25 hits. Foe is stunned for 2 rounds and is unable to parry next round. Foe takes 3 hits/round.",
+      "5": "Strike to neck severs a variety of blood vessels and knocks foe down. Foe expires in 3 rounds due to shock. +35 hits. Nice..."
+    },
+    {
+      "0": "96-98",
+      "1": "Blow severs vein and artery. Foe is stunned for 12 rounds, drops, then dies. Awesome.",
+      "2": "Massive blow to neck crushes bone and breaks spine. Foe dies in 1 round, but drops instantly. Add +25 to next swing.",
+      "3": "Blow to lower skull area kills foe instantly. Foe staggers for 1 round before dropping. Add +20 to your next swing.",
+      "4": "You cut foe's skull in half. Weapon is stuck in carnage for 6 rounds. Add +10 to all friendly swings for 6 rounds.",
+      "5": "Strike drives bone through Foe's heart. Foe dies instantly, but your weapon is stuck in foe for 12 rounds. +40 hits."
+    },
+    {
+      "0": "99-100",
+      "1": "Blow shatters bone. +30 hits and 10 hits/round due to compound fracture. Foe is at -25.",
+      "2": "Strike foe in leg and sever vein. +25 hits. Foe drops in 2 rounds and dies. Foe can fight in the interim.",
+      "3": "Crush bones in Foe's neck. 50% chance foe is paralyzed from neck down. 50% chance that foe is killed. You have a half round left to act.",
+      "4": "Strike through heart kills foe. +20 hits. 25% chance foe falls on you out of spite.",
+      "5": "Catch foe between the eyes and shatter the skull. Foe dies instantly. You have a half round to act. Add +25 to your next swing."
+    },
+    {
+      "0": "101-150",
+      "1": "Light wound. +12 hits. Foe bleeds at 1 hit/round. Add +10 to your next swing.",
+      "2": "Light wound. +13 hits and foe must parry next round. Foe takes 2 hits/round. Add +20 to your next swing.",
+      "3": "Hard blow. +30 hits. Foe is stunned for 3 rounds and is unable to parry during next round. Add +10 to your next swing.",
+      "4": "Serious compound fracture. +30 hits and foe is stunned, unable to parry, for 2 rounds.",
+      "5": "Strike foe through leg and sever vein. Foe is stunned and unable to parry for 6 rounds. Foe then dies. +20 hits."
+    },
+    {
+      "0": "151-175",
+      "1": "Blow cuts muscle and causes light wound. +20 hits. Foe is at -20 and takes 5 hits/round.",
+      "2": "Blow stuns foe for 1 round and foe is unable to parry. +25 hits. Foe is at -20 and is quite upset.",
+      "3": "Knock foe down. +25 hits. Foe is down and unable to parry for next 2 rounds. Add +10 to your next swing.",
+      "4": "Knock foe down with a vicious blow. +40 hits. 50% chance of coma -- 50% chance foe is down and unable to parry 6 rounds.",
+      "5": "Awesome blow knocks foe down. Foe breaks back and neck and suffocates in 12 rounds. +25 hits. Add +20 to next swing."
+    },
+    {
+      "0": "176-200",
+      "1": "Blow cuts tendons. +15 hits and foe fights at -25. Add +20 to your next swing.",
+      "2": "Knock foe down. +20 hits. Foe is down for 2 rounds and unable to parry. Add +25 to your next swing.",
+      "3": "Heavy wound. +28 hits and foe is at -40. Foe is unable to parry and stunned for next 3 rounds. Foe takes 10 hits per round.",
+      "4": "Strike severs vast number of blood vessels. +25 hits and foe is stunned, unable to parry, for 9 rounds. Foe is at - 25.",
+      "5": "Strike through foe's eye hits home and rips through brain. +24 hits. Foe drops immediately and dies. Fine blast."
+    },
+    {
+      "0": "201-250",
+      "1": "Blow shatters bone. +35 hits. Foe takes 10 hits/round, is stunned 2 rounds, and fights at -30.",
+      "2": "Heavy wound. +35 hits and foe is stunned for 3 rounds, unable to parry. Foe fights at -40 and takes 10 hits/round.",
+      "3": "Vicious blow to foe's leg. Foe takes 12 hits per round and fights at -50. Foe is stunned and unable to parry for 6 rounds. +30 hits.",
+      "4": "Strike through foe's ear. +15 hits. Foe dies of massive brain damage in 3 rounds. Add +20 to your next swing.",
+      "5": "Magnificent abdominal strike drops foe in a heap. +35 hits and foe dies of shock in 4 rounds. You are stunned next round."
+    },
+    {
+      "0": "251 +",
+      "1": "Foe is blinded. +20 hits and foe fights at -100. Foe is stunned and unable to parry for 6 rounds.",
+      "2": "Strike through foe's eye. You kill foe instantly. Add +20 to your next swing. 20% chance your weapon is stuck in foe for 3 rounds.",
+      "3": "Awe inspiring strike drives bone through both lungs. Foe takes 100 hits, falls in a coma, and dies in 18 rounds.",
+      "4": "Incredible strike severs an artery and vein and breaks foe's spine. +50 hits, falls, and dies after 2 rounds of agony.",
+      "5": "Strike through side kills foe after a chain reaction of broken bones splinter. You are covered with foe's blood. +100 hits."
+    }
+  ],
+  "Fumble": [
+    {
+      "0": "",
+      "1": "Hand Arms (1-Handed)",
+      "2": "Hand Arms (2-handed)",
+      "3": "Spear & Pole Arms",
+      "4": "Mounted Arms",
+      "5": "Thrown Arms",
+      "6": "Bows"
+    },
+    {
+      "0": "01-25",
+      "1": "Lose your grip and the opportunity to get in an open blow. Maybe you will improve.",
+      "2": "Lose your grip. You lose the opportunity to take an open swing.",
+      "3": "Lose your grip. You lose the opportunity to take an open swing.",
+      "4": "Lose your grip. You lose the opportunity to take an open strike.",
+      "5": "Lose your grip. You elect not to attack because of lost control.",
+      "6": "Lose your grip. You elect not to attack. Good choice."
+    },
+    {
+      "0": "26-30",
+      "1": "Drop your weapon. It will take 1 round to draw a new one, or 2 rounds to recover old one.",
+      "2": "Drop your weapon. It will take 2 rounds to draw new one or 4 rounds to recover old one.",
+      "3": "Fumble your delivery. You lose the option to attack but you can still parry.",
+      "4": "Fumble your delivery. You lose 2 rounds but can still parry.",
+      "5": "You rumble your delivery and hang onto your weapon. Subtract 10 from your next attack.",
+      "6": "One's ten thumbs just cannot handle loading. You lose your action for this round."
+    },
+    {
+      "0": "31-40",
+      "1": "You slip with grace and lose the opportunity to get in the vital blow.",
+      "2": "You slip into fog of mind. You lose 1 round in order to collect your thoughts.",
+      "3": "You slip and are stunned for 1 round. All right, you just look clumsy. Try again.",
+      "4": "You slip and lose your saddle position. You lose 2 rounds but can still parry.",
+      "5": "You slip and lose 2 rounds to fully recover. You hold onto weapon and still parry.",
+      "6": "You fumble your ammunition. You lose 2 rounds trying to recover. Real weak, kid."
+    },
+    {
+      "0": "41-50",
+      "1": "Bad follow through. You lose your opportunity and give yourself 1 hit. Real weak.",
+      "2": "Stumble over an unseen imaginary deceased turtle. You lose 2 rounds of offensive action but can parry.",
+      "3": "Lose your grip and juggle weapon for 2 rounds. You can still parry. Your next swing is at -10.",
+      "4": "Your mount rears and you are quite stunned for 2 rounds during the recovery.",
+      "5": "You fumble your weapon after losing your grip. You are stunned for 3 rounds.",
+      "6": "Break arrow and lose your cool. You find yourself out of 2 rounds of action."
+    },
+    {
+      "0": "51-60",
+      "1": "You slip without grace and lose 2 rounds worth of opportunities. Good luck Pal.",
+      "2": "Bad move. You lose 2 rounds of open swings. Fortunately, you can still parry.",
+      "3": "You slip and almost fall. You are stunned and unable to parry for 2 rounds.",
+      "4": "You lose your grip and fumble your weapon. You are stunned for 3 rounds.",
+      "5": "Poor release. Weapon lands harmlessly 20' to the left of target.",
+      "6": "Drop your arrow. You lose 2 rounds reloading. Try hand arms next time."
+    },
+    {
+      "0": "61-70",
+      "1": "Lose your grip and juggle your weapon for 2 rounds. You can still parry.",
+      "2": "Lose you grip and juggle your weapon for 2 rounds. You can still parry.",
+      "3": "Lose your grip and juggle weapon for 3 rounds. Your next swing is at -10.",
+      "4": "Your poor mount stumbles and you are stunned and unable to parry for 2 rounds.",
+      "5": "Very poor release sends weapon off directly to the right. Reroll if someone lies in the new path.",
+      "6": "Drop your bow. You lose 2 rounds while retrieving and reloading it."
+    },
+    {
+      "0": "71-80",
+      "1": "Lose your grip and juggle your weapon for 2 rounds. Unfortunately, you cannot parry.",
+      "2": "Very bad move. You are stunned and unable to parry for 2 rounds. Not good.",
+      "3": "Fumble your follow- through. You lose 3 rounds. You are stunned for 2 rounds.",
+      "4": "You break your weapon and lose 2 rounds while drawing a new one.",
+      "5": "You slip and lose 3 rounds to fully recover. You hold onto weapon, but cannot parry.",
+      "6": "Bowstring breaks. You lose 6 rounds while restringing bow or 2 rounds while drawing a new weapon."
+    },
+    {
+      "0": "81-85",
+      "1": "You lose your \"wind\" and realise that you should relax and not swing for 2 rounds.",
+      "2": "Lose your grip and juggle your weapon for 3 rounds. You can still parry.",
+      "3": "Clumsy move. You are stunned and unable to parry for 3 rounds.",
+      "4": "You drop your weapon in one of you lighter moments. Lose 2 rounds drawing a new one.",
+      "5": "You drop your weapon. It will take 2 rounds to draw new one or 4 rounds to recover old one.",
+      "6": "You fumble your weapon. You are stunned and quite unable to parry for the next 3 rounds."
+    },
+    {
+      "0": "86-90",
+      "1": "Foe's smooth moves leave you stunned for 2 rounds. Hopefully, you will learn.",
+      "2": "Incredibly bad move. You are stunned and unable to parry for 3 long rounds.",
+      "3": "Drop your weapon. It will take 2 rounds to draw new one or 6 rounds to recover old one.",
+      "4": "You break your weapon and lose 2 rounds drawing a new one. You take 10 hits.",
+      "5": "You fumble your weapon badly but hang onto it. You are stunned and unable to parry for 6 rounds.",
+      "6": "You let your arrow fly much too soon. You strike 20' short of target. You are out for 2 rounds."
+    },
+    {
+      "0": "91-95",
+      "1": "You stumble. The classless display leaves you stunned for 3 rounds. You might still survive.",
+      "2": "You stumble and nearly fall down in an apparent attempt to commit suicide. You are stunned 4 rounds.",
+      "3": "You trip and fall. It will take 4 rounds to recover. You are unable to parry for 3 rounds.",
+      "4": "Your seating is improper and you find yourself stunned and unable to parry for 3 rounds.",
+      "5": "You let go of weapon too early and send it off 30' behind you.",
+      "6": "Slip and fall down. You are stunned for 6 rounds, and unable to parry for 2 rounds. Your shot goes astray."
+    },
+    {
+      "0": "96-99",
+      "1": "Swallow tongue in the excitement. You are stunned and unable to parry for 3 rounds.",
+      "2": "You trip and fall. It will take 4 rounds to recover. You are unable to parry for 3 rounds.",
+      "3": "You injure your shoulder. You are stunned and unable to parry for 3 rounds and fight at -25.",
+      "4": "Your body takes the impact. You take 20 hits. Stunned and unable to parry 6 rounds.",
+      "5": "You fall down. Your shot goes astray. You are stunned for 12 rounds.",
+      "6": "Break your bow. You are stunned and unable to parry for 4 rounds of action. Good luck, pal."
+    },
+    {
+      "0": "100",
+      "1": "Bad taste and poor execution. You attempt to maim yourself. Roll on the \"D\" critical table (Slash).",
+      "2": "Worst move seen in ages. 50% chance you are out 2 days with a pulled groin. 50% chance opponent out 3 rounds laughing.",
+      "3": "You break your weapon and are stunned and unable to parry for 6 rounds.",
+      "4": "You fall off of your mount. Role on the \"D\" crush critical strike table.",
+      "5": "You hit yourself during delivery. Roll on the \"D' critical strike table (crushes).",
+      "6": "Poor judgment. You let arrow fly and lose an ear. +5 hits. You take 2 hits per round."
+    }
+  ],
+  "Grappling": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Weak grip.",
+      "2": "Indecisive.",
+      "3": "+1 hit.",
+      "4": "+2 hits.",
+      "5": "+3 hits."
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit.",
+      "2": "+2 hits.",
+      "3": "+3 hits.",
+      "4": "+4 hits.",
+      "5": "Glancing attack. You have initiative next round. +5 hits"
+    },
+    {
+      "0": "11-15",
+      "1": "Glancing blow. No extra damage, but you have the initiative next round. Practice.",
+      "2": "Passing strike. You have the initiative next round. +2 hits.",
+      "3": "Grazing side strike. You have initiative next round. +4 hits.",
+      "4": "Glancing blow. You have initiative next round. +6 hits.",
+      "5": "Feeble attack, but foe must parry next round. +6 hits."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe is free, but you have initiative next round. +3 hits.",
+      "2": "Foe fends off attack, but is forced to parry 1 round. +2 hits.",
+      "3": "Foe recovers but is forced to parry next round. +4 hits.",
+      "4": "Side strike unbalances foe. You have initiative for 2 rounds. +5 hits.",
+      "5": "Strong, passing blow. Foe is stunned for 1 round. +3 hits"
+    },
+    {
+      "0": "21-35",
+      "1": "Hip strike. You have the initiative next round. +5 hits.",
+      "2": "Attack has punch. Foe must parry next round at -20.",
+      "3": "Glancing attack. Foe is stunned for 1 round. +2 hits.",
+      "4": "Misplaced strike. Foe eludes your grip but is stunned for 1 round. +3 hits.",
+      "5": "Luck allow foe to escape your grasp. Foe is stunned for 1 round. You have initiative 2 rounds."
+    },
+    {
+      "0": "36-45",
+      "1": "Blow to lower back. Foe must parry next round.",
+      "2": "Unbalance foe. +4 hits. Foe must parry next round. You have initiative for 2 rounds.",
+      "3": "Flailing attack. Foe is stunned for 1 round and must parry next round.",
+      "4": "Shield arm strike. With shield, +3 hits. Without, one arm is immobilized for 6 rounds and foe stunned 3 rounds.",
+      "5": "Attack to upper leg. Foe is spun about and breaks free, but is stunned and unable to parry for 1 round."
+    },
+    {
+      "0": "46-50",
+      "1": "Hip strike. Foe must parry next round at -20. +3 hits.",
+      "2": "Blow to chest stuns foe for 1 round. +5 hits.",
+      "3": "Weak grasp around foe's waist. Foe is at -25 for 3 rounds.",
+      "4": "Weak hold on foe's chest. Foe is at -30 for 3 rounds. You have initiative 4 rounds.",
+      "5": "Hold on foe's leg. Foe slips away, but is stunned 2 rounds and unable to parry next round."
+    },
+    {
+      "0": "51-55",
+      "1": "Unbalancing blow to chest. Foe must parry next round. You have initiative for 2 rounds.",
+      "2": "Blow to back stuns foe for 1 round. +7 hits.",
+      "3": "Slipping grasp around foe's leg. Foe is stunned and unable to parry for 1 round.",
+      "4": "Slipping grip around foe's waist. Foe is at -50 for 3 rounds.",
+      "5": "Foe breaks free of hold on shield arm. He is stunned for 2 rounds and unable to parry next round. +5 hits."
+    },
+    {
+      "0": "56-60",
+      "1": "Glancing back blow. Foe must parry next round at -25. You have initiative 2 rounds.",
+      "2": "Unbalancing strike. Foe spins free but is stunned for 1 round and must parry the following round.",
+      "3": "Foe breaks free of thigh hold, but is stunned and unable to parry 1 round. +3 hits.",
+      "4": "Leg hold. Grip is slipping but foe stunned 3 rounds. +6 hits.",
+      "5": "Grasp foe's leg. Foe is stunned and unable to parry 1 round and is at -25 the following 3 rounds."
+    },
+    {
+      "0": "61-65",
+      "1": "Blow to shoulder. Foe is stunned 1 round. +3 hits.",
+      "2": "Slipping grasp on foe's waist is weak. Foe is stunned for 2 rounds.",
+      "3": "Grasp around foe's chest. Foe is at -50 for 3 rounds. +3 hits.",
+      "4": "Grasp foe's chest. Foe is stunned and unable to parry for 1 round and is at -20 for the following 2 rounds.",
+      "5": "Attack foe's shield arm. If foe has shield, +6 hits. If not, foe is stunned and unable to parry for 3 rounds. +7 hits."
+    },
+    {
+      "0": "66",
+      "1": "Grasp on weapon arm disarms foe. +2 hits. Foe is stunned for 2 rounds.",
+      "2": "Grasp on weapon arm disarms foe and sprains his wrist. Foe is stunned 2 rounds, and fights at -25.",
+      "3": "Grasp foe's legs. Foe slips away, but is knocked down for 1 round. +5 hits.",
+      "4": "Grasp on leg knocks foe down. Foe is down and immobile for 2 rounds. +6 hits.",
+      "5": "Grasp foe's neck and knock him down. Foe is at -20 due to torn neck muscles. Foe is down and immobile for 3 rounds."
+    },
+    {
+      "0": "67-70",
+      "1": "Chest strike. Foe eludes entanglement, but must parry next 2 rounds at -20.",
+      "2": "Entangle foe's leg, +4 hits. Foe is stunned and unable to parry for 1 round.",
+      "3": "Entangle shield arm. If foe has shield, he is at -50 until he drops it. If not, foe is at-50.",
+      "4": "Entangle leg. Foe is stunned for 2 rounds and unable to parry next round. +7 hits.",
+      "5": "Entangle weapon arm. Foe is stunned and unable to parry for 2 rounds, and at -75 the following round."
+    },
+    {
+      "0": "71-75",
+      "1": "Uneasy hold on foe's midsection. Foe is at -50 for 2 rounds. +5 hits.",
+      "2": "Weak hold on foe's lower chest. Foe is at -50 for 3 rounds. +4 hits.",
+      "3": "Loose grasp on foe's midsection. Foe is stunned for 2 rounds and is at -50 for the following 3 rounds.",
+      "4": "Loose hold on foe's mid-section. Foe is stunned and unable to parry 1 round and is at -70 the following 3 rounds.",
+      "5": "Entangle foe's leg. Foe is knocked down, stunned and unable to parry for 2 rounds. +9 hits."
+    },
+    {
+      "0": "76-80",
+      "1": "Weak hold on foe's midsection. Foe is at -50 for the next 3 rounds and you have initiative.",
+      "2": "Entangle shield arm. If foe has shield, he is at -30 until he drops it. If not, foe is at -40.",
+      "3": "Entangle weapon arm. Foe is stunned and unable to parry for 2 rounds, and is at -50 during the following round.",
+      "4": "Entangle foe's weapon arm. Foe hangs onto weapon, but the arm is immobilized. +3 hits.",
+      "5": "Grapple weapon arm. Foe is disarmed and is left stunned for 3 rounds. Tom ligaments and pulled muscles leave foe at -40."
+    },
+    {
+      "0": "81-85",
+      "1": "Grasp foe's leg. Foe breaks free but is stunned for 2 rounds. +3 hits. You have initiative for 6 rounds.",
+      "2": "Weak grasp on foe's midsection. Foe is at -50 For the next 6 rounds and you have the initiative.",
+      "3": "Grasp on foe's chest breaks rib and leaves foe stunned and unable to parry for 3 rounds. Foe fights at -5.",
+      "4": "Entangle foe's leg. Foe is knocked down, stunned, disarmed, and unable to parry for 2 rounds. Fall breaks shield arm.",
+      "5": "Entangle foe's arms and pin them to his chest. Foe cannot move his arms and his mobility is reduced by -75."
+    },
+    {
+      "0": "86-90",
+      "1": "Shield arm blow. If foe has shield, he must parry next round. If not, arm is immobilized and foe is at -50.",
+      "2": "Entangle foe's leg. Foe is knocked down, stunned and unable to parry for 2 rounds. Pulled muscle leaves foe at -10.",
+      "3": "Entangle foe's foot. Foe stumbles, falls, and breaks shoulder. +8 hits. Foe is stunned 6 rounds and fights at -30.",
+      "4": "Tie up both of foe's arms so they are immobile. Foe is stunned for 9 rounds and cannot fight. +6 hits.",
+      "5": "Entangle foe's foot. Foe stumbles, falls, breaks weapon on impact, and is stunned 2 rounds. If no chest armor, roll \"D\" crush crit."
+    },
+    {
+      "0": "91-95",
+      "1": "Entangle foe's leg. Foe is knocked down. Stunned and unable to parry for 2 rounds. +3 hits.",
+      "2": "Both of foe's legs are tied up. Foe is at -25, downed, disarmed and stunned and unable to parry for 2 rounds.",
+      "3": "Pin foe's arms to his chest. Foe is stunned and unable to parry for 4 rounds, then fights at -95.",
+      "4": "Entangle and immobilize foe's legs. Foe falls, is stunned and unable to parry for 30 rounds. +10 hits.",
+      "5": "Wrap up foe's legs. Foe tumbles to ground and is knocked out. Foe is at -95 due to 2 broken arms and a broken ankle. +20 hits."
+    },
+    {
+      "0": "96-99",
+      "1": "Tie up foe. Foe is completely immobilized for 12 rounds, and is at -60 for the following 3 rounds. +7 hits.",
+      "2": "Attack entangles and immobilizes foe. Broken leg leaves foe at -40. The pitiful creature is left down but conscious.",
+      "3": "Entangle and immobilize foe's legs. Foe falls, is disarmed, breaks weapon arm, and is knocked out. +20 hits.",
+      "4": "Grapple foe's neck. If foe has neck armor, he is disarmed, stunned and unable to parry for 3 rounds. If not, he dies in 6 rounds.",
+      "5": "Srangling hold. Foe is unable to break free and dies after 9 rounds of amazingly helpless struggling. Grim."
+    },
+    {
+      "0": "100",
+      "1": "Foe's legs are entangled. Foe is downed and knocked out. +9 hits. Add +20 to your next roll.",
+      "2": "Vicious hold around foe's neck. Foe is knocked out. Sprained neck leaves foe at -90.",
+      "3": "Grapple foe's neck. If he has neck armor, he is at -75 due to a neck sprain and stunned for 3 rounds. If not, he dies of broken neck.",
+      "4": "Grapple foe's head. If foe has helm, he is stunned and unable to parry for 9 rounds. If not, foe falls into coma due to fracture.",
+      "5": "Crush foe's windpipe. Foe dies instantly due to massive shock and savage asphyxiation. Add +25 to your next roll."
+    }
+  ],
+  "Cold": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Cool breeze +0 hits",
+      "2": "Cold breeze. +0 hits.",
+      "3": "+1 hit",
+      "4": "+2 hits",
+      "5": "+3 hits"
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit",
+      "2": "+2 hit",
+      "3": "+3 hits",
+      "4": "+4 hits",
+      "5": "Foe loses initiative for 1 round. +4 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "Foe loses initiative for 1 round. Cold wind. +2 hits.",
+      "2": "Foe loses initiative for 1 round. Cold chills. +3 hits.",
+      "3": "Foe is slightly unbalanced and loses 1 round of initiative. +4 hits.",
+      "4": "Light blast. Foe loses initiative for 1 round. +5 hits.",
+      "5": "Cold blast. If foe has a protective cloak or armor, he loses 1 round of initiative. If not, foe takes +6 hits and loses 2 rounds of initiative."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe loses initiative for 1 round. Freezing breeze. +3 hits.",
+      "2": "Foe loses initiative for 2 rounds. Freezing wind. +4 hits.",
+      "3": "Foe loses initiative for 2 rounds. Mild frosting. +5 hits.",
+      "4": "Unbalancing blast. Foe must parry for 1 round. +6 hits.",
+      "5": "Moderate blast. Foe must parry for 1 round. +7 hits."
+    },
+    {
+      "0": "21-35",
+      "1": "Mild blast. Foe loses initiative for 2 rounds. +4 hits.",
+      "2": "Frost laden blast forces foe to lose 2 rounds of initiative. +5 hits.",
+      "3": "Moderate blast. Foe must parry for 1 round. +6 hits.",
+      "4": "Chilling blast gives foe a frosty \"burn\". Foe must parry for 1 round at -20, takes +1 hit per round. +7 hits.",
+      "5": "Parched, cold blast. Foe is unbalanced and must parry for 2 rounds at -15. +8 hits."
+    },
+    {
+      "0": "36-45",
+      "1": "Frosty blast. Foe must parry for 1 round. +5 hits.",
+      "2": "Freezing blast. Foe must parry for 1 round and loses 3 rounds of vital initiative. +6 hits.",
+      "3": "Blisters give foe +1 hit per round. Foe must parry for 2 rounds. +7 hits.",
+      "4": "Blast stuns foe for 1 round. Foe takes +2 hits per round and fights at -5 due to facial shock. +8 hits.",
+      "5": "Strong, low blast stuns foe for 1 round; destroys foe's foot covering. If feet uncovered, foe is at -20 (frostbite)."
+    },
+    {
+      "0": "46-50",
+      "1": "Moderate blast. Foe must parry for 2 rounds. +6 hits.",
+      "2": "Mild frostbite. +2 hits per round. Must parry for 2 rounds. +7 hits.",
+      "3": "Blast stuns foe for 1 round. +8 hits.",
+      "4": "Mild frostbite. Foe is at -10. +2 hits per round. Stunned 1 round. +9 hits.",
+      "5": "Swirling blast spins foe about. +10 hits. Stunned 1 round. Drops weapon."
+    },
+    {
+      "0": "51-55",
+      "1": "Unbalancing blast. Foe is stunned for 1 round. +7 hits.",
+      "2": "Strong, but off-center blast stuns foe for 1 round. Foe takes +3 hits per round due to frostbite on shield wrist. +8 hits.",
+      "3": "Blast is strong but low. Foe is stunned for 2 rounds. If foe has no leg armor, he takes +5 hits per round due to shock and pain. Frostbite.",
+      "4": "Blistering blast to foe' s side knocks foe back 5 feet. Foe takes +3 hits per round and is stunned for 2 rounds. +10 hits.",
+      "5": "Strong side strike. Foe is stunned and unable to parry for 1 round, and takes +4 hits per round numbing pain. +11 hits. Frostbite."
+    },
+    {
+      "0": "56-60",
+      "1": "Strong, but diffused, blast. Foe is stunned for 2 rounds. +8 hits.",
+      "2": "Foe is stunned for 2 rounds, all wood exposed on foe's back is useless and brittle. Foe takes +2 hits per round. +9 hits.",
+      "3": "Back blast freeze dries all organic material on foe's back. Foe is stunned and unable to parry for 1 round. +9 hits.",
+      "4": "Blast to foe's shield arm. Foe is stunned and unable to parry for 1 round, takes +3 hits per round, and fights at -15. Frostbite.",
+      "5": "Blast to foe's weapon arm. Foe is stunned and unable to parry 1 round, takes +4 hits per round, and fights -20."
+    },
+    {
+      "0": "61 -65",
+      "1": "Foe is stunned and unable to parry for 1 round. +9 hits.",
+      "2": "Leg strike. Frostbite. Foe is stunned and unable to parry for 1 round, fights at -5, and takes +3 hits per round. +10 hits.",
+      "3": "Leg strike. Frostbite. If foe has leather boots or greaves, they are destroyed. Foe is stunned for 4 rounds. +11 hits.",
+      "4": "Strike to foe's shield arm. If foe has a shield, +20 hits. If not, arm is useless due to nerve and skin damage and foe is stunned 5 rounds.",
+      "5": "Blast to foe's weapon arm. Foe drops whatever is in that hand. Foe is stunned and 3 rounds and fights at -30. +13 hits. Frostbite."
+    },
+    {
+      "0": "66",
+      "1": "Chest strike. Blast causes foe to drop whatever he is holding. +10 hits. Foe is stunned and unable to parry for 3 rounds.",
+      "2": "Foe is stunned and unable to parry for 4 rounds. If foe wears no armor or protective cloak, he takes +5 hits per round.",
+      "3": "Foe is knocked down and stunned for 6 rounds. If foe has wrist armor, he takes +3 hits per round. If not, foe fights at -25 and takes +6 hits per round.",
+      "4": "Neck blast. If foe has neck armor, he takes +4 hits per round and is stunned for 6 rounds. If not, foe fights at -50, takes +5 hits per round, is stunned 3 rounds.",
+      "5": "Shoulder strike. Foe loses use of shoulder due to nerve and cartilage damage. If foe has not helm he is knocked out for 1 day and takes +6 hits per round. +15 hits. Frostbite."
+    },
+    {
+      "0": "67-70",
+      "1": "Back blast. Foe is stunned and unable to parry for 1 round. Frostbite. Foe fights at -5. +10 hits.",
+      "2": "Back blast. Frostbite. Foe is stunned for 2 rounds and cannot parry for 1 round. Foe fights at -10. +11 hits.",
+      "3": "Back blast. Foe is stunned for 2 rounds and cannot parry for 1 round. Foe fights at -15. Frostbite. +12 hits.",
+      "4": "Back blast. Foe is stunned for 3 rounds and cannot parry for 1 round. Foe fights at -20. Frostbite. +13 hits.",
+      "5": "Blast to foe's shield arm. If shield, he is knocked down & takes +2 hits per round. If not, massive frostbite, foe loses use of arm and is stunned 6 rounds. Frostbite."
+    },
+    {
+      "0": "71-75",
+      "1": "Unbalancing blast. Foe is stunned for 2 rounds. Pain and shock cause foe to fight at -10. +11 hits.",
+      "2": "Strike to foe's shield side. Pain and shock give foe +3 hits per round. Foe is stunned, no parry for 2 rounds. +12 hits.",
+      "3": "Strike to foe's side. Shock and frostbite. Foe fights at -20, takes +3 hits per round, and is stunned and unable to parry for 2 rounds.",
+      "4": "Blast freezes foe's shield shoulder. Arm is useless and foe is stunned for 2 rounds. +14 rounds.",
+      "5": "Blast to foe's weapon arm. Frostbite and numbing pain make arm useless and stun foe for 3 rounds. +15 hits."
+    },
+    {
+      "0": "76-80",
+      "1": "Chest strike. Foe is stunned for 2 rounds and cannot parry for 1 round. +12 hits.",
+      "2": "Chest strike. Foe takes +3 hits per round, fights at -15, and is stunned for 4 rounds. +13 hits.",
+      "3": "Chest strike. Foe takes +4 hits per round. If foe has chest armor, he is stunned for 3 rounds. If not, he is knocked down, fights at -25. Frostbite.",
+      "4": "Chest strike. Foe fights at -25 due to frostbite. Foe is stunned and unable to parry for 3 rounds. +15 hits.",
+      "5": "Chest strike. Foe is knocked down and drops all he holds. Foe is stunned for 12 rounds. Shock and nerve damage. Foe fights at -30."
+    },
+    {
+      "0": "81-85",
+      "1": "Back blast. Foe is stunned and unable to parry for 2 rounds. +13 hits.",
+      "2": "Back strike. Foe is stunned and unable to parry for 3 rounds and takes +4 hits per round. +14 hits.",
+      "3": "Thigh strike. Foe has broken bone and frostbite. Foe fights at -40, takes +5 hits per round, and is stunned for 6 rounds.",
+      "4": "Blast freezes both of foe's hands and foe loses use of both arms. Foe is stunned 9 rounds and takes +6 hits per round.",
+      "5": "Blast freezes foe's throat and lungs. Foe drops and dies in 12 rounds. +17 hits."
+    },
+    {
+      "0": "86-90",
+      "1": "Leg strike. Foe is knocked down. If foe has leg armor, he is stunned for 2 rounds. If not, foe loses use of left foot, fights at -70 (frostbite).",
+      "2": "Leg strike. Foe is knocked down. If foe has leg armor, he is stunned for 3 rounds. If not, foe loses use of foot, and fights at -75 (frostbite).",
+      "3": "Lower leg blast destroys foe's foot covering, freezes both foe's feet, and stuns foe for 9 rounds. Foe takes +6 hits per round, fights -80.",
+      "4": "Upper chest blast knocks foe down. If foe has chest armor, he is knocked out. If not, foe dies in 12 rounds due to a cold, cold heart.",
+      "5": "Back blast freezes and shatters foe's backbone. Foe drops and dies in 9 inactive rounds. Broken neck. Massive shock."
+    },
+    {
+      "0": "91-95",
+      "1": "Head strike. Foe is knocked down. If foe has helm, he is stunned 3 rounds. If not, foe is stunned 6 rounds, fights at -50, and loses both ears.",
+      "2": "Hip strike. Foe' s hip is shattered. Foe is stunned and unable to parry for 3 rounds and fights at -75. +17 hits.",
+      "3": "Abdomen strike. If foe has abdominal armor, he is knocked out and takes +17 hits. If not, foe dies of organ damage in 9 rounds.",
+      "4": "Foe's blood is entirely frozen solid. Foe dies in 9 inactive rounds. +18 hits.",
+      "5": "Foe's lower body is fully frozen. Foe dies in 6 inactive rounds. +19 hits."
+    },
+    {
+      "0": "96-99",
+      "1": "Neck strike. If foe has neck armor, he is stunned for 9 rounds. If not, foe loses lips, cannot speak for 2 weeks, and is knocked out.",
+      "2": "Neck & collar strike. If foe has neck armor, he is knocked out. If not, foe's neck is frozen and shattered, and foe dies in 9 inactive rounds.",
+      "3": "Side strike freezes and shatters foe's pelvis. Foe dies in 6 rounds due to shock and nerve damage. +18 hits.",
+      "4": "Foe's heart and lungs are suddenly frozen. Foe dies in 6 inactive rounds of shock and suffocation. +19 hits.",
+      "5": "Foe is a lifeless, frozen statue - well preserved, but quite dead. Add+10 to your next roll. +20 hits."
+    },
+    {
+      "0": "100",
+      "1": "Foe is sent into a month-long coma and loses nose as a result of severe frostbite and shock. +21 hits.",
+      "2": "Blast freeze-dries foe's head. Foe dies in 1 round. Foe's skull and brain are brittle and lifeless. Add 5 to next roll.",
+      "3": "Head strike. Foe's eyes are destroyed; foe is in a coma for 2 weeks and i s permanently paralyzed from the neck down.",
+      "4": "Massive strike shatters foe's chest and freezes foe's body fluids. Foe dies in 2 rounds. +20 hits.",
+      "5": "Foe freezes solid and then shatters into thousands of pieces after falling down 20 feet behind impact point."
+    }
+  ],
+  "Electricity": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "A lot of static. +0 hits",
+      "2": "Foe's hair stands up. +0 hits",
+      "3": "+1 hit",
+      "4": "+2 hits",
+      "5": "+3 hits"
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit",
+      "2": "+2 hits",
+      "3": "+3 hits",
+      "4": "+4 hits",
+      "5": "Foe loses initiative for 1 round. +4 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "Foe loses initiative for 1 round. +2 hits.",
+      "2": "Foe loses initiative for 1 round; the metal he bears begins to buzz. +2 hits.",
+      "3": "Foe hears crackling sound and loses 1 round of precious initiative. +3 hits.",
+      "4": "Foe loses initiative for 1 round. The smell of danger is in the air. +4 hits.",
+      "5": "If foe has metal armor, he loses 2 rounds of initiative. If not, foe is stunned but 1 round. +5 hits."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe is spun about and loses 1 round of initiative. +3 hits.",
+      "2": "Explosion of light causes foe to lost 1 round of initiative. +4 hits.",
+      "3": "Eruption of smoke forces foe to lose 2 rounds of initiative. +3 hits.",
+      "4": "Foe is unbalanced, but the strike is weak. Must parry next round. +4 hits.",
+      "5": "Glancing strike stuns foe for 1 round. +6 hits."
+    },
+    {
+      "0": "21-35",
+      "1": "Blast unbalances foe. He loses 2 rounds of initiative. +4 hits.",
+      "2": "Crackling blast forces foe to lose 2 rounds of initiative. +5 hits.",
+      "3": "Strong but glancing blast forces foe to parry next round. +6 hits.",
+      "4": "Light bums. Foe must parry for 2 rounds; takes 1 hit per round. +5 hits.",
+      "5": "Foe gets a minor scorching and is stunned for 2 rounds. +10 hits."
+    },
+    {
+      "0": "36-45",
+      "1": "Light distracts foe, and he must parry for 1 round. +5 hits.",
+      "2": "Minor burns. Must parry for 1 round; takes 1 hit per round. +2 hits.",
+      "3": "Foe feels the heat and must parry for 2 rounds. +7 hits.",
+      "4": "Blast stuns for 1 round. Foe fights at -10 for 2 rounds. +7 hits.",
+      "5": "Smoke and light stun foe for 2 rounds. Foe fights at -10 for 2 rounds. +12 hits."
+    },
+    {
+      "0": "46-50",
+      "1": "Minor burns. Foe must parry for 1 round and takes 1 hit per round. +2 hits.",
+      "2": "Blast forces foe to parry for 2 rounds. +6 hits.",
+      "3": "If foe has metal armor, he is stunned 2 rounds. If not, foe is stunned for 1 round. +7 hits.",
+      "4": "Explosion of light and fire stuns foe for 2 rounds. Foe fights at -10 for 2 rounds. +7 hits.",
+      "5": "If foe has metal armor, he is stunned and unable to parry for 2 rounds. If not, foe is stunned 2 mds.+13 hits."
+    },
+    {
+      "0": "51-55",
+      "1": "Sizzling but weak blast stuns foe for 1 round. +6 hits.",
+      "2": "Foe is spun about and is stunned for 1 round. A minor burn on foe's leg causes 2 hits per round. +7 hits.",
+      "3": "Strike to foe's leg. If foe has leg armor, he is stunned 1 round. If not, foe is stunned and unable to parry 1 round, takes +3 hits per round.",
+      "4": "Blast stuns foe for 2 rounds and foe is unable to parry for 1 round. +10 hits.",
+      "5": "Hot smoke and light stuns foe for 4 rounds. Foe loses initiative for 6 rounds. +13 hits."
+    },
+    {
+      "0": "56-60",
+      "1": "Foe is unbalanced and is forced to parry next 3 rounds. +7 hits.",
+      "2": "Foe is stunned 2 rounds. If foe has metal armor, he cannot parry for 1 round. +8 hits.",
+      "3": "Blast stuns foe for 2 rounds. Foe cannot parry for 1 round, leg hit. +9 hits.",
+      "4": "Strike to foe's shield arm. If foe has metal armor but no shield, he is knocked out for 1 day. +15 hits.",
+      "5": "Strike to foe's weapon arm. Foe drops all that is in his weapon hand. Stunned for 2 rounds. 2 hits per round."
+    },
+    {
+      "0": "61 -65",
+      "1": "Chest strike. If foe has metal armor, he is stunned for 2 rounds. If foe has no armor, he is stunned 3 rounds.",
+      "2": "Upper leg strike. Foe is stunned and unable to parry for 1 round. +9 hits.",
+      "3": "Foe is stunned and unable to parry for 2 rounds. +10 hits.",
+      "4": "If foe has abdomen armor, he takes 2 hits/round and is stunned 2 rounds due to minor bums. If not, bums stun foe 6 rounds and give him 3 hits/round.",
+      "5": "Leg strike. Foe is knocked down and stunned for 2 rounds. Foe cannot parry for 1 round. +14 hits."
+    },
+    {
+      "0": "66",
+      "1": "Blast of light and smoke stun all within 5 feet of foe for 1 round. Foe is knocked down and stunned for 3 rounds.",
+      "2": "Chest strike. Foe is stunned and unable to parry for 3 rounds, takes 3 hits per round, and fights at -20. +15 hits.",
+      "3": "Chest strike. If foe has metal armor on arms and over chest, it becomes fused and he cannot use arms. If not, foe is knocked out for 6 hours and takes +9 hits.",
+      "4": "Neck blast knocks foe out. Foe cannot speak for 2 months and takes +4 hits per round. +20 hits.",
+      "5": "Head strike. If foe has a leather helm, it is destroyed and foe is in a coma for 2 months. If not, foe's brain is fried and he dies instantly. Add +10 to your next roll."
+    },
+    {
+      "0": "67-70",
+      "1": "Back strike. Foe is stunned and unable to parry for 1 round. +7 hits.",
+      "2": "Back strike. Foe is stunned for 2 rounds and cannot parry for 1 round. +10 hits.",
+      "3": "Back strike. Foe is stunned and unable to parry for 2 rounds. Bums force foe to fight at -10. +11 hits.",
+      "4": "Back strike. Foe is knocked down and out of action for 1 round. Minor shock. Foe fights at- 20. +12 hits.",
+      "5": "Back strike. Foe is stunned and unable to parry for 4 rounds. Minor shock. Foe fights at-25. +15 hits."
+    },
+    {
+      "0": "71-75",
+      "1": "Blast stuns foe for 3 rounds, foe fights -5 for 6 rounds. +8 hits.",
+      "2": "Strike to foe's shield arm. If shield, he is stunned for 4 rounds. If not, foe's arm is useless and foe is stunned and unable to parry for 2 rounds.",
+      "3": "Strike to foe's shield arm. If metal shield; he is stunned 6 rounds and takes + 12 hits. If not, foe is knocked down, the arm is useless, and +13 hits.",
+      "4": "Strike to foe's weapon arm. Arm is useless and foe is stunned for 3 rounds. +13 hits.",
+      "5": "Shoulder strike shatters bone in foe's weapon arm. Muscle & cartilage damage. Arm is useless, foe stunned for 6 rounds, and takes +3 hits per round."
+    },
+    {
+      "0": "76-80",
+      "1": "Strike to foe's upper chest stuns foe 2 rounds. Foe cannot parry for 1 round. +9 hits.",
+      "2": "Chest strike. Foe is knocked down and takes 2 hits per round due to bleeding. + 11 hits.",
+      "3": "Chest strike. If foe has chest armor, he is stunned for 6 rounds, takes 2 hits per round, and fights -5. If not, foe is knocked out for 3 days due to shock.",
+      "4": "Chest strike. If foe has metal chest armor, he is knocked out and takes +25 hits. If not, foe is stunned and unable to parry for 6 rounds and takes +15 hits.",
+      "5": "Chest strike. Foe is knocked out due to shock. Blood loss and nerve damage cost foe +3 hits per round. +18 hits."
+    },
+    {
+      "0": "81-85",
+      "1": "Back blast. Foe is stunned and unable to parry for 2 rounds. +12 hits.",
+      "2": "Back blast. Foe is stunned and unable to parry for 3 rounds. Muscle is tom and foe fights at -10. +13 hits.",
+      "3": "Thigh strike. Foe takes 2 hits per round. B ones breaks and torn cartilage. Foe is stunned for 4 rounds and fights -40.",
+      "4": "Lower back strike. Nerve damage and shock. Foe is stunned for 30 rounds and takes +3 hits per round. +15 hits.",
+      "5": "Foe is a conductor as strike rearranges his nervous system. Foe drops and lies in shock for 12 rounds before dying."
+    },
+    {
+      "0": "86-90",
+      "1": "Blast knocks foe down. If foe has metal leg armor, he loses use of leg due to nerve damage. If not, +15 hits and foe is stunned and unable to parry or 2 rounds.",
+      "2": "Leg strike. If leg armor, he is stunned and unable to parry for 6 rounds. If not, leg is broken, it has damaged nerves, and foe is stunned for 6 rounds and fights at -50.",
+      "3": "Blast shatters foe's knee and destroys a variety of nerves. Foe fights at -60 and is stunned and unable to parry for 2 rounds.",
+      "4": "Abdomen strike. If foe has armor over abdomen, he is stunned for 9 rounds and takes +6 hits per round. If not, foe dies of shock and bleeding in 12 rounds.",
+      "5": "Blast crushes pelvis and shatters lower backbone. Foe's spine is burned into many of small parts. Foe is knocked out and dies in 12 rounds."
+    },
+    {
+      "0": "91-95",
+      "1": "Hip strike. If foe has hip armor, foe is stunned 6 rounds; +10 hits. If not, foe is stunned 3 rounds and acts at -50 due to shock and nerve damage.",
+      "2": "Head strike. Foe loses nose, he is temporarily blinded for 2 weeks, and is stunned 9 rounds. Foe is at -95 while blind. If no helm, he is knocked down.",
+      "3": "Strike through foe's lower abdomen. Massive shock and bleeding. If armored, foe is at -75; takes 5 hits per round. If not, foe dies in 6 inactive rounds.",
+      "4": "Side strike devastates foe's nervous system. Foe falls into a coma and goes into severe shock. Foe is a living vegetable. +30 hits.",
+      "5": "Side strike melts foe' s lower skeleton and destroys a variety of organs. Foe dies in 9 inactive rounds. +25 hits."
+    },
+    {
+      "0": "96-99",
+      "1": "Neck & shoulder strike. If foe has neck armor, he is stunned and unable to parry for 6 rounds. If not, he is knocked out; loses ability to speak. +10 hits.",
+      "2": "Head strike. Blast cracks skull and causes massive shock and brain damage. Foe drops and dies in 9 rounds. +15 hits.",
+      "3": "Chest strike destroys foe's heart and lungs. If foe has metal chest armor, it is a fused lump and foe dies in 6 rounds. If not, foe dies instantly.",
+      "4": "Chest strike knocks foe back 10 feet. Massive nerve damage. Foe dies of fatal shock in 3 rounds. +20 hits.",
+      "5": "Chest strike destroys both of foe's lungs and cuts foe in half. Blast continues to a point 10 feet beyond foe (subtract 20 if it strikes second target)."
+    },
+    {
+      "0": "100",
+      "1": "Head strike. Foe's brain falls victim to massive shock and Surface burns. Foe drops into unconsciousness, and dies in 6 rounds. +20 hits.",
+      "2": "Blast through foe's neck severs head and kills foe instantly. Add +10 to your next spell attack roll.",
+      "3": "Foe's head is no longer available. Smoke and ozone surround the lifeless body. Add 10 to friendly witnesses' rolls for 3 rounds.",
+      "4": "Foe's nervous system acts as a superconductor. Foe's sad instant death provides all with a fine light show. Add +15 to your next roll.",
+      "5": "Foe returns to the dust from which he came. Add +20 to your next roll."
+    }
+  ],
+  "Heat": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Hot air. +0 hits.",
+      "2": "Hot draft. +0 hits.",
+      "3": "+1 hit.",
+      "4": "+2 hits.",
+      "5": "+3 hits."
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit.",
+      "2": "+2 hits.",
+      "3": "+3 hits.",
+      "4": "+4 hits.",
+      "5": "Foe loses initiative for 1 round. +4 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "Foe loses initiative for 1 round. Hard, hot breeze. +2 hits.",
+      "2": "Foe loses 1 round of initiative. +2 hits. Strong heat; little effect.",
+      "3": "Foe loses 1 round of initiative while he recovers his balance. +3 hits.",
+      "4": "Foe loses initiative for 1 round. Not quite singeing. +4 hits.",
+      "5": "Foe feels heat, loses 1 round initiative; if he has no armor, 2 rounds. +5 hits."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe loses initiative for 1 round. The nearby fire gives 3 more hits. Good blast, weak fire.",
+      "2": "Blast unbalances foe. Foe loses initiative for 2 rounds.",
+      "3": "Foe loses initiative for 2 rounds. +5 hits.",
+      "4": "Foe is unbalanced and must parry for 1 round. +6 hits.",
+      "5": "Hot, unbalancing blast. Foe must parry for 1 round. +7 hits."
+    },
+    {
+      "0": "21-35",
+      "1": "Blast unbalances foe. He loses initiative for 2 rounds. +4 hits.",
+      "2": "Bothersome smoke. +6 hits.",
+      "3": "Light burns. Foe must parry for 1 round. 1 hit per round. +7 hits.",
+      "4": "Minor burns. Foe must parry for 2 rounds. 1 hit per round. +8 hits.",
+      "5": "Minor burns. Foe must parry for 2 rounds. 2 hits per round. +9 hits."
+    },
+    {
+      "0": "36-45",
+      "1": "Foe must parry for 1 round. +6 hits.",
+      "2": "Light burns. Foe must parry for 1 round. +7 hits. Foe takes 1 hit per round.",
+      "3": "Minor burns force foe to parry for 2 rounds. +8 hits and 1 hit per round.",
+      "4": "Blast stuns foe for 1 round. +9 hits. Foe takes 2 hits per round due to pain and suffering.",
+      "5": "Blast stuns foe 1 round. +10 hits. Foe takes 3 more hits per round. If wearing, a cloak it is destroyed."
+    },
+    {
+      "0": "46-50",
+      "1": "Light burns. Foe must parry for 1 round. +7 hits, and foe takes 1 hit per round.",
+      "2": "Minor burns. Foe must parry for 2 rounds. +8 hits. Foe takes 1 hit per round.",
+      "3": "Fire stuns foe for one round. +9 hits. Foe takes 2 hits per round. Minor burns.",
+      "4": "Fire stuns foe for 1 round. +10 hits. 3 hits per round. If foe is using a non-metal bow, it is destroyed.",
+      "5": "Fire stuns foe for 2 rounds. +12 hits and 3 hits per round. If foe is using a wooden weapon, it is destroyed."
+    },
+    {
+      "0": "51-55",
+      "1": "Blast unbalances foe. +8 hits. Foe must parry for two rounds and takes 1 hit per round.",
+      "2": "Wide shot, strong fire. Blast stuns foe for 1 round. +8 hits. Foe takes 2 hits per round.",
+      "3": "Blast stuns foe 2 rounds. +9 hits. If leg armor, he takes 1 hit/round. If not, 3 hits/round",
+      "4": "Blast stuns foe 2 rounds. If helm, 8 hits and 2 per round. If not, 11 hits and 4 per round.",
+      "5": "Foe reels back 3'. 1 round stun, no parry. Takes 3 hits per round from hot blast. +13 hits."
+    },
+    {
+      "0": "56-60",
+      "1": "Foe is stunned 1 round. +9 hits. Loses initiative for 2 rounds and takes 2 hits per round.",
+      "2": "Foe stunned 2 rounds. If metal leg armor, +8 hits. If not, +9 hits and 3 hits per round.",
+      "3": "Blast stuns foe 2 rounds. +10 hits; +2 hits per round. All cloth on foe's back is destroyed.",
+      "4": "Foe's clothing ignites. 1 round stun, no parry, takes +9 hits/round while aflame (2 rounds to extinguish fire). +12 hits.",
+      "5": "Fire stuns foe 2 rounds; +15 hits, and cannot parry for 1 round. He is at -10 and burns deliver 3 hits per round."
+    },
+    {
+      "0": "61 -65",
+      "1": "Foe is stunned 2 rounds. If leg armor, he takes +7 hits and 1 hit per round. If not, he takes +10 hits and 3 per round.",
+      "2": "Foe is stunned and unable to parry for 1 round. +9 hits, and 2 hits per round. Foe fights at -5 (leg burns).",
+      "3": "Foe is stunned and unable to parry for 1 round. +10 hits, foe takes 3 hits per round and is at - 10. Upper leg burns.",
+      "4": "Foe is stunned 2 rounds, unable to parry for 1. If leg armor, he takes +10 hits and 4 hits/round. If not, +13 hits and 6 hits per round.",
+      "5": "Searing blast burns foe's legs. Foe is stunned and unable to parry for 2 rounds. He takes 4 hits per round and fights at -10. +15 hits."
+    },
+    {
+      "0": "66",
+      "1": "Blast causes foe to drop what he is holding. Stunned, no parry 2 rounds and is at -15 (chest burns). +9 hits.",
+      "2": "Foe is stunned 2 rounds. If foe wears organic armor, it is now useless. +10 hits. Foe takes 4 hits per round from chest blast.",
+      "3": "Chest blast knocks foe down. If arm armor, he takes 2 hits/round. I f not, his weapon arm i s useless and he takes 4 hits/round. +12 hits.",
+      "4": "Neck blast. If foe has neck armor, he takes 3 hits/round and fights at -10. If not, foe is unconscious and takes 10 hits per round.",
+      "5": "Head strike. If foe has helm, he is knocked out and takes 5 hits per round. If not, foe is killed instantly, his head fully vaporized. Fine aim."
+    },
+    {
+      "0": "67-70",
+      "1": "Back blast. Foe is stunned for 2 rounds. Foe takes 2 hits per round and fights at -5. +8 hits.",
+      "2": "Back blast. Foe is stunned for 2 rounds and unable to parry for 1 round. Foe takes 2 hits per round and fights at -10. +7 hits.",
+      "3": "Back blast. Foe is stunned for 2 rounds and unable to parry for 1 round. Foe takes 2 hits per round and fights at -15.",
+      "4": "Back blast. Foe is knocked down. +15 hits. Foe is out of action for 1 round. Foe takes 3 hits/round. Organic material on his back is destroyed.",
+      "5": "Blast to foe's shield arm. If foe has arm armor, he takes 4 hits/round and fights at -15. If no armor, foe takes 5 hits/round and loses use of arm."
+    },
+    {
+      "0": "71-75",
+      "1": "Hot smoke blinds foe. Foe is stunned and unable to parry for 1 round. +12 hits.",
+      "2": "Chest blast. Foe is stunned for 2 rounds and unable to parry for 1 round. Foe fights at -15. Add +10 to your next attack. +9 hits.",
+      "3": "Chest blast. Foe is stunned for 3 rounds. If foe has organic chest armor, it is destroyed. If no chest armor, foe takes 6 hits per round and fights at -25.",
+      "4": "Blast to foe's shield arm. If he has a shield, he drops it. If organic, it is destroyed. If he has no shield, he is stunned 6 rounds, loses use of arm, and fights at -50.",
+      "5": "Chest blast. If foe has chest armor, it is destroyed. Foe takes +12 hits and is stunned 3 rounds. Otherwise, foe is knocked down, takes 6 hits per round and fights at -60."
+    },
+    {
+      "0": "76-80",
+      "1": "Blast stuns foe for 2 rounds. Foe cannot parry for 1 round. +10 hits. Side wound. Foe takes 2 hits per round.",
+      "2": "Arm strike. Burns stuns foe for 2 rounds. foe takes 2 hits per round. All cloth on foe's weapon arm is burned off and foe drops whatever he is holding.",
+      "3": "Blast to foe's shield arm. If he has a shield, he drops it. If not, stunned 6 rounds, loses use of arm, and fights at -50. If shield is organic, it is destroyed.",
+      "4": "Foes loses weapon hand. Severe burns. Any item in hand possibly damaged. Foe is stunned and unable to parry 3 rounds, and takes 5 hits per round.",
+      "5": "Blast to foe's shield arm. If foe has a shield, it is destroyed, foe loses his hand and is stunned for 6 rounds. If not, foe loses arm and is knocked out. +20 hits."
+    },
+    {
+      "0": "81-85",
+      "1": "Back blast. Foe is stunned for 2 rounds and is at -20. Burns deliver 2 hits per round. +8 hits.",
+      "2": "Back blast. Foe is knocked down, stunned 1 round, and takes 2 hits/round. All organic material on back is destroyed.",
+      "3": "Leg blast. If leg armor, he takes +2 hits/round and is at -20. If not, massive tissue damage: his leg is useless: he is at -80.",
+      "4": "Blast burns both of foe's arms and all of upper chest. Foe loses use of arms and is stunned 9 rounds. +15 hits.",
+      "5": "Foe inhales flame and gets parched throat and lungs. Foe expires in 12 painful rounds. +20 hits."
+    },
+    {
+      "0": "86-90",
+      "1": "Blast knocks foe down. Fire destroys any of Foe's organic foot and calf covering. +10 hits.",
+      "2": "Leg strike. Any organic leg covering catches fire and delivers 6 hits per round until extinguished (takes 1 round). Foe is stunned for 3 rounds. +10 hits.",
+      "3": "Lower leg burns. Foe loses foot, but wound is cauterized. Foe is stunned and unable to parry for 6 rounds, takes +3 hits per round; and is at -85. +15 hits.",
+      "4": "Abdomen strike. If foe has armor, it is destroyed, foe is out, and takes 2 hits/round. If not, foe dies in 12 inactive rounds from organ damage.",
+      "5": "Foe's lower body is engulfed in flames. Foe dies in 9 rounds as a result of organ and tissue loss. +20 hits."
+    },
+    {
+      "0": "91-95",
+      "1": "Fire burns foe in hip area. Foe is stunned and unable to parry for 2 rounds. Foe fights at -30. +12 hits.",
+      "2": "Head strike. Foe is blinded and fights at -95 for 6 rounds. If foe has no helm, he takes 8 hits/round and loses 50% of head hair. Any organic helm is destroyed.",
+      "3": "Upper leg burns. Foe loses use of leg due to tissue loss, is stunned and unable to parry for 6 rounds, takes +4 hits per round and fights at -90. +18 hits.",
+      "4": "Head strike. If foe has a full helmet, his eyes are destroyed and he is in a coma for 2 days. If not, foe dies in 6 rounds due to massive shock and brain damage. +20 hits.",
+      "5": "Chest strike. All organic material on foe's body is destroyed. Foe dies of shock and nerve damage in 6 rounds. +25 hits."
+    },
+    {
+      "0": "96-99",
+      "1": "Blast to foe's neck area. If foe has neck armor, he is stunned and unable to parry for 3 rounds. If not, foe is down and taking 8 hits per round.",
+      "2": "Neck strike destroys foe's throat. +20 hits. Foe takes 12 hits per round and is inactive for 9 rounds. Foe then dies. Add 10 to your next roll.",
+      "3": "Chest strike. If foe has chest armor, it is destroyed and foe dies of burns in 9 rounds. If not, foe's chest cavity is a hollow cinder and he dies instantly.",
+      "4": "Foe's side is engulfed in flames. Foe dies in 6 rounds due to many compound fractures, tissue and organ loss, and boiling blood. +20 hits.",
+      "5": "Foe is instantly dehydrated into dust. Add +10 to your next roll."
+    },
+    {
+      "0": "100",
+      "1": "Searing blast to foe's head. If he has helm, he is knocked out and takes 7 hits/round. If not, he is in a 1 month coma and loses 50% of his Presence. +15 hits.",
+      "2": "Blast to foe' s neck fuses vertebrae and unites skin with clothing. Very unpleasant. Foe is paralyzed permanently. +25 hits.",
+      "3": "Foe's head is but a charred stump. Sadly, foe cannot handle the loss and he dies instantly. Add +10 to your next roll.",
+      "4": "Heat vaporizes foe's mid-section, destroys foe's clothing, armor, and all items he carries. Foe is cut in half and dies. +15 to your next roll.",
+      "5": "All that remains of foe are charred bits of teeth and bone. Add +20 to your next roll."
+    }
+  ],
+  "Impact": [
+    {
+      "0": "",
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    {
+      "0": "01-05",
+      "1": "Nary a whisper. +0 hits.",
+      "2": "Great luck escapes you. No additional damage. +0.",
+      "3": "+1 hit",
+      "4": "+2 hits",
+      "5": "+3 hits"
+    },
+    {
+      "0": "06-10",
+      "1": "+1 hit",
+      "2": "+2 hits",
+      "3": "+3 hits",
+      "4": "+4 hits",
+      "5": "Blast stuns foe for 1 round. +3 hits."
+    },
+    {
+      "0": "11-15",
+      "1": "Foe loses initiative for 1 round. +2 hits.",
+      "2": "Foe is spun about. +4 hits. Foe loses initiative 1 round.",
+      "3": "Foe is unbalanced. +3 hits and foe must parry 1 round.",
+      "4": "Foe is unbalanced. +4 hits and foe must parry 1 round.",
+      "5": "Blast stuns foe for 1 round. +4 hits."
+    },
+    {
+      "0": "16-20",
+      "1": "Foe is spun about. +3 hits. Foe loses initiative 1 round.",
+      "2": "Blast unbalances foe. +2 hits and foe must parry 1 round.",
+      "3": "Foe is unbalanced. +4 hits and foe must parry 1 round.",
+      "4": "Foe is unbalanced. +6 hits and foe must parry 1 round.",
+      "5": "Blast stuns foe for 1 round. +9 hits."
+    },
+    {
+      "0": "21-35",
+      "1": "Foe is unbalanced. +5 hits. Foe loses 2 rounds of initiative.",
+      "2": "Blow unbalances foe. +5 hits and foe must parry 1 round.",
+      "3": "Foe is unbalanced. +8 hits and foe must parry 1 round.",
+      "4": "Foe is unbalanced. +10 hits and foe must parry 1 round.",
+      "5": "Foe reels from blast. +15 hits and foe is stunned for 1 round."
+    },
+    {
+      "0": "36-45",
+      "1": "Foe is unbalanced. +8 hits. Foe loses 2 rounds of initiative.",
+      "2": "Blow unbalances foe. +9 hits and foe must parry next round.",
+      "3": "Foe is unbalanced. +10 hits and foe is stunned for 1 round",
+      "4": "Foe is unbalanced and must parry for 2 rounds. +12 hits.",
+      "5": "Foe is spun about and reels backwards 10 feet. +20 hits. Foe is stunned 2 rounds."
+    },
+    {
+      "0": "46-50",
+      "1": "Blow unbalances foe. +10 hits. Foe loses 3 rounds of initiative. Getting better.",
+      "2": "Blow unbalances foe. +10 hits and foe is stunned next round.",
+      "3": "Foe is unbalanced and must parry for 2 rounds. +12 hits. Add +5 to your next action.",
+      "4": "Foe is spun about. +20 hits. Foe is stunned 2 rounds.",
+      "5": "Foe is staggered. +20 hits and foe is stunned and unable to parry 1 round."
+    },
+    {
+      "0": "51-55",
+      "1": "Foe is unbalanced. +10 hits. Foe is stunned for 1 round. Grazing blast.",
+      "2": "Blow unbalances foe. +12 hits and foe is stunned next round.",
+      "3": "Foe is knocked back 5 feet and must parry for the next 2 rounds. +15 hits.",
+      "4": "Foe is knocked back 5 feet and must parry for the next 2 rounds. A dd + 5 to your next action.",
+      "5": "Foe is staggered. +20 hits. Foe is stunned 2 rounds and unable to parry next round."
+    },
+    {
+      "0": "56-60",
+      "1": "Foe is unbalanced. +10 hits. Foe is stunned next round.",
+      "2": "Foe is spun about. +10 hits and foe is stunned for 2 rounds.",
+      "3": "Foe is spun about +12 hits and foe is stunned for 2 rounds.",
+      "4": "Foe is staggered. +10 hits. Foe is stunned and unable to parry for 1 round.",
+      "5": "Foe is knocked down, +20 hits. Foe is out of action for 2 rounds."
+    },
+    {
+      "0": "61 -65",
+      "1": "Foe is unbalanced. +12 hits. Foe is stunned during next round.",
+      "2": "Foe is staggered. Poor fool is stunned and unable to parry next round. +10 hits.",
+      "3": "Foe is stunned and unable to parry next round. +10 hits. Add 5 to your next action.",
+      "4": "Foe is staggered. +10 hits. Foe is stunned 2 rounds and unable to parry for next round.",
+      "5": "Foe is knocked down. +20 hits. Foe is out of action for 3 rounds."
+    },
+    {
+      "0": "66",
+      "1": "Blast break's foe's shield shoulder. Arm is useless. +20 hits. Foe must parry for 1 round. +7 hits.",
+      "2": "Blow shatters foe's weapon shoulder. +15 hits. Arm is useless. Foe is stunned 1 round.",
+      "3": "Blow breaks both of foe's arms. He is knocked down, is at -90, and stunned for 3 rounds.",
+      "4": "Blow to foe's head. If foe has no helm you kill him. If foe has a helm he is out for 3 hours.",
+      "5": "Blast shatters skull into thousands of lost particles. Foe dies instantly. Direct hit. Nice shot."
+    },
+    {
+      "0": "67-70",
+      "1": "Blow to foe's back. Foe is stunned and unable to parry for 1 round. +7 hits.",
+      "2": "Blow to foe's back. Foe is stunned and unable to parry next round. +12 hits.",
+      "3": "Blow to foe's back. Foe is stunned for 2 rounds and unable to parry next round.",
+      "4": "Foe is knocked down. +15 hits. Foe is out of action for 2 rounds. Add +5 to your next act.",
+      "5": "Blast to foe's shield arm. Foe is stunned 1 round. If foe has a shield, it is broken. Otherwise, foe has a shattered shoulder."
+    },
+    {
+      "0": "71-75",
+      "1": "Blow unbalances foe. +10 hits and foe is stunned for 2 rounds. Strong grazing blast.",
+      "2": "Blow stuns foe for 2 rounds. +20 hits. Foe is unable to parry next round.",
+      "3": "Foe is knocked down. +10 hits. Foe is out of action for 2 rounds. Add 5 to your next act.",
+      "4": "Foe now has a broken shield arm. +10 hits. Foe loses use of arm, is stunned 1 round.",
+      "5": "Blast to foe's chest breaks ribs and stuns foe for 6 rounds. +20 hits. Foe at -25."
+    },
+    {
+      "0": "76-80",
+      "1": "Blow stuns foe for 2 rounds. +15 hits. Foe is unable to parry for 1 round.",
+      "2": "Foe is knocked down. +10 hits. Foe is out of action for 2 rounds. Add +5 to your next act.",
+      "3": "Blow breaks foe's collar bone. Foe is at -25. Break is minor. +15 hits. Foe is stunned 1 round.",
+      "4": "Blow breaks foe's weapon arm . +10 hits. Arm is useless. Foe is stunned for 1 round.",
+      "5": "Blistering blast to foe's shoulder area breaks collar bone and both shoulders. Arms are useless. +25 hits."
+    },
+    {
+      "0": "81-85",
+      "1": "Blow to foe's back +10 hits. Foe has broken ribs and torn cartilage, fights -25.",
+      "2": "Blow to foe's back tears cartilage, breaks ribs. +10 hits. Foe is stunned for 2 rounds and fights at-25.",
+      "3": "Foe has broken thigh. +15 hits. Foe fights at -40 and is stunned for 3 rounds.",
+      "4": "Blow breaks both of foe's arms and knocks foe down. +20 hits. Foe is down for 3 rounds, has 2 useless arms.",
+      "5": "Blast to side crushes a variety of organs. Foe dies of internal bleeding after 6 rounds of inactivity. +30 hits."
+    },
+    {
+      "0": "86-90",
+      "1": "Blow knocks foe down. +10 hits. Foe is down for 3 rounds an is unable to parry.",
+      "2": "Strike to foe's calf. +20 hits. Foe fights at -50 due to broken bone and torn tendons. Foe is stunned 3 rounds.",
+      "3": "Blow breaks foe's hip. +20 hits. Foe fights at -60 and is stunned and unable to parry for 2 rounds.",
+      "4": "Strike to foe's abdomen. +20 hits. If not armored, foe dies in 6 rounds due to organ loss. If armored, foe stunned 12 rounds.",
+      "5": "Blast crushes bone in foe's lower body. Foe finds life hard and dies in 3 rounds. +50 hits."
+    },
+    {
+      "0": "91-95",
+      "1": "Blow breaks foe's hip. Foe fights at -50. +20 hits. Foe is stunned and unable to parry for 3 rounds.",
+      "2": "Blow to upper head area. If foe has no helm, he is dead. Otherwise, foe is in a coma for 2 weeks. +25 hits.",
+      "3": "Blow shatters foe's knee. Foe is hobbled and is at -75. +20 hits. Foe is stunned and unable to parry for 9 rounds.",
+      "4": "Blow shatters foe's jaw. Foe's brain is destroyed. +50 hits. Foe dies after 3 rounds of inactivity.",
+      "5": "Blast drives bone through foe's lungs. Foe drops and dies after 6 rounds of intense agony. Sad. +30 hits."
+    },
+    {
+      "0": "96-99",
+      "1": "Blast to foe's head. +20 hits. If foe has no helm, he is knocked out and in a coma f or 1 month. If foe has helm, he is knocked out for 1 day.",
+      "2": "Blast to foe's collar area severs windpipe. Foe cannot breathe or fight. +25 hits. Foe dies in 12 long rounds.",
+      "3": "Blast to foe's chest. Foe dies immediately after sudden brain shock. +50 hits.",
+      "4": "Blow to foe's side. +25 hits. Bone is driven into foe's kidneys and foe dies of shock in 1 round.",
+      "5": "Blast crushes skull. Foe dies immediately. Add +20 to your next action."
+    },
+    {
+      "0": "100",
+      "1": "Head strike. +25 hits. If foe has helm, it is broken and foe is knocked down an out for 1 day. If no helm, foe dies due to the skull fracture in 3 rounds.",
+      "2": "Blow to back of neck paralyzes foe from the shoulders down. +30 hits. Foe is unhappy.",
+      "3": "Blast to foe's head crushes skull. Foe dies immediately. Add +10 to your next action.",
+      "4": "Chest disruption. Foe's lungs and heart explode. Foe dies instantly. Add +25 to your next action.",
+      "5": "Blast annihilates foe's entire skeleton. Foe is reduced to a gelatinous pulp. Try a spatula."
+    }
+  ]
+}

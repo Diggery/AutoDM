@@ -1,0 +1,52 @@
+{
+  "name": "New Character",
+  "race": "Common Men",
+  "profession": "Fighter",
+  "level": 1,
+  "experience": 0,
+  "development_points": {
+    "total": 0,
+    "spent": 0
+  },
+  "stats": {
+    "Constitution": { "base": 50, "potential": 50, "bonus": 0 },
+    "Agility": { "base": 50, "potential": 50, "bonus": 0 },
+    "Self Discipline": { "base": 50, "potential": 50, "bonus": 0 },
+    "Memory": { "base": 50, "potential": 50, "bonus": 0 },
+    "Reasoning": { "base": 50, "potential": 50, "bonus": 0 },
+    "Strength": { "base": 50, "potential": 50, "bonus": 0 },
+    "Quickness": { "base": 50, "potential": 50, "bonus": 0 },
+    "Presence": { "base": 50, "potential": 50, "bonus": 0 },
+    "Intuition": { "base": 50, "potential": 50, "bonus": 0 },
+    "Empathy": { "base": 50, "potential": 50, "bonus": 0 }
+  },
+  "skills": {
+    "Broadsword": {
+      "category": "Weapon Skills",
+      "ranks": 0,
+      "stat_bonus": 0,
+      "profession_bonus": 0,
+      "item_bonus": 0,
+      "special_bonus": 0,
+      "total_bonus": -25
+    }
+  },
+  "equipment": {
+    "armorAT": 1,
+    "DB": 0,
+    "weapons": []
+  },
+  "hp": {
+    "base": 10,
+    "ranks": 1,
+    "max": 10,
+    "current": 10,
+    "con_bonus": 0
+  },
+  "movement": {
+    "base_rate": 50,
+    "stride_mod": 0,
+    "encumbrance_mod": 0,
+    "armor_penalty": 0
+  }
+}

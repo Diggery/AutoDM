@@ -26,6 +26,23 @@ export class GameSystemInterface {
   }
 
   /**
+   * Returns a list of supported weapon names for this specific game system.
+   * @returns {string[]} - Array of weapon names.
+   */
+  getAvailableWeapons() {
+    throw new Error('getAvailableWeapons not implemented');
+  }
+
+  /**
+   * Generates a blank, default character sheet structure specific to this rule system.
+   * @param {string} name - The intended name of the character.
+   * @returns {Object} - The default stats, skills, equipment, and hp layout.
+   */
+  getCharacterTemplate(name) {
+    throw new Error('getCharacterTemplate not implemented');
+  }
+
+  /**
    * Updates game state or character state (e.g., applying damage, buffs, debuffs).
    * @param {Object} effect - The effect to apply (e.g., { type: 'damage', value: 5 })
    * @param {Object} target - The target of the effect.

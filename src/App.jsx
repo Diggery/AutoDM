@@ -3,11 +3,13 @@ import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import Auth from './components/Auth';
 import Chat from './components/Chat';
+import CharacterPane from './components/CharacterPane';
 import DiceRoller from './components/DiceRoller';
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeCharacter, setActiveCharacter] = useState(null);
   const diceRollerRef = useRef(null);
 
   useEffect(() => {
@@ -30,11 +32,20 @@ function App() {
     <>
       <div className="app-container">
         {user ? (
-          <Chat 
-            user={user} 
-            onSignOut={() => signOut(auth)} 
-            diceRollerRef={diceRollerRef}
-          />
+          <div className="main-layout" style={{ display: 'flex', width: '100%', height: '100%' }}>
+            <CharacterPane 
+              user={user} 
+              onSelectCharacter={setActiveCharacter} 
+            />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <Chat 
+                user={user} 
+                activeCharacter={activeCharacter}
+                onSignOut={() => signOut(auth)} 
+                diceRollerRef={diceRollerRef}
+              />
+            </div>
+          </div>
         ) : (
           <Auth />
         )}

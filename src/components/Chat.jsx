@@ -9,7 +9,7 @@ import { getAiResponse, AVAILABLE_MODELS } from '../services/ai';
 import { processPlayerIntent } from '../services/orchestrator';
 import './Chat.css';
 
-export default function Chat({ user, onSignOut, diceRollerRef }) {
+export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }) {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -71,8 +71,8 @@ export default function Chat({ user, onSignOut, diceRollerRef }) {
     try {
       await addDoc(collection(db, 'messages'), {
         text: textToSend,
-        uid: user.uid,
-        displayName: user.displayName || user.email?.split('@')[0] || 'Unknown User',
+        uid: activeCharacter ? activeCharacter.id : user.uid,
+        displayName: activeCharacter ? activeCharacter.name : (user.displayName || user.email?.split('@')[0] || 'Unknown User'),
         photoURL: user.photoURL,
         createdAt: serverTimestamp(),
         isAi: false
@@ -135,7 +135,7 @@ export default function Chat({ user, onSignOut, diceRollerRef }) {
           };
 
           // Use the orchestrator to process player intent through the Rules Module
-          await processPlayerIntent('default', user, prompt, apiKey, selectedModel, handleDiceRoll);
+          await processPlayerIntent('default', user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter);
 
         } catch (error) {
           await addDoc(collection(db, 'messages'), {

@@ -1,5 +1,6 @@
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getActiveCampaignEntities } from './db';
 import { getAiResponse } from './ai';
 import { rolemasterSystem } from '../rules/Rolemaster';
 import { SYSTEM_PROMPTS } from '../prompts';
@@ -13,14 +14,18 @@ const RULE_MODULES = {
  * The Orchestrator manages the flow between the Player's intent, the Database state,
  * the Rule Module, and the LLM Narrator.
  */
-export async function processPlayerIntent(campaignId, player, intentText, apiKey, model, diceRoller) {
+export async function processPlayerIntent(campaignId, player, intentText, apiKey, model, diceRoller, activeCharacter) {
   // Hardcoded to rolemaster for now until UI lets us pick
   const rules = RULE_MODULES['rolemaster'];
+  const allWeapons = rules.getAvailableWeapons ? rules.getAvailableWeapons() : [];
   
-  // 1. In a fuller app, we'd fetch the player's character sheet from Firestore here:
-  // const character = await getPlayerCharacter(campaignId, player.uid);
-  // For now, we mock a simple character to pass to the rules engine
-  const mockCharacter = { name: player.displayName, weaponSkill: 50, quickness: 75 };
+  // Optimize LLM prompt: if the user explicitly mentions a weapon, only supply matching weapons
+  const lowerIntent = intentText.toLowerCase();
+  const matchedWeapons = allWeapons.filter(w => lowerIntent.includes(w.toLowerCase()));
+  const availableWeapons = matchedWeapons.length > 0 ? matchedWeapons : allWeapons;
+  
+  // Use the active character provided by the UI, or fallback to a mock if none selected
+  const character = activeCharacter || { name: player.displayName, weaponSkill: 50, quickness: 75 };
 
   // 2. Set up Gemini specifically as the Orchestrator
   const genAI = new GoogleGenerativeAI(apiKey);
@@ -31,12 +36,13 @@ export async function processPlayerIntent(campaignId, player, intentText, apiKey
         functionDeclarations: [
           {
             name: "resolveAction",
-            description: "Execute a rules-based action for the player, e.g. attacking, casting a spell, or picking a lock. ALWAYS use this if the player is attempting an action that requires a dice roll or rules arbitration.",
+            description: "Execute a rules-based action for the player, e.g. attacking or casting a spell. ALWAYS use this if the player is attempting an action that requires a dice roll or rules arbitration. Supported Weapons: " + availableWeapons.join(', '),
             parameters: {
               type: "OBJECT",
               properties: {
                 actionType: { type: "STRING", description: "The type of action (e.g. 'attack', 'stealth', 'perception')" },
-                target: { type: "STRING", description: "The target of the action, if any." }
+                target: { type: "STRING", description: "The target of the action, if any." },
+                weapon: { type: "STRING", description: "The weapon used for the action (mapped from Supported Weapons), if applicable." }
               },
               required: ["actionType"]
             }
@@ -60,7 +66,7 @@ export async function processPlayerIntent(campaignId, player, intentText, apiKey
   
   console.log("=========================================");
   console.log("[Orchestrator] Player Intent:", intentText);
-  console.log("[Orchestrator] Mock Character:", mockCharacter);
+  console.log("[Orchestrator] Active Character:", character);
 
   // Ask Gemini to process the text. It might just reply (if conversational) or it might call resolveAction
   const result = await chat.sendMessage(intentText);
@@ -75,8 +81,29 @@ export async function processPlayerIntent(campaignId, player, intentText, apiKey
 
     // 3. The Orchestrator intercepts the tool call and runs the determinist Rule Module
     const actionArgs = call.args;
+
+    // Evaluate default equipped weapon if none explicitly named by AI
+    let weaponToUse = actionArgs.weapon;
+    if (!weaponToUse && character.equipment && Array.isArray(character.equipment.weapons)) {
+       const equipped = character.equipment.weapons.find(w => w.equipped);
+       if (equipped) weaponToUse = equipped.name;
+    }
+
+    // Lookup target entity from DB for rules module context
+    let targetEntity = {};
+    if (actionArgs.target) {
+       const activeEntities = await getActiveCampaignEntities(campaignId);
+       const lowerTarget = actionArgs.target.toLowerCase();
+       const matched = activeEntities.find(e => e.name && (e.name.toLowerCase().includes(lowerTarget) || lowerTarget.includes(e.name.toLowerCase())));
+       if (matched) targetEntity = matched;
+    }
+
     // We pass intent to the Rule System
-    const ruleResult = await rules.resolveAction({ action: actionArgs.actionType, target: actionArgs.target }, mockCharacter, {}, diceRoller);
+    const ruleResult = await rules.resolveAction({ 
+      action: actionArgs.actionType, 
+      target: actionArgs.target,
+      weapon: weaponToUse
+    }, character, targetEntity, diceRoller);
     
     console.log("[Orchestrator] 🎲 Rule Module Result:", ruleResult);
 
