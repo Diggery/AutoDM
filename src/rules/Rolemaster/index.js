@@ -1,6 +1,7 @@
 import { GameSystemInterface } from '../RulesInterface';
 import attacksData from './data/attacks.json';
 import templateData from './data/character_template.json';
+import npcData from './data/npc_data.json';
 import RolemasterSheet from './components/RolemasterSheet';
 
 /**
@@ -42,7 +43,9 @@ export class RolemasterRules extends GameSystemInterface {
 
   // Simplified resolveAction using external async dice roller
   async resolveAction(intent, character, gameState, diceRoller) {
-    if (intent.action === 'attack') {
+    const actionType = intent.action;
+    
+    if (actionType === 'attack') {
       // Very basic 1d100 roll + skill
       const roll = diceRoller ? await diceRoller('1d100') : (Math.floor(Math.random() * 100) + 1);
       const total = roll + (character.weaponSkill || 0);
@@ -66,9 +69,37 @@ export class RolemasterRules extends GameSystemInterface {
         outcome: resultText,
         damageApplied: damage
       };
-    }
+    } else {
+      // Handle Maneuvers (Skill Checks)
+      // Standard simplified Rolemaster: 1d100 + bonus. 100+ is success.
+      const roll = diceRoller ? await diceRoller('1d100') : (Math.floor(Math.random() * 100) + 1);
+      
+      // Look up skill bonus in character data
+      const skillName = actionType.toLowerCase();
+      let bonus = 0;
+      if (character.skills) {
+        // Match skill name case-insensitively or via common mapping
+        const matchedSkill = Object.keys(character.skills).find(s => s.toLowerCase() === skillName);
+        if (matchedSkill) bonus = character.skills[matchedSkill].bonus || 0;
+      }
+      
+      const total = roll + bonus;
+      let success = total >= 100;
+      let outcome = success ? "Success" : "Failure";
+      
+      // Flavor for specific common maneuvers
+      if (skillName === 'lockpicking' && !success && total > 80) outcome = "Partial Success (Almost there)";
+      if (skillName === 'stealth' && !success && total < 50) outcome = "Blunder (Made noise!)";
 
-    return { success: false, note: "Action type not supported in this test implementation." };
+      return {
+        success: success,
+        roll: roll,
+        bonus: bonus,
+        totalScore: total,
+        outcome: outcome,
+        action: actionType
+      };
+    }
   }
 
   // Simplified applyEffect
@@ -77,6 +108,16 @@ export class RolemasterRules extends GameSystemInterface {
       target.hp = Math.max(0, target.hp - effect.value);
     }
     return target;
+  }
+
+  // Returns list of NPC types from npc_data.json
+  getAvailableNPCs() {
+    return Object.keys(npcData);
+  }
+
+  // Returns stat block for a specific NPC type
+  getNPCStats(type) {
+    return npcData[type] || null;
   }
 }
 

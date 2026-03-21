@@ -1,0 +1,20 @@
+{
+  "Orc": {
+    "level": 2,
+    "armorType": 8,
+    "defensiveBonus": 15,
+    "hp": 45,
+    "weaponSkill": 45,
+    "primaryWeapon": "Broadsword",
+    "description": "A rugged, aggressive humanoid with greyish skin and prominent tusks. They favor heavy weapons and rigid leather armor."
+  },
+  "Goblin": {
+    "level": 1,
+    "armorType": 5,
+    "defensiveBonus": 20,
+    "hp": 25,
+    "weaponSkill": 35,
+    "primaryWeapon": "Short Sword",
+    "description": "Small, crafty humanoids with green skin and sharp features. They are quick but fragile, often using numbers and stealth to their advantage."
+  }
+}

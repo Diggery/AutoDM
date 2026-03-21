@@ -61,4 +61,21 @@ export class GameSystemInterface {
   validateMove(intent, character) {
     throw new Error('validateMove not implemented');
   }
+
+  /**
+   * Returns a list of available NPC types for this system.
+   * @returns {string[]} - Array of NPC type names.
+   */
+  getAvailableNPCs() {
+    throw new Error('getAvailableNPCs not implemented');
+  }
+
+  /**
+   * Returns the base stats for a specific NPC type.
+   * @param {string} type - The type of NPC (e.g., 'Orc').
+   * @returns {Object} - The base stats for the NPC.
+   */
+  getNPCStats(type) {
+    throw new Error('getNPCStats not implemented');
+  }
 }

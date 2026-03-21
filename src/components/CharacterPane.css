@@ -176,7 +176,7 @@
 }
 
 .roster-select-btn {
-  width: 6rem !important;
+  width: 8rem !important;
   height: 2rem !important;
   padding: 0.5rem 0.75rem;
   font-size: 0.75rem;
@@ -202,6 +202,24 @@
   border-color: white;
   color: white;
   transform: translateY(-1px);
+}
+
+.remove-char-btn {
+  width: 2rem !important;
+  height: 2rem !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  border-radius: 50%;
+  background: rgb(31, 31, 31);
+  color: #696969;
+  border: 2px solid rgb(46, 46, 46);
+}
+
+.remove-char-btn:hover {
+  background: #ef4444 !important;
+  color: white;
 }
 
 .import-item span {

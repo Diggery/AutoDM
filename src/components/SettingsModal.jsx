@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { X, Key, Trash2, Bot } from 'lucide-react';
+import { X, Key, Trash2, Bot, Globe, ShieldAlert } from 'lucide-react';
 import { AVAILABLE_MODELS } from '../services/ai';
+import { updateCampaignApiKey } from '../services/db';
 import './SettingsModal.css';
 
-export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing, selectedModel, onModelChange }) {
+export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing, selectedModel, onModelChange, isOwner, campaignId }) {
   const [apiKey, setApiKey] = useState('');
+  const [isUpdatingCampaign, setIsUpdatingCampaign] = useState(false);
 
   useEffect(() => {
     const savedKey = localStorage.getItem('auto_dm_gemini_key');
@@ -16,6 +18,20 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
   const handleSave = () => {
     localStorage.setItem('auto_dm_gemini_key', apiKey);
     onClose();
+  };
+
+  const handleSaveToCampaign = async () => {
+    if (!apiKey.trim()) return;
+    setIsUpdatingCampaign(true);
+    try {
+      await updateCampaignApiKey(campaignId, apiKey);
+      alert('Campaign API key updated successfully.');
+    } catch (err) {
+      console.error('Error updating campaign API key:', err);
+      alert('Failed to update campaign API key.');
+    } finally {
+      setIsUpdatingCampaign(false);
+    }
   };
 
   return (
@@ -41,6 +57,31 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="AIza..."
             />
+            
+            {isOwner && (
+              <div className="owner-settings glass-panel secondary" style={{ marginTop: '1rem', padding: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <Globe size={16} color="var(--primary)" />
+                  <strong style={{ fontSize: '0.9rem' }}>Campaign Owner Settings</strong>
+                </div>
+                <p className="setting-desc" style={{ marginBottom: '1rem' }}>
+                  Update the shared API key for all members of this campaign.
+                  <br />
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+                    <ShieldAlert size={12} inline /> <b>Security Note:</b> This key will be viewable by anyone with access to this campaign's data. 
+                    {/* TODO: Secure this key by moving it to a proxy backend (Firebase Cloud Function) to avoid client-side exposure. */}
+                  </span>
+                </p>
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={handleSaveToCampaign}
+                  disabled={isUpdatingCampaign || !apiKey.trim()}
+                  style={{ width: '100%', fontSize: '0.85rem' }}
+                >
+                  {isUpdatingCampaign ? 'Updating...' : 'Update Shared Campaign Key'}
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="setting-group">

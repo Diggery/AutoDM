@@ -76,13 +76,14 @@ export async function getCampaignsByUser(userId) {
 /**
  * Creates a new campaign.
  */
-export async function createCampaign(user, name, rulesetId = 'rolemaster') {
+export async function createCampaign(user, name, rulesetId = 'rolemaster', apiKey = '', adventureId = '', scenarioText = '') {
   // Generate a simple unique join code
   const joinCode = Math.random().toString(36).substring(2, 8).toUpperCase();
   
   const payload = {
     name,
     rulesetId,
+    apiKey, // Shared API key for the campaign
     ownerId: user.uid,
     memberIds: [user.uid],
     members: {
@@ -95,11 +96,22 @@ export async function createCampaign(user, name, rulesetId = 'rolemaster') {
     },
     joinCode,
     createdAt: new Date(),
-    activeEntities: []
+    activeEntities: [],
+    adventureId,
+    scenarioText
   };
   
   const docRef = await addDoc(collection(db, 'campaigns'), payload);
   return { id: docRef.id, ...payload };
+}
+
+/**
+ * Updates the shared API key for a campaign.
+ * // TODO: Secure this key by moving it to a proxy backend (Firebase Cloud Function) to avoid client-side exposure.
+ */
+export async function updateCampaignApiKey(campaignId, apiKey) {
+  const docRef = doc(db, 'campaigns', campaignId);
+  await updateDoc(docRef, { apiKey });
 }
 
 /**
@@ -171,4 +183,33 @@ export async function getActiveCampaignEntities(campaignId) {
     console.error('Error fetching campaign entities', err);
     return [];
   }
+}
+
+/**
+ * Spawns multiple NPCs of a given type and adds them to the campaign's active entities.
+ */
+export async function spawnNPCs(campaignId, npcType, count, stats) {
+  const entityIds = [];
+  
+  for (let i = 1; i <= count; i++) {
+    const name = count > 1 ? `${npcType} ${i}` : npcType;
+    const charData = {
+      name,
+      type: 'npc',
+      npcType,
+      ...stats,
+      currentHp: stats.hp || stats.hits || 20,
+      maxHp: stats.hp || stats.hits || 20,
+    };
+    
+    const char = await createCharacter('system_ai', charData, campaignId);
+    entityIds.push(char.id);
+  }
+  
+  const campaignDoc = doc(db, 'campaigns', campaignId);
+  await updateDoc(campaignDoc, {
+    activeEntities: arrayUnion(...entityIds)
+  });
+  
+  return entityIds;
 }

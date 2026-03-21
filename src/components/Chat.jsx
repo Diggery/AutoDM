@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { LogOut, Settings, Send, Trash2, ArrowLeft } from 'lucide-react';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, writeBatch, doc } from 'firebase/firestore';
 import Message from './Message';
 import SettingsModal from './SettingsModal';
 import { AVAILABLE_MODELS } from '../services/ai';
@@ -14,7 +14,10 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].id);
   const [isClearing, setIsClearing] = useState(false);
+  const [campaignData, setCampaignData] = useState(null);
   const messagesEndRef = useRef(null);
+  const lastProcessedRollRef = useRef(null); // Track already-played 3D animations
+  const mountTimeRef = useRef(Date.now());
 
   const messagesRef = collection(db, 'campaigns', campaignId, 'messages');
 
@@ -37,8 +40,40 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
   }, [campaignId]);
 
   useEffect(() => {
+    const unsubCampaign = onSnapshot(doc(db, 'campaigns', campaignId), (docSnap) => {
+      if (docSnap.exists()) {
+        setCampaignData({ id: docSnap.id, ...docSnap.data() });
+      }
+    });
+
+    return () => unsubCampaign();
+  }, [campaignId]);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+
+    // Handle Synchronized 3D Dice Rolls
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg && lastMsg.diceRolls && lastMsg.diceRolls.length > 0) {
+      if (lastProcessedRollRef.current !== lastMsg.id) {
+        lastProcessedRollRef.current = lastMsg.id;
+        
+        // Only trigger for NEW messages created after we entered the campaign
+        const msgTime = lastMsg.createdAt?.toMillis ? lastMsg.createdAt.toMillis() : Date.now();
+        if (msgTime > mountTimeRef.current) {
+          // If the roll originated from another user or the AI, play the animation locally
+          // (The sender already played it via the local trigger in handleSend/orchestrator)
+          if (lastMsg.uid !== user.uid) {
+            lastMsg.diceRolls.forEach(roll => {
+              if (diceRollerRef.current) {
+                diceRollerRef.current.roll(roll.notation);
+              }
+            });
+          }
+        }
+      }
+    }
+  }, [messages, user.uid]);
 
   const handleClearChat = async () => {
     if (!window.confirm("Are you sure you want to clear the entire chat history for this campaign? This action cannot be undone.")) return;
@@ -71,7 +106,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
     try {
       await addDoc(messagesRef, {
         text: textToSend,
-        uid: activeCharacter ? activeCharacter.id : user.uid,
+        uid: user.uid,
+        characterId: activeCharacter ? activeCharacter.id : null,
         displayName: activeCharacter ? activeCharacter.name : (user.displayName || user.email?.split('@')[0] || 'Unknown User'),
         photoURL: user.photoURL,
         createdAt: serverTimestamp(),
@@ -80,7 +116,9 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
 
       if (textToSend.toLowerCase().includes('@dm')) {
         const prompt = textToSend.replace(/@dm/gi, '').trim() || 'Hello';
-        const apiKey = localStorage.getItem('auto_dm_gemini_key');
+        const personalKey = localStorage.getItem('auto_dm_gemini_key');
+        const campaignKey = campaignData?.apiKey;
+        const apiKey = personalKey || campaignKey || import.meta.env.VITE_GEMINI_API_KEY;
 
         if (!apiKey) {
           await addDoc(messagesRef, {
@@ -142,7 +180,7 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
             return sum;
           };
 
-          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId);
+          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId, campaignData?.scenarioText);
 
         } catch (error) {
           await addDoc(messagesRef, {
@@ -229,6 +267,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         isClearing={isClearing}
         selectedModel={selectedModel}
         onModelChange={setSelectedModel}
+        isOwner={campaignData?.ownerId === user.uid}
+        campaignId={campaignId}
       />
     </div>
   );

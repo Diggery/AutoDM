@@ -3,7 +3,7 @@ import { getCharactersByUser, createCharacter, updateCharacter, updateCampaignMe
 import { rolemasterSystem } from '../rules/Rolemaster';
 import { db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { Plus, User, ArrowLeft, MoreVertical, Search, CheckCircle } from 'lucide-react';
+import { Plus, User, ArrowLeft, MoreVertical, Search, CheckCircle, X } from 'lucide-react';
 import './CharacterPane.css';
 
 export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
@@ -163,6 +163,32 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
     }
   };
 
+  const handleRemoveFromCampaign = async (char) => {
+    if (!window.confirm(`Are you sure you want to remove ${char.name} from this campaign? It will NOT be deleted.`)) {
+      return;
+    }
+
+    try {
+      // 1. Relinquish control if this character is currently controlled by anyone
+      const controller = Object.entries(campaignMembers).find(([uid, m]) => m.activeCharacterId === char.id);
+      if (controller) {
+        const [uid] = controller;
+        await updateCampaignMember(campaignId, uid, { activeCharacterId: null });
+      }
+
+      // 2. Remove campaign association from the character itself
+      await assignCharacterToCampaign(char.id, null);
+
+      // 3. Reset local states if it was the one we were viewing or controlling
+      if (viewingId === char.id) setViewMode('roster');
+      if (controlledId === char.id) setControlledId(null);
+
+      await loadCharacters();
+    } catch (err) {
+      console.error("Error removing character from campaign:", err);
+    }
+  };
+
   const selectedCharacter = characters.find(c => c.id === viewingId);
   const SystemSheet = rolemasterSystem.CharacterSheet;
 
@@ -250,24 +276,36 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
                     <h4>{char.name}</h4>
                     <span className="char-stats">HP: {char.hp?.current}/{char.hp?.max}</span>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
-                    {controller && (
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                        Player: {controller.displayName || 'Unknown'}
-                      </span>
-                    )}
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
+                      {controller && (
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
+                          Player: {controller.displayName || 'Unknown'}
+                        </span>
+                      )}
+                      <button 
+                        className={`btn roster-select-btn ${controlledId === char.id ? 'btn-selected' : 'btn-select-outline'}`}
+                        onMouseEnter={() => setHoveredCharId(char.id)}
+                        onMouseLeave={() => setHoveredCharId(null)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelect(char);
+                        }}
+                      >
+                        {controlledId === char.id 
+                          ? (hoveredCharId === char.id ? 'RELINQUISH' : 'CONTROLLED')
+                          : (controller ? 'TAKE OVER' : 'CONTROL')}
+                      </button>
+                    </div>
                     <button 
-                      className={`btn roster-select-btn ${controlledId === char.id ? 'btn-selected' : 'btn-select-outline'}`}
-                      onMouseEnter={() => setHoveredCharId(char.id)}
-                      onMouseLeave={() => setHoveredCharId(null)}
+                      className="btn btn-icon remove-char-btn"
+                      title="Remove from campaign"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleSelect(char);
+                        handleRemoveFromCampaign(char);
                       }}
                     >
-                      {controlledId === char.id 
-                        ? (hoveredCharId === char.id ? 'RELINQUISH' : 'CONTROLLED')
-                        : (controller ? 'TAKE OVER' : 'CONTROL')}
+                      <X size={16} />
                     </button>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { getCampaignsByUser, createCampaign, joinCampaignByCode, deleteCampaign } from '../services/db';
 import { AVAILABLE_RULESETS } from '../rules';
+import { ADVENTURES } from '../adventures';
 import { Plus, Users, LogIn, Trash2, Copy, Check, X, Settings, LogOut, User as UserIcon } from 'lucide-react';
 import './LandingPage.css';
 
@@ -17,7 +18,9 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
 
   // Form State
   const [newCampaignName, setNewCampaignName] = useState('');
+  const [newCampaignApiKey, setNewCampaignApiKey] = useState('');
   const [selectedRuleset, setSelectedRuleset] = useState(AVAILABLE_RULESETS[0].id);
+  const [selectedAdventure, setSelectedAdventure] = useState('');
   const [joinCode, setJoinCode] = useState('');
 
   const dropdownRef = useRef(null);
@@ -49,8 +52,13 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
     e.preventDefault();
     if (!newCampaignName.trim()) return;
     try {
-      await createCampaign(user, newCampaignName, selectedRuleset);
+      const adventure = ADVENTURES.find(a => a.id === selectedAdventure);
+      const scenarioText = adventure ? adventure.scenarioText : '';
+      
+      await createCampaign(user, newCampaignName, selectedRuleset, newCampaignApiKey, selectedAdventure, scenarioText);
       setNewCampaignName('');
+      setNewCampaignApiKey('');
+      setSelectedAdventure('');
       setActiveModal(null);
       loadCampaigns();
     } catch (err) {
@@ -214,19 +222,39 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
                 />
               </div>
               <div className="form-group">
-                <label>Ruleset</label>
-                <select
-                  value={selectedRuleset}
-                  onChange={(e) => setSelectedRuleset(e.target.value)}
+                <label>Gemini API Key</label>
+                <div className="field-desc-container">
+                  <p className="field-desc">Required to power the AI Agent for this campaign.</p>
+                  {/* TODO: Secure this key by moving it to a proxy backend (Firebase Cloud Function) to avoid client-side exposure. */}
+                </div>
+                <input
+                  type="password"
+                  value={newCampaignApiKey}
+                  onChange={(e) => setNewCampaignApiKey(e.target.value)}
+                  placeholder="AIza..."
                   className="input-field"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Adventure (Optional)</label>
+                <select 
+                  className="input-field" 
+                  value={selectedAdventure} 
+                  onChange={(e) => setSelectedAdventure(e.target.value)}
                 >
-                  {AVAILABLE_RULESETS.map(r => (
-                    <option key={r.id} value={r.id}>{r.name}</option>
+                  <option value="">None (Custom Scenario)</option>
+                  {ADVENTURES.map(adv => (
+                    <option key={adv.id} value={adv.id}>{adv.name}</option>
                   ))}
                 </select>
-                <p className="field-desc">{AVAILABLE_RULESETS.find(r => r.id === selectedRuleset)?.description}</p>
+                {selectedAdventure && (
+                  <p className="field-desc" style={{ marginTop: '8px', fontSize: '12px' }}>
+                    {ADVENTURES.find(a => a.id === selectedAdventure)?.description}
+                  </p>
+                )}
               </div>
-              <button type="submit" className="btn primary-btn" disabled={!newCampaignName.trim()}>
+              <button type="submit" className="btn primary-btn" disabled={!newCampaignName.trim() || !newCampaignApiKey.trim()}>
                 Create Campaign
               </button>
             </form>
