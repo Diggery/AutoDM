@@ -4,9 +4,10 @@ import { collection, doc, getDoc, getDocs, query, where, addDoc, updateDoc, dele
 /**
  * Creates a new Character (PC or NPC).
  */
-export async function createCharacter(userId, characterData) {
+export async function createCharacter(userId, characterData, campaignId = null) {
   const payload = {
     ownerId: userId,
+    campaignId: campaignId,
     type: characterData.type || 'pc',
     // We let the active Rule Module structure the rest entirely!
     ...characterData,
@@ -34,12 +35,26 @@ export async function getCharactersByUser(userId) {
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
-/**
- * Fetches a single character by ID.
- */
 export async function getCharacterById(characterId) {
   const c = await getDoc(doc(db, 'characters', characterId));
   return c.exists() ? { id: c.id, ...c.data() } : null;
+}
+
+/**
+ * Fetches all characters (PC/NPC) linked to a specific campaign.
+ */
+export async function getCharactersByCampaign(campaignId) {
+  const q = query(collection(db, 'characters'), where('campaignId', '==', campaignId));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
+/**
+ * Assigns an existing character to a campaign.
+ */
+export async function assignCharacterToCampaign(characterId, campaignId) {
+  const docRef = doc(db, 'characters', characterId);
+  await updateDoc(docRef, { campaignId });
 }
 
 /**
@@ -61,15 +76,23 @@ export async function getCampaignsByUser(userId) {
 /**
  * Creates a new campaign.
  */
-export async function createCampaign(userId, name, rulesetId = 'rolemaster') {
+export async function createCampaign(user, name, rulesetId = 'rolemaster') {
   // Generate a simple unique join code
   const joinCode = Math.random().toString(36).substring(2, 8).toUpperCase();
   
   const payload = {
     name,
     rulesetId,
-    ownerId: userId,
-    memberIds: [userId],
+    ownerId: user.uid,
+    memberIds: [user.uid],
+    members: {
+      [user.uid]: {
+        uid: user.uid,
+        displayName: user.displayName || user.email?.split('@')[0] || 'Unknown User',
+        photoURL: user.photoURL || '',
+        activeCharacterId: null
+      }
+    },
     joinCode,
     createdAt: new Date(),
     activeEntities: []
@@ -82,7 +105,7 @@ export async function createCampaign(userId, name, rulesetId = 'rolemaster') {
 /**
  * Joins a campaign using a join code.
  */
-export async function joinCampaignByCode(userId, joinCode) {
+export async function joinCampaignByCode(user, joinCode) {
   const q = query(collection(db, 'campaigns'), where('joinCode', '==', joinCode.toUpperCase()));
   const snapshot = await getDocs(q);
   
@@ -94,10 +117,28 @@ export async function joinCampaignByCode(userId, joinCode) {
   const campaignId = campaignDoc.id;
   
   await updateDoc(doc(db, 'campaigns', campaignId), {
-    memberIds: arrayUnion(userId)
+    memberIds: arrayUnion(user.uid),
+    [`members.${user.uid}`]: {
+      uid: user.uid,
+      displayName: user.displayName || user.email?.split('@')[0] || 'Unknown User',
+      photoURL: user.photoURL || '',
+      activeCharacterId: null
+    }
   });
   
   return { id: campaignId, ...campaignDoc.data() };
+}
+
+/**
+ * Updates a member's data in the campaign.
+ */
+export async function updateCampaignMember(campaignId, userId, updates) {
+  const docRef = doc(db, 'campaigns', campaignId);
+  const finalUpdates = {};
+  for (const key in updates) {
+    finalUpdates[`members.${userId}.${key}`] = updates[key];
+  }
+  await updateDoc(docRef, finalUpdates);
 }
 
 /**

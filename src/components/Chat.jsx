@@ -94,28 +94,40 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
           return;
         }
 
+        if (!activeCharacter) {
+          await addDoc(messagesRef, {
+            text: "Hi, you need to select a character to play!",
+            uid: 'system_ai',
+            displayName: 'System',
+            photoURL: '',
+            createdAt: serverTimestamp(),
+            isAi: true
+          });
+          return;
+        }
+
         try {
           const handleDiceRoll = async (notation) => {
             if (diceRollerRef.current) {
               try {
                 let safeNotation = notation;
                 if (safeNotation.includes('1d100')) {
-                   safeNotation = safeNotation.replace(/1d100/g, '1d100+1d10');
+                  safeNotation = safeNotation.replace(/1d100/g, '1d100+1d10');
                 }
                 const results = await diceRollerRef.current.roll(safeNotation);
                 let total = 0;
-                
+
                 if (results) {
                   if (Array.isArray(results)) {
                     total = results.reduce((acc, group) => acc + (group.value || group.total || 0), 0);
                   } else if (results.total !== undefined) {
                     total = results.total;
                   }
-                  
+
                   if (notation.includes('d100') && total === 0) {
-                     total = 100;
+                    total = 100;
                   }
-                  
+
                   return total > 0 ? total : 1;
                 }
               } catch (err) {
@@ -126,7 +138,7 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
             const qt = parseInt(match[1]) || 1;
             const sd = parseInt(match[2]) || 20;
             let sum = 0;
-            for(let i=0; i<qt; i++) sum += Math.floor(Math.random() * sd) + 1;
+            for (let i = 0; i < qt; i++) sum += Math.floor(Math.random() * sd) + 1;
             return sum;
           };
 
@@ -152,9 +164,6 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
     <div className="chat-layout">
       <div className="chat-header glass-panel">
         <div className="user-info">
-          <button className="btn-icon back-btn" onClick={onBackToLanding} title="Back to Campaigns">
-            <ArrowLeft size={20} />
-          </button>
           <div className="avatar">
             {user.photoURL ? (
               <img src={user.photoURL} alt="Profile" />
@@ -164,27 +173,18 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
           </div>
           <div className="user-details">
             <h3>{user.displayName || user.email || 'Anonymous User'}</h3>
-            <span className="status">Online</span>
+            <span className="status">
+              {activeCharacter ? `Controlling ${activeCharacter.name}` : 'Spectating...'}
+            </span>
           </div>
         </div>
 
         <div className="header-actions">
-          <select
-            className="model-select"
-            value={selectedModel}
-            onChange={(e) => setSelectedModel(e.target.value)}
-          >
-            {AVAILABLE_MODELS.map((model) => (
-              <option key={model.id} value={model.id}>
-                {model.label}
-              </option>
-            ))}
-          </select>
           <button className="btn-icon" title="Settings" onClick={() => setIsSettingsOpen(true)}>
             <Settings size={20} />
           </button>
-          <button className="btn-icon" onClick={onSignOut} title="Sign Out">
-            <LogOut size={20} />
+          <button className="btn leave-btn" onClick={onBackToLanding} title="Leave Campaign">
+            LEAVE
           </button>
         </div>
       </div>
@@ -195,7 +195,7 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
             <div className="empty-state">
               <div className="empty-icon">✨</div>
               <h3>Welcome to AutoDM</h3>
-              <p>Start a conversation in this campaign. Mention <b style={{ color: 'var(--primary)' }}>@dm</b> to talk to the AI agent.</p>
+              <p>Start a conversation in this campaign. Mention <b style={{ color: 'var(--primary)' }}>@dm</b> to talk to the Dungeon Master.</p>
             </div>
           ) : (
             messages.map((msg) => (
@@ -210,15 +210,6 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         </div>
 
         <form className="message-form" onSubmit={handleSend}>
-          <button
-            type="button"
-            className="clear-btn"
-            title="Clear Chat History"
-            onClick={handleClearChat}
-            disabled={isClearing || messages.length === 0}
-          >
-            <Trash2 size={18} />
-          </button>
           <input
             className="input-field"
             value={newMessage}
@@ -231,7 +222,14 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         </form>
       </div>
 
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        onClearChat={handleClearChat}
+        isClearing={isClearing}
+        selectedModel={selectedModel}
+        onModelChange={setSelectedModel}
+      />
     </div>
   );
 }

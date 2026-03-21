@@ -87,8 +87,9 @@
   transition: all 0.2s;
 }
 
-.model-select:hover, .model-select:focus {
-  border-color: var(--primary);
+.model-select:hover,
+.model-select:focus {
+  color: var(--text-primary);
   background: rgba(0, 0, 0, 0.4);
 }
 
@@ -112,6 +113,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  background: rgba(100, 56, 98, 0.1);
   gap: 1rem;
 }
 
@@ -122,34 +124,36 @@
   align-items: center;
   gap: 0.75rem;
   border-top: 1px solid var(--glass-border);
-  background: rgba(0, 0, 0, 0.2);
 }
 
 .message-form .input-field {
-  flex: 1;
-  width: auto;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
 }
 
 .send-btn {
   padding: 0 1.25rem;
   border-radius: 0.75rem;
+  flex: 0 0 auto;
+  min-width: 120px;
+  max-width: 120px;
 }
 
-.clear-btn {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  padding: 0 1rem;
-  border-radius: 0.75rem;
-  transition: all 0.2s;
+.leave-btn {
+  padding: 0 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary);
 }
 
-.clear-btn:hover:not(:disabled) {
-  background: #ef4444;
-  color: white;
-  transform: translateY(-0.125rem);
-  box-shadow: 0 0.25rem 0.75rem rgba(239, 68, 68, 0.3);
+.leave-btn:hover {
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
 }
+
 
 .empty-state {
   margin: auto;
@@ -170,9 +174,17 @@
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-0.625rem); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-0.625rem);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 @media (max-width: 48rem) {
@@ -181,10 +193,12 @@
     height: 100vh;
     border-radius: 0;
   }
+
   .chat-header {
     border-radius: 0;
     border-bottom: 1px solid var(--glass-border);
   }
+
   .chat-main {
     border-radius: 0;
   }

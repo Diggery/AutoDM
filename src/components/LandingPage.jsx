@@ -9,12 +9,12 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [copiedId, setCopiedId] = useState(null);
-  
+
   // UI State
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [activeModal, setActiveModal] = useState(null); // 'create' or 'join'
-  
+
   // Form State
   const [newCampaignName, setNewCampaignName] = useState('');
   const [selectedRuleset, setSelectedRuleset] = useState(AVAILABLE_RULESETS[0].id);
@@ -25,7 +25,7 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
 
   useEffect(() => {
     if (user) loadCampaigns();
-    
+
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -49,7 +49,7 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
     e.preventDefault();
     if (!newCampaignName.trim()) return;
     try {
-      await createCampaign(user.uid, newCampaignName, selectedRuleset);
+      await createCampaign(user, newCampaignName, selectedRuleset);
       setNewCampaignName('');
       setActiveModal(null);
       loadCampaigns();
@@ -62,7 +62,7 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
     e.preventDefault();
     if (!joinCode.trim()) return;
     try {
-      await joinCampaignByCode(user.uid, joinCode);
+      await joinCampaignByCode(user, joinCode);
       setJoinCode('');
       setActiveModal(null);
       loadCampaigns();
@@ -91,101 +91,107 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
 
   return (
     <div className="landing-page">
-      <div className="landing-header">
-        <div className="header-left">
-          <h1>My Campaigns</h1>
-          <p>Adventurer's Dashboard</p>
-        </div>
-        <div className="header-right">
-          <div className="action-buttons" ref={dropdownRef}>
-            <button className="btn-icon add-btn" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              <Plus size={24} />
-            </button>
-            {isDropdownOpen && (
-              <div className="dropdown-menu glass-panel">
-                <button onClick={() => { setActiveModal('create'); setIsDropdownOpen(false); }}>
-                  <Plus size={18} /> Create New
-                </button>
-                <button onClick={() => { setActiveModal('join'); setIsDropdownOpen(false); }}>
-                  <Users size={18} /> Join with Code
-                </button>
+      <div className="app-bar">
+        <div className="app-bar-logo">AutoDM</div>
+        <div className="user-profile-section" ref={userDropdownRef}>
+          <button className="user-profile-btn" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
+            {user.photoURL ? (
+              <img src={user.photoURL} alt={user.displayName} className="profile-img" />
+            ) : (
+              <div className="profile-placeholder">
+                <UserIcon size={20} />
               </div>
             )}
-          </div>
-
-          <div className="user-profile-section" ref={userDropdownRef}>
-            <button className="user-profile-btn" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
-              {user.photoURL ? (
-                <img src={user.photoURL} alt={user.displayName} className="profile-img" />
-              ) : (
-                <div className="profile-placeholder">
-                  <UserIcon size={20} />
-                </div>
-              )}
-            </button>
-            {isUserDropdownOpen && (
-              <div className="user-dropdown-menu glass-panel">
-                <div className="user-info-header">
-                  <span className="user-name">{user.displayName || 'Adventurer'}</span>
-                  <span className="user-email">{user.email}</span>
-                </div>
-                <div className="dropdown-divider"></div>
-                <button onClick={() => { /* Settings logically */ setIsUserDropdownOpen(false); }}>
-                  <Settings size={18} /> Settings
-                </button>
-                <button onClick={() => { onSignOut(); setIsUserDropdownOpen(false); }} className="logout-btn">
-                  <LogOut size={18} /> Log Out
-                </button>
+          </button>
+          {isUserDropdownOpen && (
+            <div className="user-dropdown-menu glass-panel">
+              <div className="user-info-header">
+                <span className="user-name">{user.displayName || 'Adventurer'}</span>
+                <span className="user-email">{user.email}</span>
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="landing-content">
-        {error && <div className="error-msg">{error}</div>}
-
-        <div className="campaign-list">
-          {loading ? (
-            <div className="loading-msg">Loading campaigns...</div>
-          ) : campaigns.length === 0 ? (
-            <div className="empty-state glass-panel">
-              <p>No campaigns found. Click the + button to get started!</p>
-            </div>
-          ) : (
-            <div className="list-container">
-              {campaigns.map(campaign => (
-                <div key={campaign.id} className="campaign-list-item glass-panel" onClick={() => onEnterCampaign(campaign)}>
-                  <div className="item-main">
-                    <div className="item-info">
-                      <h3>{campaign.name}</h3>
-                      <span className="ruleset-tag">{AVAILABLE_RULESETS.find(r => r.id === campaign.rulesetId)?.name || 'Unknown Ruleset'}</span>
-                    </div>
-                    <div className="item-actions">
-                      {campaign.ownerId === user.uid && (
-                        <div className="code-display" onClick={(e) => copyToClipboard(e, campaign.joinCode, campaign.id)}>
-                          <span>Code: <strong>{campaign.joinCode}</strong></span>
-                          {copiedId === campaign.id ? <Check size={14} color="#4ade80" /> : <Copy size={14} />}
-                        </div>
-                      )}
-                      {campaign.ownerId !== user.uid && (
-                        <span className="member-tag">Member</span>
-                      )}
-                    </div>
-                  </div>
-                  {campaign.ownerId === user.uid && (
-                    <div className="item-delete-action" onClick={(e) => handleDelete(e, campaign.id)}>
-                      <Trash2 size={18} />
-                    </div>
-                  )}
-                  <div className="item-enter-action" onClick={() => onEnterCampaign(campaign)}>
-                    ENTER
-                  </div>
-                </div>
-              ))}
+              <div className="dropdown-divider"></div>
+              <button onClick={() => { setIsUserDropdownOpen(false); }}>
+                <Settings size={18} /> Settings
+              </button>
+              <button onClick={() => { onSignOut(); setIsUserDropdownOpen(false); }} className="logout-btn">
+                <LogOut size={18} /> Log Out
+              </button>
             </div>
           )}
         </div>
+      </div>
+
+      <div className="landing-container">
+        <div className="landing-header">
+          <div className="header-left">
+            <h1>My Campaigns</h1>
+            <p>Adventurer's Dashboard</p>
+          </div>
+          <div className="header-right">
+            <div className="action-buttons" ref={dropdownRef}>
+              <button className="btn-icon add-btn" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                <Plus size={24} />
+              </button>
+              {isDropdownOpen && (
+                <div className="dropdown-menu glass-panel">
+                  <button onClick={() => { setActiveModal('create'); setIsDropdownOpen(false); }}>
+                    <Plus size={18} /> Create New
+                  </button>
+                  <button onClick={() => { setActiveModal('join'); setIsDropdownOpen(false); }}>
+                    <Users size={18} /> Join with Code
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="landing-content">
+          {error && <div className="error-msg">{error}</div>}
+
+          <div className="campaign-list">
+            {loading ? (
+              <div className="loading-msg">Loading campaigns...</div>
+            ) : campaigns.length === 0 ? (
+              <div className="empty-state glass-panel">
+                <p>No campaigns found. Click the + button to get started!</p>
+              </div>
+            ) : (
+              <div className="list-container">
+                {campaigns.map(campaign => (
+                  <div key={campaign.id} className="campaign-list-item glass-panel">
+                    <div className="item-main">
+                      <div className="item-info">
+                        <h3>{campaign.name}</h3>
+                        <span className="ruleset-tag">{AVAILABLE_RULESETS.find(r => r.id === campaign.rulesetId)?.name || 'Unknown Ruleset'}</span>
+                      </div>
+                      <div className="item-actions">
+                        {campaign.ownerId === user.uid && (
+                          <div className="code-display" onClick={(e) => copyToClipboard(e, campaign.joinCode, campaign.id)}>
+                            <span>Code: <strong>{campaign.joinCode}</strong></span>
+                            {copiedId === campaign.id ? <Check size={14} color="#4ade80" /> : <Copy size={14} />}
+                          </div>
+                        )}
+                        {campaign.ownerId !== user.uid && (
+                          <span className="member-tag">Member</span>
+                        )}
+                      </div>
+                    </div>
+                    {campaign.ownerId === user.uid && (
+                      <div className="item-delete-action" onClick={(e) => handleDelete(e, campaign.id)}>
+                        <span>REMOVE</span>
+                      </div>
+                    )}
+                    <div className="item-enter-action" onClick={() => onEnterCampaign(campaign)}>
+                      ENTER
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
       </div>
 
       {/* Modals */}
@@ -199,7 +205,7 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
             <form onSubmit={handleCreate}>
               <div className="form-group">
                 <label>Campaign Name</label>
-                <input 
+                <input
                   autoFocus
                   value={newCampaignName}
                   onChange={(e) => setNewCampaignName(e.target.value)}
@@ -209,7 +215,7 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
               </div>
               <div className="form-group">
                 <label>Ruleset</label>
-                <select 
+                <select
                   value={selectedRuleset}
                   onChange={(e) => setSelectedRuleset(e.target.value)}
                   className="input-field"
@@ -238,7 +244,7 @@ export default function LandingPage({ user, onEnterCampaign, onSignOut }) {
             <form onSubmit={handleJoin}>
               <div className="form-group">
                 <label>Join Code</label>
-                <input 
+                <input
                   autoFocus
                   value={joinCode}
                   onChange={(e) => setJoinCode(e.target.value)}

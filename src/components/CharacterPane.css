@@ -57,11 +57,6 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-.character-card.active {
-  background: rgba(139, 92, 246, 0.15);
-  border-color: var(--primary);
-}
-
 .char-avatar {
   background: rgba(255, 255, 255, 0.1);
   padding: 10px;
@@ -87,5 +82,129 @@
 
 .char-stats {
   font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.add-character-context {
+  position: relative;
+}
+
+.add-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  padding: 4px;
+}
+
+.add-dropdown.glass-panel {
+  background: rgba(20, 20, 25, 0.98);
+  border-color: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(24px);
+}
+
+.add-dropdown button {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  width: 100%;
+  text-align: left;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.add-dropdown button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.import-container {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.import-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.import-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.import-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.import-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.import-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.roster-select-btn {
+  width: 6rem !important;
+  height: 2rem !important;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.btn-selected {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-select-outline {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-select-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.import-item span {
+  font-size: 0.75rem;
   color: var(--text-secondary);
 }

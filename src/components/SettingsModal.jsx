@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { X, Key } from 'lucide-react';
+import { X, Key, Trash2, Bot } from 'lucide-react';
+import { AVAILABLE_MODELS } from '../services/ai';
 import './SettingsModal.css';
 
-export default function SettingsModal({ isOpen, onClose }) {
+export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing, selectedModel, onModelChange }) {
   const [apiKey, setApiKey] = useState('');
 
   useEffect(() => {
@@ -40,6 +41,39 @@ export default function SettingsModal({ isOpen, onClose }) {
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="AIza..."
             />
+          </div>
+
+          <div className="setting-group">
+            <label>
+              <Bot size={16} /> AI Model
+            </label>
+            <p className="setting-desc">Select the generative model to be used by the AI Agent.</p>
+            <select
+              className="input-field model-select"
+              value={selectedModel}
+              onChange={(e) => onModelChange(e.target.value)}
+              style={{ padding: '0.75rem', cursor: 'pointer' }}
+            >
+              {AVAILABLE_MODELS.map((model) => (
+                <option key={model.id} value={model.id}>
+                  {model.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="setting-group">
+            <label className="danger-text">
+              <Trash2 size={16} /> Data Management
+            </label>
+            <p className="setting-desc">Clear the entire chat history for this campaign. This action cannot be undone.</p>
+            <button 
+              className="btn btn-danger" 
+              onClick={onClearChat} 
+              disabled={isClearing}
+            >
+              <Trash2 size={16} /> Clear Chat History
+            </button>
           </div>
         </div>
         
