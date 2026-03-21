@@ -1,52 +1,95 @@
 {
   "name": "New Character",
-  "race": "Common Men",
+  "race": "Common Man",
   "profession": "Fighter",
   "level": 1,
   "experience": 0,
-  "development_points": {
-    "total": 0,
-    "spent": 0
-  },
   "stats": {
-    "Constitution": { "base": 50, "potential": 50, "bonus": 0 },
-    "Agility": { "base": 50, "potential": 50, "bonus": 0 },
-    "Self Discipline": { "base": 50, "potential": 50, "bonus": 0 },
-    "Memory": { "base": 50, "potential": 50, "bonus": 0 },
-    "Reasoning": { "base": 50, "potential": 50, "bonus": 0 },
-    "Strength": { "base": 50, "potential": 50, "bonus": 0 },
-    "Quickness": { "base": 50, "potential": 50, "bonus": 0 },
-    "Presence": { "base": 50, "potential": 50, "bonus": 0 },
-    "Intuition": { "base": 50, "potential": 50, "bonus": 0 },
-    "Empathy": { "base": 50, "potential": 50, "bonus": 0 }
-  },
-  "skills": {
-    "Broadsword": {
-      "category": "Weapon Skills",
-      "ranks": 0,
-      "stat_bonus": 0,
-      "profession_bonus": 0,
-      "item_bonus": 0,
-      "special_bonus": 0,
-      "total_bonus": -25
+    "Constitution": {
+      "base": 50,
+      "potential": 50
+    },
+    "Agility": {
+      "base": 50,
+      "potential": 50
+    },
+    "Self Discipline": {
+      "base": 50,
+      "potential": 50
+    },
+    "Memory": {
+      "base": 50,
+      "potential": 50
+    },
+    "Reasoning": {
+      "base": 50,
+      "potential": 50
+    },
+    "Strength": {
+      "base": 50,
+      "potential": 50
+    },
+    "Quickness": {
+      "base": 50,
+      "potential": 50
+    },
+    "Presence": {
+      "base": 50,
+      "potential": 50
+    },
+    "Intuition": {
+      "base": 50,
+      "potential": 50
+    },
+    "Empathy": {
+      "base": 50,
+      "potential": 50
     }
   },
-  "equipment": {
-    "armorAT": 1,
-    "DB": 0,
-    "weapons": []
+  "skills": {
+    "Body Development": {
+      "ranks": 0,
+      "bonus": 0,
+      "stat": "Co"
+    }
   },
+  "weapons": [
+    {
+      "name": "Short Sword",
+      "weight_lbs": "2-4",
+      "fumble_range": "01-02",
+      "in_use": false
+    }
+  ],
+  "armour": [
+    {
+      "AT": 5,
+      "name": "Leather Jerkin",
+      "min_maneuver": 0,
+      "max_maneuver": 0,
+      "missile_penalty": 0,
+      "quickness_penalty": 0,
+      "essence_esf": 10,
+      "channeling_esf": 0,
+      "in_use": false
+    },
+    {
+      "name": "Normal Shield",
+      "bonus_versus_melee": 20,
+      "bonus_versus_missile": 20,
+      "weight_lbs": "15-20",
+      "parry_limitations": "None",
+      "in_use": false
+    }
+  ],
   "hp": {
     "base": 10,
-    "ranks": 1,
     "max": 10,
-    "current": 10,
-    "con_bonus": 0
+    "current": 10
   },
   "movement": {
-    "base_rate": 50,
+    "base_rate": 30,
     "stride_mod": 0,
-    "encumbrance_mod": 0,
-    "armor_penalty": 0
+    "encumbrance_mod": 0
   }
 }

@@ -224,7 +224,9 @@
         "Astrologer": "10",
         "Monk": "3/*",
         "Bard": "3/*"
-      }
+      },
+      "stat": "Ag",
+      "description": "Reduces the physical maneuver penalties associated with wearing cumbersome armor. Skill must be developed separately for each specific armor category (Soft Leather, Rigid Leather, Chain, and Plate)"
     },
     {
       "skill": "Plate",
@@ -249,7 +251,9 @@
         "Astrologer": "11",
         "Monk": "4/*",
         "Bard": "4/*"
-      }
+      },
+      "stat": "Ag",
+      "description": "Reduces the physical maneuver penalties associated with wearing cumbersome armor. Skill must be developed separately for each specific armor category (Soft Leather, Rigid Leather, Chain, and Plate)"
     },
     {
       "skill": "Rigid Leather",
@@ -274,7 +278,9 @@
         "Astrologer": "9",
         "Monk": "2/*",
         "Bard": "2/*"
-      }
+      },
+      "stat": "Ag",
+      "description": "Reduces the physical maneuver penalties associated with wearing cumbersome armor. Skill must be developed separately for each specific armor category (Soft Leather, Rigid Leather, Chain, and Plate)"
     },
     {
       "skill": "Soft Leather",
@@ -299,165 +305,171 @@
         "Astrologer": "9",
         "Monk": "1/*",
         "Bard": "1/*"
-      }
+      },
+      "stat": "Ag",
+      "description": "Reduces the physical maneuver penalties associated with wearing cumbersome armor. Skill must be developed separately for each specific armor category (Soft Leather, Rigid Leather, Chain, and Plate)"
     },
     {
-      "skill": "Weapon Skills",
+      "skill": "One-Handed Slashing",
       "category": "Weapon Skills",
       "development_costs": {
-        "Fighter": [
-          "1/5",
-          "2/5",
-          "2/7",
-          "2/7",
-          "2/7",
-          "5"
-        ],
-        "Thief": [
-          "2/7",
-          "3/8",
-          "4",
-          "4",
-          "4",
-          "6"
-        ],
-        "Magician": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Cleric": [
-          "6",
-          "7",
-          "9",
-          "9",
-          "9",
-          "20"
-        ],
-        "Ranger": [
-          "3/7",
-          "4",
-          "6",
-          "6",
-          "6",
-          "9"
-        ],
-        "Rogue": [
-          "2/5",
-          "2/7",
-          "3/8",
-          "4",
-          "4",
-          "6"
-        ],
-        "Warrior Monk": [
-          "1/5",
-          "2/6",
-          "2/7",
-          "2/7",
-          "3/8",
-          "6"
-        ],
-        "Illusionist": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Alchemist": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Animist": [
-          "6",
-          "7",
-          "9",
-          "9",
-          "9",
-          "20"
-        ],
-        "Healer": [
-          "6",
-          "7",
-          "9",
-          "9",
-          "9",
-          "20"
-        ],
-        "Mentalist": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Lay Healer": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Seer": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Sorcerer": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Mystic": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Astrologer": [
-          "9",
-          "20",
-          "20",
-          "20",
-          "20",
-          "20"
-        ],
-        "Monk": [
-          "3/7",
-          "4",
-          "6",
-          "6",
-          "6",
-          "9"
-        ],
-        "Bard": [
-          "3/7",
-          "4",
-          "6",
-          "6",
-          "6",
-          "9"
-        ]
-      }
+        "Fighter": ["1/5", "2/5", "2/7", "2/7", "2/7", "5"],
+        "Thief": ["2/7", "3/8", "4", "4", "4", "6"],
+        "Magician": ["9", "20", "20", "20", "20", "20"],
+        "Cleric": ["6", "7", "9", "9", "9", "20"],
+        "Ranger": ["3/7", "4", "5", "5", "5", "9"],
+        "Rogue": ["2/5", "2/7", "3/8", "4", "4", "6"],
+        "Warrior Monk": ["1/5", "2/6", "2/7", "2/7", "3/8", "6"],
+        "Illusionist": ["9", "20", "20", "20", "20", "20"],
+        "Alchemist": ["9", "20", "20", "20", "20", "20"],
+        "Animist": ["6", "7", "9", "9", "9", "20"],
+        "Healer": ["6", "7", "9", "9", "9", "20"],
+        "Mentalist": ["9", "20", "20", "20", "20", "20"],
+        "Lay Healer": ["9", "20", "20", "20", "20", "20"],
+        "Seer": ["9", "20", "20", "20", "20", "20"],
+        "Sorcerer": ["9", "20", "20", "20", "20", "20"],
+        "Mystic": ["9", "20", "20", "20", "20", "20"],
+        "Astrologer": ["9", "20", "20", "20", "20", "20"],
+        "Monk": ["3/7", "4", "6", "6", "6", "9"],
+        "Bard": ["2/5", "3", "4", "4", "4", "9"]
+      },
+      "stat": "St",
+      "description": "Determines a character's offensive bonus and overall effectiveness when attacking with one-handed slashing weapons like scimitars or short swords."
+    },
+    {
+      "skill": "One-Handed Concussion",
+      "category": "Weapon Skills",
+      "development_costs": {
+        "Fighter": ["1/5", "2/5", "2/7", "2/7", "2/7", "5"],
+        "Thief": ["2/7", "3/8", "4", "4", "4", "6"],
+        "Magician": ["9", "20", "20", "20", "20", "20"],
+        "Cleric": ["6", "7", "9", "9", "9", "20"],
+        "Ranger": ["3/7", "4", "5", "5", "5", "9"],
+        "Rogue": ["2/5", "2/7", "3/8", "4", "4", "6"],
+        "Warrior Monk": ["1/5", "2/6", "2/7", "2/7", "3/8", "6"],
+        "Illusionist": ["9", "20", "20", "20", "20", "20"],
+        "Alchemist": ["9", "20", "20", "20", "20", "20"],
+        "Animist": ["6", "7", "9", "9", "9", "20"],
+        "Healer": ["6", "7", "9", "9", "9", "20"],
+        "Mentalist": ["9", "20", "20", "20", "20", "20"],
+        "Lay Healer": ["9", "20", "20", "20", "20", "20"],
+        "Seer": ["9", "20", "20", "20", "20", "20"],
+        "Sorcerer": ["9", "20", "20", "20", "20", "20"],
+        "Mystic": ["9", "20", "20", "20", "20", "20"],
+        "Astrologer": ["9", "20", "20", "20", "20", "20"],
+        "Monk": ["3/7", "4", "6", "6", "6", "9"],
+        "Bard": ["2/5", "3", "4", "4", "4", "9"]
+      },
+      "stat": "St",
+      "description": "Determines a character's offensive bonus and overall effectiveness when attacking with one-handed concussion weapons like maces or war hammers."
+    },
+    {
+      "skill": "Two-Handed Weapons",
+      "category": "Weapon Skills",
+      "development_costs": {
+        "Fighter": ["1/5", "2/5", "2/7", "2/7", "2/7", "5"],
+        "Thief": ["2/7", "3/8", "4", "4", "4", "6"],
+        "Magician": ["9", "20", "20", "20", "20", "20"],
+        "Cleric": ["6", "7", "9", "9", "9", "20"],
+        "Ranger": ["3/7", "4", "5", "5", "5", "9"],
+        "Rogue": ["2/5", "2/7", "3/8", "4", "4", "6"],
+        "Warrior Monk": ["1/5", "2/6", "2/7", "2/7", "3/8", "6"],
+        "Illusionist": ["9", "20", "20", "20", "20", "20"],
+        "Alchemist": ["9", "20", "20", "20", "20", "20"],
+        "Animist": ["6", "7", "9", "9", "9", "20"],
+        "Healer": ["6", "7", "9", "9", "9", "20"],
+        "Mentalist": ["9", "20", "20", "20", "20", "20"],
+        "Lay Healer": ["9", "20", "20", "20", "20", "20"],
+        "Seer": ["9", "20", "20", "20", "20", "20"],
+        "Sorcerer": ["9", "20", "20", "20", "20", "20"],
+        "Mystic": ["9", "20", "20", "20", "20", "20"],
+        "Astrologer": ["9", "20", "20", "20", "20", "20"],
+        "Monk": ["3/7", "4", "6", "6", "6", "9"],
+        "Bard": ["2/5", "3", "4", "4", "4", "9"]
+      },
+      "stat": "St",
+      "description": "Determines a character's offensive bonus and overall effectiveness when attacking with heavy two-handed weapons like two-handed swords or war mattocks."
+    },
+    {
+      "skill": "Pole Arms",
+      "category": "Weapon Skills",
+      "development_costs": {
+        "Fighter": ["1/5", "2/5", "2/7", "2/7", "2/7", "5"],
+        "Thief": ["2/7", "3/8", "4", "4", "4", "6"],
+        "Magician": ["9", "20", "20", "20", "20", "20"],
+        "Cleric": ["6", "7", "9", "9", "9", "20"],
+        "Ranger": ["3/7", "4", "5", "5", "5", "9"],
+        "Rogue": ["2/5", "2/7", "3/8", "4", "4", "6"],
+        "Warrior Monk": ["1/5", "2/6", "2/7", "2/7", "3/8", "6"],
+        "Illusionist": ["9", "20", "20", "20", "20", "20"],
+        "Alchemist": ["9", "20", "20", "20", "20", "20"],
+        "Animist": ["6", "7", "9", "9", "9", "20"],
+        "Healer": ["6", "7", "9", "9", "9", "20"],
+        "Mentalist": ["9", "20", "20", "20", "20", "20"],
+        "Lay Healer": ["9", "20", "20", "20", "20", "20"],
+        "Seer": ["9", "20", "20", "20", "20", "20"],
+        "Sorcerer": ["9", "20", "20", "20", "20", "20"],
+        "Mystic": ["9", "20", "20", "20", "20", "20"],
+        "Astrologer": ["9", "20", "20", "20", "20", "20"],
+        "Monk": ["3/7", "4", "6", "6", "6", "9"],
+        "Bard": ["2/5", "3", "4", "4", "4", "9"]
+      },
+      "stat": "St",
+      "description": "Determines a character's offensive bonus and overall effectiveness when attacking with pole-mounted weapons like spears or halberds."
+    },
+    {
+      "skill": "Missile Weapons",
+      "category": "Weapon Skills",
+      "development_costs": {
+        "Fighter": ["1/5", "2/5", "2/7", "2/7", "2/7", "5"],
+        "Thief": ["2/7", "3/8", "4", "4", "4", "6"],
+        "Magician": ["9", "20", "20", "20", "20", "20"],
+        "Cleric": ["6", "7", "9", "9", "9", "20"],
+        "Ranger": ["3/7", "4", "5", "5", "5", "9"],
+        "Rogue": ["2/5", "2/7", "3/8", "4", "4", "6"],
+        "Warrior Monk": ["1/5", "2/6", "2/7", "2/7", "3/8", "6"],
+        "Illusionist": ["9", "20", "20", "20", "20", "20"],
+        "Alchemist": ["9", "20", "20", "20", "20", "20"],
+        "Animist": ["6", "7", "9", "9", "9", "20"],
+        "Healer": ["6", "7", "9", "9", "9", "20"],
+        "Mentalist": ["9", "20", "20", "20", "20", "20"],
+        "Lay Healer": ["9", "20", "20", "20", "20", "20"],
+        "Seer": ["9", "20", "20", "20", "20", "20"],
+        "Sorcerer": ["9", "20", "20", "20", "20", "20"],
+        "Mystic": ["9", "20", "20", "20", "20", "20"],
+        "Astrologer": ["9", "20", "20", "20", "20", "20"],
+        "Monk": ["3/7", "4", "6", "6", "6", "9"],
+        "Bard": ["2/5", "3", "4", "4", "4", "9"]
+      },
+      "stat": "Ag",
+      "description": "Determines a character's offensive bonus and overall effectiveness when attacking with missile weapons like short bows or slings."
+    },
+    {
+      "skill": "Thrown Weapons",
+      "category": "Weapon Skills",
+      "development_costs": {
+        "Fighter": ["1/5", "2/5", "2/7", "2/7", "2/7", "5"],
+        "Thief": ["2/7", "3/8", "4", "4", "4", "6"],
+        "Magician": ["9", "20", "20", "20", "20", "20"],
+        "Cleric": ["6", "7", "9", "9", "9", "20"],
+        "Ranger": ["3/7", "4", "5", "5", "5", "9"],
+        "Rogue": ["2/5", "2/7", "3/8", "4", "4", "6"],
+        "Warrior Monk": ["1/5", "2/6", "2/7", "2/7", "3/8", "6"],
+        "Illusionist": ["9", "20", "20", "20", "20", "20"],
+        "Alchemist": ["9", "20", "20", "20", "20", "20"],
+        "Animist": ["6", "7", "9", "9", "9", "20"],
+        "Healer": ["6", "7", "9", "9", "9", "20"],
+        "Mentalist": ["9", "20", "20", "20", "20", "20"],
+        "Lay Healer": ["9", "20", "20", "20", "20", "20"],
+        "Seer": ["9", "20", "20", "20", "20", "20"],
+        "Sorcerer": ["9", "20", "20", "20", "20", "20"],
+        "Mystic": ["9", "20", "20", "20", "20", "20"],
+        "Astrologer": ["9", "20", "20", "20", "20", "20"],
+        "Monk": ["3/7", "4", "6", "6", "6", "9"],
+        "Bard": ["2/5", "3", "4", "4", "4", "9"]
+      },
+      "stat": "St",
+      "description": "Determines a character's offensive bonus and overall effectiveness when attacking with thrown weapons like throwing knives or axes."
     },
     {
       "skill": "Climbing",
@@ -482,7 +494,9 @@
         "Astrologer": "6",
         "Monk": "3/9",
         "Bard": "3/9"
-      }
+      },
+      "stat": "Ag",
+      "description": "The ability to ascend and descend surfaces, ranging from ladders to sheer mountain faces, as well as rappelling and moving along ropes"
     },
     {
       "skill": "Disarming Traps",
@@ -507,7 +521,9 @@
         "Astrologer": "7",
         "Monk": "4",
         "Bard": "4"
-      }
+      },
+      "stat": "In",
+      "description": "The ability to successfully identify and disarm inanimate traps"
     },
     {
       "skill": "Perception",
@@ -532,7 +548,9 @@
         "Astrologer": "3",
         "Monk": "2/7",
         "Bard": "2/7"
-      }
+      },
+      "stat": "In",
+      "description": "Dictates how much information and how many clues a character gathers through observation, allowing them to notice hidden objects, traps, or ambushes"
     },
     {
       "skill": "Picking Locks",
@@ -557,7 +575,9 @@
         "Astrologer": "8",
         "Monk": "4",
         "Bard": "4"
-      }
+      },
+      "stat": "In",
+      "description": "The ability to lock, unlock, or bypass locks and similar mechanisms"
     },
     {
       "skill": "Riding",
@@ -582,7 +602,9 @@
         "Astrologer": "3",
         "Monk": "2/6",
         "Bard": "2/6"
-      }
+      },
+      "stat": "Em",
+      "description": "The ability to stay mounted, retain control when an animal is startled or hostile, and gain control over unfamiliar mounts"
     },
     {
       "skill": "Stalking & Hiding",
@@ -607,7 +629,9 @@
         "Astrologer": "5",
         "Monk": "1/5",
         "Bard": "1/5"
-      }
+      },
+      "stat": "Ag/SD",
+      "description": "The ability to move silently and conceal one's presence using shadows and camouflage, both while moving and while remaining stationary"
     },
     {
       "skill": "Swimming",
@@ -632,7 +656,9 @@
         "Astrologer": "3",
         "Monk": "2/6",
         "Bard": "2/6"
-      }
+      },
+      "stat": "Ag",
+      "description": "The ability to stay afloat, swim distances, make headway against currents, and prevent drowning"
     },
     {
       "skill": "Channeling",
@@ -657,7 +683,9 @@
         "Astrologer": "7",
         "Monk": "3",
         "Bard": "3"
-      }
+      },
+      "stat": "In",
+      "description": "The skill of transmitting and receiving raw magical power (power points) between two willing individuals over a distance"
     },
     {
       "skill": "Directed Spells",
@@ -682,7 +710,9 @@
         "Astrologer": "2/5",
         "Monk": "15",
         "Bard": "15"
-      }
+      },
+      "stat": "Ag",
+      "description": "Functions like a weapon skill for spells directed at a single target (such as elemental bolts), adding to the caster's offensive attack roll with that specific spell"
     },
     {
       "skill": "Learning Spell Lists",
@@ -707,7 +737,9 @@
         "Astrologer": "1/*",
         "Monk": "4/*",
         "Bard": "4/*"
-      }
+      },
+      "stat": "",
+      "description": "Determines the percentile chance a character has of successfully learning a new spell list during their development"
     },
     {
       "skill": "Runes",
@@ -732,7 +764,9 @@
         "Astrologer": "1/4",
         "Monk": "5",
         "Bard": "5"
-      }
+      },
+      "stat": "Em",
+      "description": "Enables a character to successfully decipher and cast spells that have been inscribed as runes into suitable media"
     },
     {
       "skill": "Staves & Wands",
@@ -757,7 +791,9 @@
         "Astrologer": "1/4",
         "Monk": "6",
         "Bard": "6"
-      }
+      },
+      "stat": "Em",
+      "description": "Enables a character to understand and cast spells from a staff, wand, or other item that possesses built-in spell-casting abilities"
     },
     {
       "skill": "Adrenal Defense",
@@ -782,7 +818,9 @@
         "Astrologer": "20",
         "Monk": "20",
         "Bard": "20"
-      }
+      },
+      "stat": "None",
+      "description": "The ability to dodge or deflect melee and missile attacks while unarmored and unencumbered, adding the skill bonus directly to the character's Defensive Bonus"
     },
     {
       "skill": "Adrenal Moves",
@@ -807,7 +845,9 @@
         "Astrologer": "6",
         "Monk": "2/7",
         "Bard": "2/7"
-      }
+      },
+      "stat": "Pr",
+      "description": "The art of superhuman effort, utilizing preparation and concentration to perform exceptional, momentary feats of balance, leaping, landing, speed, strength, or quick-drawing a weapon"
     },
     {
       "skill": "Ambush",
@@ -832,7 +872,9 @@
         "Astrologer": "9",
         "Monk": "3",
         "Bard": "3"
-      }
+      },
+      "stat": "",
+      "description": "The ability to make a highly precise attack against an undetected foe, allowing the attacker to favorably adjust the resulting critical strike roll for a deadlier blow"
     },
     {
       "skill": "Body Development",
@@ -857,7 +899,9 @@
         "Astrologer": "8",
         "Monk": "2/7",
         "Bard": "2/7"
-      }
+      },
+      "stat": "Co",
+      "description": "Determines the character's base hit point total, dictating exactly how much damage (concussion hits) they can absorb before passing out"
     },
     {
       "skill": "Linguistics",
@@ -882,7 +926,9 @@
         "Astrologer": "2/*",
         "Monk": "3/*",
         "Bard": "3/*"
-      }
+      },
+      "stat": "Re",
+      "description": "The ability to understand, speak, and write different languages"
     },
     {
       "skill": "Martial Arts",
@@ -907,7 +953,9 @@
         "Astrologer": "9",
         "Monk": "4",
         "Bard": "4"
-      }
+      },
+      "stat": "St/Ag",
+      "description": "Unarmed combat techniques focused on delivering strikes, sweeps, and grappling maneuvers"
     }
   ],
   "secondary_skills": [
@@ -935,7 +983,8 @@
         "Monk": "1/5",
         "Ranger": "2/6",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Acting",
@@ -961,7 +1010,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "1/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Animal Healing",
@@ -987,7 +1037,8 @@
         "Monk": "2/5",
         "Ranger": "2/5",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Caving",
@@ -1013,7 +1064,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Contortions",
@@ -1039,7 +1091,8 @@
         "Monk": "2/6",
         "Ranger": "2/5",
         "Bard": "3/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Cookery",
@@ -1065,7 +1118,8 @@
         "Monk": "2/6",
         "Ranger": "2/4",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Dance",
@@ -1091,7 +1145,8 @@
         "Monk": "1/5",
         "Ranger": "2/5",
         "Bard": "1/3"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Diving",
@@ -1117,7 +1172,8 @@
         "Monk": "2/4",
         "Ranger": "2/5",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Falsification",
@@ -1143,7 +1199,8 @@
         "Monk": "3",
         "Ranger": "3",
         "Bard": "3"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "First Aid",
@@ -1169,7 +1226,8 @@
         "Monk": "2/6",
         "Ranger": "2/4",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Fletching",
@@ -1195,7 +1253,8 @@
         "Monk": "2/5",
         "Ranger": "2/5",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Foraging",
@@ -1221,7 +1280,8 @@
         "Monk": "2/6",
         "Ranger": "1/3",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Frenzy",
@@ -1247,7 +1307,8 @@
         "Monk": "1/3",
         "Ranger": "2/6",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Gambling",
@@ -1273,7 +1334,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Herding",
@@ -1299,7 +1361,8 @@
         "Monk": "3/7",
         "Ranger": "2/7",
         "Bard": "2/7"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Leather-working",
@@ -1325,7 +1388,8 @@
         "Monk": "2/6",
         "Ranger": "2/5",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Mathematics",
@@ -1351,7 +1415,8 @@
         "Monk": "2/5",
         "Ranger": "2/6",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Meditation",
@@ -1377,7 +1442,8 @@
         "Monk": "1/5",
         "Ranger": "2/4",
         "Bard": "2/4"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Music",
@@ -1403,7 +1469,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "1/2"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Navigation",
@@ -1429,7 +1496,8 @@
         "Monk": "2/6",
         "Ranger": "1/4",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Public-speaking",
@@ -1455,7 +1523,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "1/4"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Rope-mastery",
@@ -1481,7 +1550,8 @@
         "Monk": "2/4",
         "Ranger": "2/5",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Rowing",
@@ -1507,7 +1577,8 @@
         "Monk": "1/5",
         "Ranger": "2/4",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Sailing",
@@ -1533,7 +1604,8 @@
         "Monk": "2/4",
         "Ranger": "2/5",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Seduction",
@@ -1559,7 +1631,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "1/4"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Signaling",
@@ -1585,7 +1658,8 @@
         "Monk": "2/6",
         "Ranger": "1/5",
         "Bard": "1/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Singing",
@@ -1611,7 +1685,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "1/2"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Skiing",
@@ -1637,7 +1712,8 @@
         "Monk": "2/6",
         "Ranger": "2/6",
         "Bard": "2/7"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Smithing",
@@ -1663,7 +1739,8 @@
         "Monk": "2/6",
         "Ranger": "2/7",
         "Bard": "3/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Spell-mastery",
@@ -1689,7 +1766,8 @@
         "Monk": "3/5",
         "Ranger": "3/5",
         "Bard": "3/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Star-gazing",
@@ -1715,7 +1793,8 @@
         "Monk": "2/5",
         "Ranger": "2/4",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Stone-carving",
@@ -1741,7 +1820,8 @@
         "Monk": "2/7",
         "Ranger": "2/6",
         "Bard": "2/7"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Subduing",
@@ -1767,7 +1847,8 @@
         "Monk": "3",
         "Ranger": "4",
         "Bard": "5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Tracking",
@@ -1793,7 +1874,8 @@
         "Monk": "2/6",
         "Ranger": "1/5",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Trading",
@@ -1819,7 +1901,8 @@
         "Monk": "3/6",
         "Ranger": "3/5",
         "Bard": "2/4"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Trap-building",
@@ -1845,7 +1928,8 @@
         "Monk": "2/6",
         "Ranger": "2/5",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Trickery",
@@ -1871,7 +1955,8 @@
         "Monk": "2/5",
         "Ranger": "2/5",
         "Bard": "2/4"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Tumbling",
@@ -1897,7 +1982,8 @@
         "Monk": "1/4",
         "Ranger": "2/4",
         "Bard": "2/5"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Weather-watching",
@@ -1923,7 +2009,8 @@
         "Monk": "1/5",
         "Ranger": "1/5",
         "Bard": "2/6"
-      }
+      },
+      "category": "Secondary"
     },
     {
       "skill": "Wood-carving",
@@ -1949,11 +2036,12 @@
         "Monk": "1/5",
         "Ranger": "2/4",
         "Bard": "2/4"
-      }
+      },
+      "category": "Secondary"
     }
   ],
   "races": {
-    "Common Men": {
+    "Common Man": {
       "stat_modifiers": {
         "St": 5,
         "Qu": 5,
@@ -1978,7 +2066,7 @@
       "recovery_multiplier": 1,
       "languages": 4
     },
-    "High Men": {
+    "High Man": {
       "stat_modifiers": {
         "St": 10,
         "Qu": -5,
@@ -2003,7 +2091,7 @@
       "recovery_multiplier": 1,
       "languages": 5
     },
-    "Wood Elves": {
+    "Wood Elf": {
       "stat_modifiers": {
         "St": 0,
         "Qu": 15,
@@ -2028,7 +2116,7 @@
       "recovery_multiplier": 0.5,
       "languages": 5
     },
-    "Dwarves": {
+    "Dwarf": {
       "stat_modifiers": {
         "St": 5,
         "Qu": -5,
@@ -2053,7 +2141,7 @@
       "recovery_multiplier": 0.5,
       "languages": 4
     },
-    "Halflings": {
+    "Halfling": {
       "stat_modifiers": {
         "St": -15,
         "Qu": 15,

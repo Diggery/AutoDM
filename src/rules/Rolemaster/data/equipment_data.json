@@ -1,0 +1,318 @@
+{
+    "equipment_list": {
+        "armor": {
+            "Cloth-Skin Base": [
+                {
+                    "AT": 1,
+                    "name": "Skin",
+                    "min_maneuver": 0,
+                    "max_maneuver": 0,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 0,
+                    "essence_esf": 0,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 2,
+                    "name": "Robes",
+                    "min_maneuver": 0,
+                    "max_maneuver": 0,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 0,
+                    "essence_esf": 0,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 3,
+                    "name": "Light Hide",
+                    "min_maneuver": 0,
+                    "max_maneuver": 0,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 0,
+                    "essence_esf": 0,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 4,
+                    "name": "Heavy Hide",
+                    "min_maneuver": 0,
+                    "max_maneuver": 0,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 0,
+                    "essence_esf": 0,
+                    "channeling_esf": 0
+                }
+            ],
+            "Soft Leather Base": [
+                {
+                    "AT": 5,
+                    "name": "Leather Jerkin",
+                    "min_maneuver": 0,
+                    "max_maneuver": 0,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 0,
+                    "essence_esf": 10,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 6,
+                    "name": "Leather Coat",
+                    "min_maneuver": 0,
+                    "max_maneuver": -20,
+                    "missile_penalty": 5,
+                    "quickness_penalty": 0,
+                    "essence_esf": 15,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 7,
+                    "name": "Reinforced Leather Coat",
+                    "min_maneuver": -10,
+                    "max_maneuver": -40,
+                    "missile_penalty": 15,
+                    "quickness_penalty": 10,
+                    "essence_esf": 20,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 8,
+                    "name": "Reinforced Full-Length Leather Coat",
+                    "min_maneuver": -15,
+                    "max_maneuver": -50,
+                    "missile_penalty": 15,
+                    "quickness_penalty": 15,
+                    "essence_esf": 25,
+                    "channeling_esf": 0
+                }
+            ],
+            "Rigid Leather Base": [
+                {
+                    "AT": 9,
+                    "name": "Leather Breastplate",
+                    "min_maneuver": -5,
+                    "max_maneuver": -50,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 0,
+                    "essence_esf": 15,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 10,
+                    "name": "Leather Breastplate and Greaves",
+                    "min_maneuver": -10,
+                    "max_maneuver": -70,
+                    "missile_penalty": 10,
+                    "quickness_penalty": 5,
+                    "essence_esf": 30,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 11,
+                    "name": "Half-Hide Plate",
+                    "min_maneuver": -15,
+                    "max_maneuver": -90,
+                    "missile_penalty": 20,
+                    "quickness_penalty": 15,
+                    "essence_esf": 40,
+                    "channeling_esf": 0
+                },
+                {
+                    "AT": 12,
+                    "name": "Full-Hide Plate",
+                    "min_maneuver": -15,
+                    "max_maneuver": -110,
+                    "missile_penalty": 30,
+                    "quickness_penalty": 15,
+                    "essence_esf": 50,
+                    "channeling_esf": 0
+                }
+            ],
+            "Chain Mail Base": [
+                {
+                    "AT": 13,
+                    "name": "Chain Shirt",
+                    "min_maneuver": -10,
+                    "max_maneuver": -70,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 5,
+                    "essence_esf": 35,
+                    "channeling_esf": 25
+                },
+                {
+                    "AT": 14,
+                    "name": "Chain Shirt and Greaves",
+                    "min_maneuver": -15,
+                    "max_maneuver": -90,
+                    "missile_penalty": 10,
+                    "quickness_penalty": 10,
+                    "essence_esf": 45,
+                    "channeling_esf": 35
+                },
+                {
+                    "AT": 15,
+                    "name": "Full Chain",
+                    "min_maneuver": -25,
+                    "max_maneuver": -120,
+                    "missile_penalty": 20,
+                    "quickness_penalty": 20,
+                    "essence_esf": 70,
+                    "channeling_esf": 60
+                },
+                {
+                    "AT": 16,
+                    "name": "Chain Hauberk",
+                    "min_maneuver": -25,
+                    "max_maneuver": -130,
+                    "missile_penalty": 20,
+                    "quickness_penalty": 20,
+                    "essence_esf": 70,
+                    "channeling_esf": 60
+                }
+            ],
+            "Plate Base": [
+                {
+                    "AT": 17,
+                    "name": "Metal Breastplate",
+                    "min_maneuver": -15,
+                    "max_maneuver": -90,
+                    "missile_penalty": 0,
+                    "quickness_penalty": 10,
+                    "essence_esf": 40,
+                    "channeling_esf": 30
+                },
+                {
+                    "AT": 18,
+                    "name": "Metal Breastplate and Greaves",
+                    "min_maneuver": -20,
+                    "max_maneuver": -110,
+                    "missile_penalty": 10,
+                    "quickness_penalty": 20,
+                    "essence_esf": 50,
+                    "channeling_esf": 40
+                },
+                {
+                    "AT": 19,
+                    "name": "Half Plate",
+                    "min_maneuver": -35,
+                    "max_maneuver": -150,
+                    "missile_penalty": 30,
+                    "quickness_penalty": 30,
+                    "essence_esf": 75,
+                    "channeling_esf": 60
+                },
+                {
+                    "AT": 20,
+                    "name": "Full Plate",
+                    "min_maneuver": -45,
+                    "max_maneuver": -165,
+                    "missile_penalty": 40,
+                    "quickness_penalty": 40,
+                    "essence_esf": 90,
+                    "channeling_esf": 75
+                }
+            ]
+        },
+        "shields": [
+            {
+                "name": "Wall Shield",
+                "bonus_versus_melee": 30,
+                "bonus_versus_missile": 40,
+                "weight_lbs": "45-50",
+                "parry_limitations": "None"
+            },
+            {
+                "name": "Full Shield",
+                "bonus_versus_melee": 25,
+                "bonus_versus_missile": 25,
+                "weight_lbs": "25-30",
+                "parry_limitations": "None"
+            },
+            {
+                "name": "Normal Shield",
+                "bonus_versus_melee": 20,
+                "bonus_versus_missile": 20,
+                "weight_lbs": "15-20",
+                "parry_limitations": "None"
+            },
+            {
+                "name": "Target Shield",
+                "bonus_versus_melee": 20,
+                "bonus_versus_missile": 10,
+                "weight_lbs": "5-10",
+                "parry_limitations": "None"
+            }
+        ],
+        "weapons": {
+            "One-Handed Slashing": [
+                {
+                    "name": "Scimitar",
+                    "weight_lbs": "3-5",
+                    "fumble_range": "01-04"
+                },
+                {
+                    "name": "Short Sword",
+                    "weight_lbs": "2-4",
+                    "fumble_range": "01-02"
+                },
+                {
+                    "name": "Main Gauche",
+                    "weight_lbs": "1-2",
+                    "fumble_range": "01-02"
+                }
+            ],
+            "One-Handed Concussion": [
+                {
+                    "name": "Club",
+                    "weight_lbs": "3-7",
+                    "fumble_range": "01-04"
+                },
+                {
+                    "name": "Mace",
+                    "weight_lbs": "3.5-8",
+                    "fumble_range": "01-02"
+                },
+                {
+                    "name": "War Hammer",
+                    "weight_lbs": "4-7",
+                    "fumble_range": "01-04"
+                },
+                {
+                    "name": "Whip",
+                    "weight_lbs": "2-5",
+                    "fumble_range": "01-06"
+                }
+            ],
+            "Missile Weapons": [
+                {
+                    "name": "Short Bow",
+                    "weight_lbs": "2-3",
+                    "fumble_range": "01-04"
+                },
+                {
+                    "name": "Sling",
+                    "weight_lbs": ".5-1",
+                    "fumble_range": "01-06"
+                }
+            ],
+            "Two-Handed Weapons": [
+                {
+                    "name": "Two-Hand Sword",
+                    "weight_lbs": "5-12",
+                    "fumble_range": "01-05"
+                },
+                {
+                    "name": "War Mattock",
+                    "weight_lbs": "4-8",
+                    "fumble_range": "01-06"
+                }
+            ],
+            "Pole Arms": [
+                {
+                    "name": "Spear",
+                    "weight_lbs": "3-8",
+                    "fumble_range": "01-05"
+                }
+            ]
+        }
+    }
+}

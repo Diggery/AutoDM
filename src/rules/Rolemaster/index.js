@@ -1,6 +1,7 @@
 import { GameSystemInterface } from '../RulesInterface';
 import attacksData from './data/attacks.json';
 import templateData from './data/character_template.json';
+import RolemasterSheet from './components/RolemasterSheet';
 
 /**
  * Simplified Rolemaster Test Implementation.
@@ -80,3 +81,4 @@ export class RolemasterRules extends GameSystemInterface {
 }
 
 export const rolemasterSystem = new RolemasterRules();
+rolemasterSystem.CharacterSheet = RolemasterSheet;

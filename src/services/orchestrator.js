@@ -1,22 +1,19 @@
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getActiveCampaignEntities } from './db';
-import { getAiResponse } from './ai';
-import { rolemasterSystem } from '../rules/Rolemaster';
+import { getRulesetById } from '../rules';
 import { SYSTEM_PROMPTS } from '../prompts';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-
-const RULE_MODULES = {
-  'rolemaster': rolemasterSystem
-};
 
 /**
  * The Orchestrator manages the flow between the Player's intent, the Database state,
  * the Rule Module, and the LLM Narrator.
  */
-export async function processPlayerIntent(campaignId, player, intentText, apiKey, model, diceRoller, activeCharacter) {
-  // Hardcoded to rolemaster for now until UI lets us pick
-  const rules = RULE_MODULES['rolemaster'];
+export async function processPlayerIntent(campaignId, user, intentText, apiKey, model, diceRoller, activeCharacter, rulesetId = 'rolemaster') {
+  // Load the ruleset dynamically
+  const rules = getRulesetById(rulesetId)?.system;
+  if (!rules) throw new Error(`Ruleset ${rulesetId} not found`);
+
   const allWeapons = rules.getAvailableWeapons ? rules.getAvailableWeapons() : [];
   
   // Optimize LLM prompt: if the user explicitly mentions a weapon, only supply matching weapons
@@ -135,13 +132,12 @@ export async function processPlayerIntent(campaignId, player, intentText, apiKey
   console.log("=========================================");
 
   // 5. Save the final narrative to Firestore
-  await addDoc(collection(db, 'messages'), {
+  await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
     text: finalNarrative,
     uid: 'system_ai',
     displayName: 'AutoDM Agent',
     photoURL: '',
     createdAt: serverTimestamp(),
-    isAi: true,
-    campaignId: campaignId // scoped to campaign
+    isAi: true
   });
 }

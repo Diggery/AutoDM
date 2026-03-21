@@ -1,10 +1,8 @@
 .character-pane {
-  width: 320px;
-  min-width: 320px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  margin-right: 16px;
-  height: 100%;
 }
 
 .pane-header {

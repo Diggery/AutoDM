@@ -1,15 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { LogOut, Settings, Send, Trash2 } from 'lucide-react';
+import { LogOut, Settings, Send, Trash2, ArrowLeft } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
 import Message from './Message';
 import SettingsModal from './SettingsModal';
-import DiceRoller from './DiceRoller';
-import { getAiResponse, AVAILABLE_MODELS } from '../services/ai';
+import { AVAILABLE_MODELS } from '../services/ai';
 import { processPlayerIntent } from '../services/orchestrator';
 import './Chat.css';
 
-export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }) {
+export default function Chat({ user, campaignId, rulesetId, activeCharacter, onSignOut, onBackToLanding, diceRollerRef }) {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -17,9 +16,11 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
   const [isClearing, setIsClearing] = useState(false);
   const messagesEndRef = useRef(null);
 
+  const messagesRef = collection(db, 'campaigns', campaignId, 'messages');
+
   useEffect(() => {
     const q = query(
-      collection(db, 'messages'),
+      messagesRef,
       orderBy('createdAt', 'desc'),
       limit(50)
     );
@@ -33,19 +34,18 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [campaignId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleClearChat = async () => {
-    if (!window.confirm("Are you sure you want to clear the entire chat history? This action cannot be undone.")) return;
+    if (!window.confirm("Are you sure you want to clear the entire chat history for this campaign? This action cannot be undone.")) return;
 
     setIsClearing(true);
     try {
-      const q = query(collection(db, 'messages'));
-      const snapshot = await getDocs(q);
+      const snapshot = await getDocs(messagesRef);
       const batch = writeBatch(db);
 
       snapshot.docs.forEach((docSnap) => {
@@ -69,7 +69,7 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
     setNewMessage('');
 
     try {
-      await addDoc(collection(db, 'messages'), {
+      await addDoc(messagesRef, {
         text: textToSend,
         uid: activeCharacter ? activeCharacter.id : user.uid,
         displayName: activeCharacter ? activeCharacter.name : (user.displayName || user.email?.split('@')[0] || 'Unknown User'),
@@ -83,7 +83,7 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
         const apiKey = localStorage.getItem('auto_dm_gemini_key');
 
         if (!apiKey) {
-          await addDoc(collection(db, 'messages'), {
+          await addDoc(messagesRef, {
             text: "⚠️ Please configure your Gemini API Key in Settings to use the AI Agent.",
             uid: 'system_ai',
             displayName: 'System',
@@ -98,7 +98,6 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
           const handleDiceRoll = async (notation) => {
             if (diceRollerRef.current) {
               try {
-                // Let the physics engine handle the native notation. For a percentile (d100), explicitly request tens and ones
                 let safeNotation = notation;
                 if (safeNotation.includes('1d100')) {
                    safeNotation = safeNotation.replace(/1d100/g, '1d100+1d10');
@@ -107,14 +106,12 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
                 let total = 0;
                 
                 if (results) {
-                  // handle both array responses and object responses from dice-box libraries
                   if (Array.isArray(results)) {
                     total = results.reduce((acc, group) => acc + (group.value || group.total || 0), 0);
                   } else if (results.total !== undefined) {
                     total = results.total;
                   }
                   
-                  // Handle 00 + 0 on percentile dice
                   if (notation.includes('d100') && total === 0) {
                      total = 100;
                   }
@@ -125,7 +122,6 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
                 console.error("Dice 3D Error:", err);
               }
             }
-            // Fallback natively 
             const match = notation.match(/(\d*)d(\d+)/i) || [];
             const qt = parseInt(match[1]) || 1;
             const sd = parseInt(match[2]) || 20;
@@ -134,11 +130,10 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
             return sum;
           };
 
-          // Use the orchestrator to process player intent through the Rules Module
-          await processPlayerIntent('default', user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter);
+          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId);
 
         } catch (error) {
-          await addDoc(collection(db, 'messages'), {
+          await addDoc(messagesRef, {
             text: `⚠️ AI Error: ${error.message}`,
             uid: 'system_ai',
             displayName: 'System',
@@ -157,6 +152,9 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
     <div className="chat-layout">
       <div className="chat-header glass-panel">
         <div className="user-info">
+          <button className="btn-icon back-btn" onClick={onBackToLanding} title="Back to Campaigns">
+            <ArrowLeft size={20} />
+          </button>
           <div className="avatar">
             {user.photoURL ? (
               <img src={user.photoURL} alt="Profile" />
@@ -197,7 +195,7 @@ export default function Chat({ user, activeCharacter, onSignOut, diceRollerRef }
             <div className="empty-state">
               <div className="empty-icon">✨</div>
               <h3>Welcome to AutoDM</h3>
-              <p>Start a conversation. Mention <b style={{ color: 'var(--primary)' }}>@dm</b> to talk to the AI agent.</p>
+              <p>Start a conversation in this campaign. Mention <b style={{ color: 'var(--primary)' }}>@dm</b> to talk to the AI agent.</p>
             </div>
           ) : (
             messages.map((msg) => (

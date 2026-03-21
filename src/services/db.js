@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, doc, getDoc, getDocs, query, where, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, where, addDoc, updateDoc, deleteDoc, arrayUnion, setDoc } from 'firebase/firestore';
 
 /**
  * Creates a new Character (PC or NPC).
@@ -43,8 +43,74 @@ export async function getCharacterById(characterId) {
 }
 
 /**
+ * Fetches all campaigns where the user is an owner or a member.
+ */
+export async function getCampaignsByUser(userId) {
+  try {
+    // Firestore doesn't support logical OR in a single query for different fields easily without complex indexing
+    // So we perform two queries and merge them, or use 'memberIds' array-contains which includes owners if we add them
+    const q = query(collection(db, 'campaigns'), where('memberIds', 'array-contains', userId));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (err) {
+    console.error("Error fetching campaigns:", err);
+    return [];
+  }
+}
+
+/**
+ * Creates a new campaign.
+ */
+export async function createCampaign(userId, name, rulesetId = 'rolemaster') {
+  // Generate a simple unique join code
+  const joinCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  
+  const payload = {
+    name,
+    rulesetId,
+    ownerId: userId,
+    memberIds: [userId],
+    joinCode,
+    createdAt: new Date(),
+    activeEntities: []
+  };
+  
+  const docRef = await addDoc(collection(db, 'campaigns'), payload);
+  return { id: docRef.id, ...payload };
+}
+
+/**
+ * Joins a campaign using a join code.
+ */
+export async function joinCampaignByCode(userId, joinCode) {
+  const q = query(collection(db, 'campaigns'), where('joinCode', '==', joinCode.toUpperCase()));
+  const snapshot = await getDocs(q);
+  
+  if (snapshot.empty) {
+    throw new Error("Invalid join code");
+  }
+  
+  const campaignDoc = snapshot.docs[0];
+  const campaignId = campaignDoc.id;
+  
+  await updateDoc(doc(db, 'campaigns', campaignId), {
+    memberIds: arrayUnion(userId)
+  });
+  
+  return { id: campaignId, ...campaignDoc.data() };
+}
+
+/**
+ * Deletes a campaign.
+ * NOTE: For a real app, you'd want to delete subcollections too (messages), 
+ * but Firestore doesn't do that automatically.
+ */
+export async function deleteCampaign(campaignId) {
+  await deleteDoc(doc(db, 'campaigns', campaignId));
+}
+
+/**
  * Fetches all entities (PCs or NPCs) currently active in a specific campaign.
- * The campaign document contains an array of active character IDs.
  */
 export async function getActiveCampaignEntities(campaignId) {
   try {
@@ -54,7 +120,6 @@ export async function getActiveCampaignEntities(campaignId) {
     const entityIds = campaignDoc.data().activeEntities || [];
     if (entityIds.length === 0) return [];
     
-    // Fetch all those characters
     const entities = [];
     for (const id of entityIds) {
       const char = await getCharacterById(id);
@@ -65,23 +130,4 @@ export async function getActiveCampaignEntities(campaignId) {
     console.error('Error fetching campaign entities', err);
     return [];
   }
-}
-
-/**
- * Creates/Gets a default mock campaign to satisfy the prototype architecture
- */
-export async function getOrCreateDefaultCampaign() {
-  const campaignId = 'default_campaign_v1';
-  const c = await getDoc(doc(db, 'campaigns', campaignId));
-  
-  if (!c.exists()) {
-    // Create the default campaign bridging the gap
-    await setDoc(doc(db, 'campaigns', campaignId), {
-      name: "The Sandbox",
-      activeEntities: [] // We will push character IDs into here as they join
-    });
-    return { id: campaignId, name: "The Sandbox", activeEntities: [] };
-  }
-  
-  return { id: c.id, ...c.data() };
 }
