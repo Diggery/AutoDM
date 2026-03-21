@@ -9,7 +9,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
  * The Orchestrator manages the flow between the Player's intent, the Database state,
  * the Rule Module, and the LLM Narrator.
  */
-export async function processPlayerIntent(campaignId, user, intentText, apiKey, model, diceRoller, activeCharacter, rulesetId = 'rolemaster', scenarioText = '') {
+export async function processPlayerIntent(campaignId, user, intentText, apiKey, model, diceRoller, activeCharacter, rulesetId = 'rolemaster', scenarioText = '', history = []) {
   // Load the ruleset dynamically
   const rules = getRulesetById(rulesetId)?.system;
   if (!rules) throw new Error(`Ruleset ${rulesetId} not found`);
@@ -33,10 +33,14 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     return total;
   };
 
+  // Extract weapons from character for validation
+  const weaponsList = (character.weapons || []).map(w => w.name).join(', ') || 'None';
+  const inventoryText = `\n\n[PLAYER INVENTORY]: ${weaponsList}\n[RULE]: If the player tries to draw or attack with a weapon NOT in their inventory, you MUST remind them they don't have it and ask them to use what they possess.`;
+
   const genAI = new GoogleGenerativeAI(apiKey);
   const modelInstance = genAI.getGenerativeModel({
     model: model,
-    systemInstruction: SYSTEM_PROMPTS.AUTO_DM_BASE + (scenarioText ? `\n\nQuest Scenario: ${scenarioText}` : ''),
+    systemInstruction: SYSTEM_PROMPTS.AUTO_DM_BASE + (scenarioText ? `\n\nQuest Scenario: ${scenarioText}` : '') + inventoryText,
     tools: [{
         functionDeclarations: [
           {
@@ -79,7 +83,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     }]
   });
 
-  const chat = modelInstance.startChat();
+  const chat = modelInstance.startChat({ history });
   
   console.log("=========================================");
   console.log("[Orchestrator] Player Intent:", intentText);
@@ -137,8 +141,21 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     finalNarrative = narrationResult.response.text();
     console.log("[Orchestrator] 📖 Narrator Prose Generated");
     
-    // In a full app, we would apply effects to the DB here:
-    // if(ruleResult.damageApplied > 0) updateMonsterHealth(...)
+    // Post Action Details message as requested
+    if (actionArgs.actionType === 'attack') {
+      const bonus = character.weaponSkill || 0;
+      const detailText = `${character.name} attacked with ${weaponToUse || 'their bare hands'} and rolled a ${ruleResult.roll} plus an OB of ${bonus} for a total of ${ruleResult.totalScore}, which ${ruleResult.outcome.toLowerCase()}.`;
+      
+      await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
+        text: detailText,
+        uid: 'system_ai',
+        displayName: 'Action Details',
+        photoURL: '',
+        createdAt: serverTimestamp(),
+        isAi: true,
+        type: 'Details'
+      });
+    }
   } else if (call && call.name === "spawn_npcs") {
     console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
     const { npcType, count = 1 } = call.args;
@@ -185,6 +202,8 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     photoURL: '',
     createdAt: serverTimestamp(),
     isAi: true,
+    triggeredBy: user.uid,
+    type: 'DungeonMaster',
     diceRolls: rolls // Synchronize 3D dice across all clients
   });
 }

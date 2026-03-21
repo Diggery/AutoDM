@@ -61,12 +61,16 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         // Only trigger for NEW messages created after we entered the campaign
         const msgTime = lastMsg.createdAt?.toMillis ? lastMsg.createdAt.toMillis() : Date.now();
         if (msgTime > mountTimeRef.current) {
-          // If the roll originated from another user or the AI, play the animation locally
-          // (The sender already played it via the local trigger in handleSend/orchestrator)
-          if (lastMsg.uid !== user.uid) {
+          // Skip if we were the ones who triggered this (we already rolled it manually)
+          if (lastMsg.uid !== user.uid && lastMsg.triggeredBy !== user.uid) {
             lastMsg.diceRolls.forEach(roll => {
               if (diceRollerRef.current) {
-                diceRollerRef.current.roll(roll.notation);
+                let notation = roll.notation;
+                // Consistent visual enhancement: 1d100 -> 1d100 + 1d10
+                if (notation.includes('1d100')) {
+                  notation = notation.replace(/1d100/g, '1d100+1d10');
+                }
+                diceRollerRef.current.roll(notation);
               }
             });
           }
@@ -111,7 +115,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         displayName: activeCharacter ? activeCharacter.name : (user.displayName || user.email?.split('@')[0] || 'Unknown User'),
         photoURL: user.photoURL,
         createdAt: serverTimestamp(),
-        isAi: false
+        isAi: false,
+        type: textToSend.toLowerCase().includes('@dm') ? 'InGame' : 'OutOfCharacter'
       });
 
       if (textToSend.toLowerCase().includes('@dm')) {
@@ -127,7 +132,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
             displayName: 'System',
             photoURL: '',
             createdAt: serverTimestamp(),
-            isAi: true
+            isAi: true,
+            type: 'Details'
           });
           return;
         }
@@ -139,7 +145,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
             displayName: 'System',
             photoURL: '',
             createdAt: serverTimestamp(),
-            isAi: true
+            isAi: true,
+            type: 'Details'
           });
           return;
         }
@@ -180,7 +187,33 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
             return sum;
           };
 
-          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId, campaignData?.scenarioText);
+          // Filter history to ONLY involve the DM (to/from AI or Details)
+          // Gemini requires alternating roles starting with 'user'.
+          const filteredHistory = messages
+            .filter(msg => msg.type === 'InGame' || msg.type === 'DungeonMaster' || msg.type === 'Details')
+            .map(msg => ({
+              role: (msg.type === 'DungeonMaster' || msg.type === 'Details') ? 'model' : 'user',
+              parts: [{ text: msg.text.replace(/@dm/gi, '').trim() }]
+            }));
+
+          // Ensure it starts with 'user' and alternates roles
+          const finalHistory = [];
+          filteredHistory.forEach((msg, idx) => {
+            if (finalHistory.length === 0) {
+              if (msg.role === 'user') finalHistory.push(msg);
+              // Skip if first is model
+            } else {
+              const lastRole = finalHistory[finalHistory.length - 1].role;
+              if (msg.role !== lastRole) {
+                finalHistory.push(msg);
+              } else {
+                // Merge consecutive messages of same role
+                finalHistory[finalHistory.length - 1].parts[0].text += '\n' + msg.parts[0].text;
+              }
+            }
+          });
+
+          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId, campaignData?.scenarioText, finalHistory);
 
         } catch (error) {
           await addDoc(messagesRef, {
@@ -189,7 +222,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
             displayName: 'System',
             photoURL: '',
             createdAt: serverTimestamp(),
-            isAi: true
+            isAi: true,
+            type: 'Details'
           });
         }
       }

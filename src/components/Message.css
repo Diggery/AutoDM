@@ -89,7 +89,73 @@
   border-top-right-radius: 0.25rem;
 }
 
+/* Own Message Variations */
+.own-message .msg-type-outofcharacter {
+  background: rgba(255, 255, 255, 0.05); /* Lighter OOC background */
+  color: var(--text-secondary);
+  border-style: dashed;
+  font-style: italic;
+}
+
+.own-message .msg-type-ingame {
+  background: linear-gradient(135deg, var(--primary), #4f46e5);
+  border-style: solid;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+}
+
 .ai-bubble {
   background: linear-gradient(145deg, rgba(170, 59, 255, 0.1), rgba(59, 130, 246, 0.1));
   border: 1px solid var(--accent-border);
+}
+
+/* Message Type Specific Styles */
+
+.msg-type-outofcharacter {
+  font-style: italic;
+  opacity: 0.9;
+  border-style: dashed;
+}
+
+.msg-type-dungeonmaster {
+  background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05));
+  border-color: rgba(255, 215, 0, 0.3);
+  font-weight: 450;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.msg-type-ingame {
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.05));
+  border-color: var(--primary);
+  border-width: 1.5px;
+}
+
+.msg-type-details {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: var(--glass-border);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8125rem;
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  color: #a1a1aa;
+  margin: 0.5rem auto;
+  max-width: 90%;
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.msg-wrapper-details {
+  justify-content: center;
+  max-width: 100%;
+}
+
+.msg-wrapper-details .message-content {
+  align-items: center;
+}
+
+.msg-type-details::before {
+  content: "» ACTION DETAILS: ";
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 0.5px;
 }
