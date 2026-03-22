@@ -402,7 +402,7 @@ export class RolemasterRules extends GameSystemInterface {
 
   // Simplified resolveAction using external async dice roller
   async resolveAction(intent, character, gameState, diceRoller) {
-    const actionType = intent.action;
+    const actionType = (intent.action || '').toLowerCase().trim();
 
     if (actionType === 'attack') {
       const weaponName = intent.weapon || 'Bare Hands';

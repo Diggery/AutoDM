@@ -16,7 +16,6 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
   if (!isOpen) return null;
 
   const handleSave = () => {
-    localStorage.setItem('auto_dm_gemini_key', apiKey);
     onClose();
   };
 
@@ -45,33 +44,30 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
         </div>
         
         <div className="modal-body">
-          <div className="setting-group">
-            <label>
-              <Key size={16} /> Gemini API Key
-            </label>
-            <p className="setting-desc">Provided key is securely stored in your local browser storage and only used to contact the AI platform when you use "@dm".</p>
-            <input 
-              type="password" 
-              className="input-field" 
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              placeholder="AIza..."
-            />
-            
-            {isOwner && (
-              <div className="owner-settings glass-panel secondary" style={{ marginTop: '1rem', padding: '1rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                  <Globe size={16} color="var(--primary)" />
-                  <strong style={{ fontSize: '0.9rem' }}>Campaign Owner Settings</strong>
-                </div>
-                <p className="setting-desc" style={{ marginBottom: '1rem' }}>
-                  Update the shared API key for all members of this campaign.
-                  <br />
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-                    <ShieldAlert size={12} inline /> <b>Security Note:</b> This key will be viewable by anyone with access to this campaign's data. 
-                    {/* TODO: Secure this key by moving it to a proxy backend (Firebase Cloud Function) to avoid client-side exposure. */}
-                  </span>
+          {isOwner && (
+            <div className="setting-group owner-settings glass-panel secondary" style={{ padding: '1rem', border: '1px solid rgba(var(--primary-rgb), 0.2)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <Globe size={16} color="var(--primary)" />
+                <strong style={{ fontSize: '0.9rem' }}>Campaign Owner Settings</strong>
+              </div>
+              <p className="setting-desc" style={{ marginBottom: '1rem' }}>
+                Update the shared Gemini API key for all members of this campaign.
+              </p>
+              
+              <div className="input-with-button" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <input 
+                  type="password" 
+                  className="input-field" 
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="Enter AIza... Gemini Key"
+                  style={{ marginBottom: 0 }}
+                />
+                
+                <p className="setting-desc" style={{ fontSize: '0.8rem', marginTop: 0 }}>
+                  <ShieldAlert size={12} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> <b>Security Note:</b> This key will be shared with anyone in this campaign.
                 </p>
+
                 <button 
                   className="btn btn-secondary" 
                   onClick={handleSaveToCampaign}
@@ -81,8 +77,8 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
                   {isUpdatingCampaign ? 'Updating...' : 'Update Shared Campaign Key'}
                 </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <div className="setting-group">
             <label>
@@ -107,7 +103,7 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
             <label className="danger-text">
               <Trash2 size={16} /> Data Management
             </label>
-            <p className="setting-desc">Clear the entire chat history for this campaign. This action cannot be undone.</p>
+            <p className="setting-desc">Clear the entire chat history for this campaign.</p>
             <button 
               className="btn btn-danger" 
               onClick={onClearChat} 
@@ -119,8 +115,7 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
         </div>
         
         <div className="modal-footer">
-          <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
-          <button className="btn" onClick={handleSave}>Save Changes</button>
+          <button className="btn btn-secondary" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

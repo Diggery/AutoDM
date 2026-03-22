@@ -1,9 +1,10 @@
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { getActiveCampaignEntities, spawnNPCs } from './db';
+import { getActiveCampaignEntities, spawnNPCs, updateCharacter } from './db';
 import { getRulesetById } from '../rules';
 import { SYSTEM_PROMPTS } from '../prompts';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import equipmentData from '../rules/Rolemaster/data/equipment_data.json';
 
 /**
  * The Orchestrator manages the flow between the Player's intent, the Database state,
@@ -27,20 +28,39 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
 
   // 2. Set up Gemini specifically as the Orchestrator with a wrapper to collect rolls
   const rolls = [];
+  let rollId = null;
+
   const wrappedDiceRoller = async (notation) => {
-    const total = await diceRoller(notation);
-    rolls.push({ notation, total });
+    const diceData = await diceRoller(notation);
+    // Support both simple number (fallback) and detailed result object
+    const total = typeof diceData === 'object' ? diceData.total : diceData;
+    const results = typeof diceData === 'object' ? diceData.results : [diceData];
+    
+    // Use 1d100+1d10 notation for percentile rolls to force a d100 and d10 in the 3D engine
+    const displayNotation = (notation === '1d100' || notation === 'd%') ? '1d100+1d10' : notation;
+
+    // Generate a unique ID for this specific roll event if not already set
+    if (!rollId) rollId = `roll_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+    
+    rolls.push({ notation: displayNotation, total, results });
     return total;
   };
 
   // Extract weapons and skills from character for validation and mapping
   const weaponsList = (character.weapons || []).map(w => w.name).join(', ') || 'None';
+  const equippedWeapon = (character.weapons || []).find(w => w.in_use)?.name || 'None';
   const skillsList = character.skills ? Object.keys(character.skills).join(', ') : 'None';
   
   const rulesText = `\n\n[PLAYER INVENTORY]: ${weaponsList}\n
+  [EQUIPPED WEAPON]: ${equippedWeapon}\n
   [PLAYER SKILLS]: ${skillsList}\n
-  [RULE]: If the player tries to equip, draw, or attack with a weapon NOT in their inventory, you MUST remind them they don't have it and ask them to use what they possess.\n
-  [RULE]: If the player tries to cast any spells or use magic, you MUST respond with: "Sorry, I am not equipped to resolve spells and magic just yet, soon though!"`;
+  [DM DIRECTIVE]: ALWAYS use the "resolveAction" tool for any action requiring a roll, bonus, or rule check (e.g. attacks, skill checks).
+  [DM DIRECTIVE]: NEVER generate dice rolls, bonuses, or results math yourself in your narration. Wait for the tool output results.
+  [DM DIRECTIVE]: If the player attacks, you MUST call "resolveAction" and then ONLY narrate based on the outcome provided by the tool.
+  [DM DIRECTIVE]: If the player tries to equip, draw, or attack with a weapon NOT in their inventory, you MUST remind them they don't have it and ask them to use what they possess.
+  [DM DIRECTIVE]: If the player tries to cast any spells or use magic, you MUST respond with: "Sorry, I am not equipped to resolve spells and magic just yet, soon though!"
+  [DM DIRECTIVE]: You (the DM) MUST ONLY award items, wealth (gold, gems, jewelry), or equipment using the provided tools IF the player explicitly asks for them or describes finding them. Do NOT spontaneously give out rewards unless prompted by the user's intent.
+  [DM DIRECTIVE]: If the player attacks without specifying a weapon, use their currently equipped weapon (listed above as [EQUIPPED WEAPON]). If they have NO weapon equipped, you MUST make it clear in your narration that they are attacking with their "bare hands".`;
 
   const genAI = new GoogleGenerativeAI(apiKey);
   const modelInstance = genAI.getGenerativeModel({
@@ -82,6 +102,57 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
               notation: { type: "STRING", description: "The dice notation to roll. Examples: '2d20', '1d6', '4d10+2'." }
             },
             required: ["notation"]
+          }
+        },
+        {
+          name: "award_wealth",
+          description: "Award gold, gems, or jewelry to the active character's wealth. Use this when the character finds treasury, loot or receives payment.",
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              gold: { type: "NUMBER", description: "Amount of gold to add." },
+              gems: { type: "NUMBER", description: "Amount of gems to add." },
+              jewelry: { type: "NUMBER", description: "Amount of jewelry to add." }
+            }
+          }
+        },
+        {
+          name: "award_item",
+          description: "Award a general item (non-combat equipment) to the character's items list. Use this for quest items, tools, or miscellaneous loot.",
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              name: { type: "STRING", description: "The name of the item." },
+              description: { type: "STRING", description: "A brief description of the item." },
+              value: { type: "NUMBER", description: "The value of the item in gold." }
+            },
+            required: ["name"]
+          }
+        },
+        {
+          name: "award_equipment",
+          description: "Award a piece of combat equipment (weapon, armor, or shield) to the character. This should match items found in the rulebook/equipment library.",
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              category: { type: "STRING", enum: ["weapons", "armour"], description: "The category of equipment." },
+              itemName: { type: "STRING", description: "The exact name of the weapon, armor, or shield from the equipment library." },
+              specialBonus: { type: "NUMBER", description: "Any magical or quality bonus (e.g. 5 for a +5 weapon)." }
+            },
+            required: ["category", "itemName"]
+          }
+        },
+        {
+          name: "equip_item",
+          description: "Toggle the 'in_use' (active) status of a piece of equipment already in the character's inventory. Use this when the player asks to draw, wield, wear, or equip an item they possess.",
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              category: { type: "STRING", enum: ["weapons", "armour"], description: "The category of the item." },
+              itemName: { type: "STRING", description: "The exact name of the item from their [PLAYER INVENTORY] to equip or unequip." },
+              status: { type: "BOOLEAN", description: "Set to true to equip/wield, false to unequip/stow." }
+            },
+            required: ["category", "itemName", "status"]
           }
         }
       ]
@@ -155,11 +226,13 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     if (ruleResult && typeof ruleResult.roll !== 'undefined') {
       const bonus = ruleResult.bonus || 0;
       let detailText = "";
-      if (actionArgs.actionType === 'attack') {
-        detailText = `${character.name} attacked with ${weaponToUse || 'their bare hands'} and rolled a ${ruleResult.roll} plus an OB of ${bonus} for a total of ${ruleResult.totalScore}, which ${ruleResult.outcome.toLowerCase()}.`;
+      const normalizedAction = (actionArgs.actionType || '').toLowerCase().trim();
+
+      if (normalizedAction === 'attack') {
+        detailText = `${character.name} attacked with ${weaponToUse || 'their bare hands'} and rolled a ${ruleResult.roll} plus an OB of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
       } else {
         const actionLabel = actionArgs.actionType.charAt(0).toUpperCase() + actionArgs.actionType.slice(1);
-        detailText = `${character.name} attempted a ${actionLabel} check and rolled a ${ruleResult.roll} plus a bonus of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
+        detailText = `${character.name} attempted a ${actionLabel} skill check and rolled a ${ruleResult.roll} plus a bonus of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
       }
 
       await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
@@ -169,7 +242,9 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
         photoURL: '',
         createdAt: serverTimestamp(),
         isAi: true,
-        type: 'Details'
+        type: 'Details',
+        rollId: rollId,
+        diceRolls: rolls
       });
     }
   } else if (call && call.name === "spawn_npcs") {
@@ -204,6 +279,142 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     const totalResult = await wrappedDiceRoller(notation);
     finalNarrative = `🎲 Rolling ${notation}... Result: **${totalResult}**`;
     console.log("[Orchestrator] 🎲 Raw Dice Output Created:", totalResult);
+  } else if (call && call.name === "award_wealth") {
+    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
+    const { gold = 0, gems = 0, jewelry = 0 } = call.args;
+    
+    if (character.id) {
+      const currentWealth = character.wealth || { gold: 0, gems: 0, jewelry: 0 };
+      await updateCharacter(character.id, {
+        wealth: {
+          gold: (currentWealth.gold || 0) + gold,
+          gems: (currentWealth.gems || 0) + gems,
+          jewelry: (currentWealth.jewelry || 0) + jewelry
+        }
+      });
+    }
+
+    const narrationResult = await chat.sendMessage([{
+      functionResponse: {
+        name: "award_wealth",
+        response: { success: true, awarded: { gold, gems, jewelry } }
+      }
+    }]);
+    finalNarrative = narrationResult.response.text();
+  } else if (call && call.name === "award_item") {
+    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
+    const { name, description, value } = call.args;
+
+    if (character.id) {
+      const currentItems = character.items || [];
+      await updateCharacter(character.id, {
+        items: [...currentItems, { name, description, value, acquiredAt: new Date().toISOString() }]
+      });
+    }
+
+    const narrationResult = await chat.sendMessage([{
+      functionResponse: {
+        name: "award_item",
+        response: { success: true, itemName: name }
+      }
+    }]);
+    finalNarrative = narrationResult.response.text();
+  } else if (call && call.name === "award_equipment") {
+    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
+    const { category, itemName, specialBonus = 0 } = call.args;
+
+    const items = equipmentData.equipment_list?.[category];
+    let foundItem = null;
+    if (items) {
+      for (const subCat of Object.values(items)) {
+        foundItem = subCat.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+        if (foundItem) break;
+      }
+    }
+
+    if (foundItem && character.id) {
+      const currentList = character[category] || [];
+      const newItem = { 
+        ...foundItem, 
+        special_bonus: specialBonus, 
+        in_use: false, 
+        acquiredAt: new Date().toISOString() 
+      };
+      await updateCharacter(character.id, {
+        [category]: [...currentList, newItem]
+      });
+
+      const narrationResult = await chat.sendMessage([{
+        functionResponse: {
+          name: "award_equipment",
+          response: {
+            success: true,
+            itemAdded: foundItem.name,
+            itemStats: foundItem
+          }
+        }
+      }]);
+      finalNarrative = narrationResult.response.text();
+    } else {
+      const narrationResult = await chat.sendMessage([{
+        functionResponse: {
+          name: "award_equipment",
+          response: {
+            success: false,
+            error: `Item "${itemName}" not found in ${category} library.`
+          }
+        }
+      }]);
+      finalNarrative = narrationResult.response.text();
+    }
+  } else if (call && call.name === "equip_item") {
+    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
+    const { category, itemName, status } = call.args;
+
+    if (character.id) {
+      const currentList = character[category] || [];
+      let newList = [...currentList];
+      const itemIdx = newList.findIndex(item => item.name.toLowerCase() === itemName.toLowerCase());
+      
+      if (itemIdx !== -1) {
+        const togglingOn = (status === true || status === 'true');
+        newList[itemIdx] = { ...newList[itemIdx], in_use: togglingOn };
+
+        if (togglingOn) {
+          if (category === 'weapons') {
+            // One weapon only
+            newList = newList.map((item, idx) => ({
+              ...item,
+              in_use: idx === itemIdx
+            }));
+          } else if (category === 'armour') {
+            const isShield = !!newList[itemIdx].bonus_versus_melee;
+            newList = newList.map((item, idx) => {
+              if (idx === itemIdx) return item;
+              const checkingShield = !!item.bonus_versus_melee;
+              if (isShield === checkingShield) {
+                return { ...item, in_use: false };
+              }
+              return item;
+            });
+          }
+        }
+      }
+
+      await updateCharacter(character.id, { [category]: newList });
+
+      const narrationResult = await chat.sendMessage([{
+        functionResponse: {
+          name: "equip_item",
+          response: {
+            success: true,
+            itemName: itemName,
+            status: status ? "equipped" : "unequipped"
+          }
+        }
+      }]);
+      finalNarrative = narrationResult.response.text();
+    }
   } else {
     console.log("[Orchestrator] No rule tools called. Direct Conversational LLM Response.");
   }
@@ -220,6 +431,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     isAi: true,
     triggeredBy: user.uid,
     type: 'DungeonMaster',
+    rollId: rollId,
     diceRolls: rolls // Synchronize 3D dice across all clients
   });
 }

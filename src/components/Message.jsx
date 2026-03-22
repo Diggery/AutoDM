@@ -1,6 +1,7 @@
+import ReactMarkdown from 'react-markdown';
 import './Message.css';
 
-export default function Message({ message, isOwnMessage }) {
+export default function Message({ message, isOwnMessage, isDiceRolling }) {
   const { text, displayName, photoURL, isAi } = message;
 
   return (
@@ -23,7 +24,15 @@ export default function Message({ message, isOwnMessage }) {
           </div>
         )}
         <div className={`msg-bubble ${isAi ? 'ai-bubble' : ''} msg-type-${(message.type || 'OutOfCharacter').toLowerCase()}`}>
-          {text}
+          {isDiceRolling ? (
+             message.type === 'Details' ? null : (
+               <div className="dice-rolling-placeholder" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontStyle: 'italic', color: 'var(--text-secondary)' }}>
+                  <span className="dice-icon">🎲</span> Rolling dice...
+               </div>
+             )
+          ) : (
+            <ReactMarkdown>{text}</ReactMarkdown>
+          )}
         </div>
       </div>
     </div>

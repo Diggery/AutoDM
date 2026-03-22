@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary: #aa3bff;
-  --primary-hover: #9026e0;
-  --bg-color: #0b0c10;
+  --primary: #b84a29;
+  --primary-hover: #ff9c1a;
+  --bg-color: #140f0b;
   --text-primary: #f8f9fa;
   --text-secondary: #a1a1aa;
-  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-bg: rgba(73, 62, 45, 0.1);
   --glass-border: rgba(255, 255, 255, 0.08);
   --danger: #ef4444;
   --success: #10b981;
@@ -16,9 +16,9 @@ body {
   margin: 0;
   font-family: 'Outfit', sans-serif;
   background-color: var(--bg-color);
-  background-image: 
-    radial-gradient(circle at 15% 50%, rgba(170, 59, 255, 0.1), transparent 30%),
-    radial-gradient(circle at 85% 30%, rgba(32, 194, 254, 0.08), transparent 30%);
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(255, 59, 59, 0.1), transparent 30%),
+    radial-gradient(circle at 85% 30%, rgba(105, 74, 155, 0.1), transparent 30%);
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
@@ -39,7 +39,12 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   font-weight: 600;
 }
@@ -62,21 +67,31 @@ p {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--glass-border);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {

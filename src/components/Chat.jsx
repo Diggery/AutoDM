@@ -11,12 +11,14 @@ import './Chat.css';
 export default function Chat({ user, campaignId, rulesetId, activeCharacter, onSignOut, onBackToLanding, diceRollerRef }) {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [activeRollIds, setActiveRollIds] = useState(new Set());
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].id);
   const [isClearing, setIsClearing] = useState(false);
   const [campaignData, setCampaignData] = useState(null);
+  const [lastMessage, setLastMessage] = useState('');
   const messagesEndRef = useRef(null);
-  const lastProcessedRollRef = useRef(null); // Track already-played 3D animations
+  const lastProcessedRollIdRef = useRef(null); 
   const mountTimeRef = useRef(Date.now());
 
   const messagesRef = collection(db, 'campaigns', campaignId, 'messages');
@@ -50,34 +52,42 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
   }, [campaignId]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-
-    // Handle Synchronized 3D Dice Rolls
-    const lastMsg = messages[messages.length - 1];
-    if (lastMsg && lastMsg.diceRolls && lastMsg.diceRolls.length > 0) {
-      if (lastProcessedRollRef.current !== lastMsg.id) {
-        lastProcessedRollRef.current = lastMsg.id;
-        
-        // Only trigger for NEW messages created after we entered the campaign
+    if (messages.length > 0) {
+      const lastMsg = messages[messages.length - 1];
+      if (lastMsg && lastMsg.diceRolls && lastMsg.diceRolls.length > 0) {
+        const rollId = lastMsg.rollId || lastMsg.id; // Fallback to msg.id for older messages
         const msgTime = lastMsg.createdAt?.toMillis ? lastMsg.createdAt.toMillis() : Date.now();
-        if (msgTime > mountTimeRef.current) {
-          // Skip if we were the ones who triggered this (we already rolled it manually)
-          if (lastMsg.uid !== user.uid && lastMsg.triggeredBy !== user.uid) {
-            lastMsg.diceRolls.forEach(roll => {
-              if (diceRollerRef.current) {
-                let notation = roll.notation;
-                // Consistent visual enhancement: 1d100 -> 1d100 + 1d10
-                if (notation.includes('1d100')) {
-                  notation = notation.replace(/1d100/g, '1d100+1d10');
-                }
-                diceRollerRef.current.roll(notation);
-              }
+        const now = Date.now();
+        
+        // Only trigger for recently created messages that haven't been rolled yet
+        if (now - msgTime < 10000 && !activeRollIds.has(rollId) && lastProcessedRollIdRef.current !== rollId) {
+          console.log("[Chat] 🎲 Triggering 3D roll for ID:", rollId);
+          lastProcessedRollIdRef.current = rollId;
+          
+          setActiveRollIds(prev => new Set(prev).add(rollId));
+          
+          const animations = lastMsg.diceRolls.map(roll => {
+            if (diceRollerRef.current) {
+              return diceRollerRef.current.roll(roll.notation, roll.results);
+            }
+            return Promise.resolve();
+          });
+          
+          Promise.all(animations).then(() => {
+            console.log("[Chat] ✅ Roll complete for ID:", rollId);
+            setActiveRollIds(prev => {
+              const next = new Set(prev);
+              next.delete(rollId);
+              return next;
             });
-          }
+          });
         }
       }
     }
-  }, [messages, user.uid]);
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const handleClearChat = async () => {
     if (!window.confirm("Are you sure you want to clear the entire chat history for this campaign? This action cannot be undone.")) return;
@@ -100,44 +110,67 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
     }
   };
 
+  const handleDiceRoll = async (notation) => {
+    console.log("[Chat] 🎲 Generating results for sync:", notation);
+    if (notation === "1d100" || notation === "d%") {
+      const d1 = Math.floor(Math.random() * 10);
+      const d2 = Math.floor(Math.random() * 10);
+      let val = (d1 * 10) + d2;
+      if (val === 0) val = 100;
+      const d100_val = d1 === 0 ? 100 : d1 * 10;
+      const d10_val = d2 === 0 ? 10 : d2;
+      return { total: val, results: [d100_val, d10_val] };
+    }
+    const sd = parseInt(notation.match(/d(\d+)/i)?.[1]) || 20;
+    const val = Math.floor(Math.random() * sd) + 1;
+    return { total: val, results: [val] };
+  };
+
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim() || isClearing) return;
+    const prompt = newMessage.trim();
+    if (!prompt) return;
 
-    const textToSend = newMessage;
+    // Command handling - execute immediately without async wait
+    if (prompt.startsWith('/roll')) {
+      e.preventDefault();
+      const notation = prompt.substring(6).trim() || '1d20';
+      const rollData = await handleDiceRoll(notation);
+      
+      const displayNotation = (notation === '1d100' || notation === 'd%') ? '1d100+1d10' : notation;
+
+      await addDoc(messagesRef, {
+        text: `rolls ${notation} and gets a ${rollData.total}`,
+        uid: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        createdAt: serverTimestamp(),
+        diceRolls: [{
+          notation: displayNotation,
+          total: rollData.total,
+          results: rollData.results
+        }],
+        rollId: `roll_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+        type: 'InGame'
+      });
+      setNewMessage('');
+      return;
+    }
+
     setNewMessage('');
+    setLastMessage(prompt);
 
     try {
       await addDoc(messagesRef, {
-        text: textToSend,
+        text: prompt,
         uid: user.uid,
-        characterId: activeCharacter ? activeCharacter.id : null,
-        displayName: activeCharacter ? activeCharacter.name : (user.displayName || user.email?.split('@')[0] || 'Unknown User'),
-        photoURL: user.photoURL,
+        displayName: user.displayName || 'Player',
+        photoURL: user.photoURL || '',
         createdAt: serverTimestamp(),
-        isAi: false,
-        type: textToSend.toLowerCase().includes('@dm') ? 'InGame' : 'OutOfCharacter'
+        type: 'InGame'
       });
 
-      if (textToSend.toLowerCase().includes('@dm')) {
-        const prompt = textToSend.replace(/@dm/gi, '').trim() || 'Hello';
-        const personalKey = localStorage.getItem('auto_dm_gemini_key');
-        const campaignKey = campaignData?.apiKey;
-        const apiKey = personalKey || campaignKey || import.meta.env.VITE_GEMINI_API_KEY;
-
-        if (!apiKey) {
-          await addDoc(messagesRef, {
-            text: "⚠️ Please configure your Gemini API Key in Settings to use the AI Agent.",
-            uid: 'system_ai',
-            displayName: 'System',
-            photoURL: '',
-            createdAt: serverTimestamp(),
-            isAi: true,
-            type: 'Details'
-          });
-          return;
-        }
-
+      if (prompt.toLowerCase().includes('@dm')) {
         if (!activeCharacter) {
           await addDoc(messagesRef, {
             text: "Hi, you need to select a character to play!",
@@ -153,66 +186,43 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
 
         try {
           const handleDiceRoll = async (notation) => {
-            if (diceRollerRef.current) {
-              try {
-                let safeNotation = notation;
-                if (safeNotation.includes('1d100')) {
-                  safeNotation = safeNotation.replace(/1d100/g, '1d100+1d10');
-                }
-                const results = await diceRollerRef.current.roll(safeNotation);
-                let total = 0;
-
-                if (results) {
-                  if (Array.isArray(results)) {
-                    total = results.reduce((acc, group) => acc + (group.value || group.total || 0), 0);
-                  } else if (results.total !== undefined) {
-                    total = results.total;
-                  }
-
-                  if (notation.includes('d100') && total === 0) {
-                    total = 100;
-                  }
-
-                  return total > 0 ? total : 1;
-                }
-              } catch (err) {
-                console.error("Dice 3D Error:", err);
-              }
+            console.log("[Chat] 🎲 Generating results for sync:", notation);
+            if (notation === "1d100" || notation === "d%") {
+              const d1 = Math.floor(Math.random() * 10);
+              const d2 = Math.floor(Math.random() * 10);
+              let val = (d1 * 10) + d2;
+              if (val === 0) val = 100;
+              const d100_val = d1 === 0 ? 100 : d1 * 10;
+              const d10_val = d2 === 0 ? 10 : d2;
+              return { total: val, results: [d100_val, d10_val] };
             }
-            const match = notation.match(/(\d*)d(\d+)/i) || [];
-            const qt = parseInt(match[1]) || 1;
-            const sd = parseInt(match[2]) || 20;
-            let sum = 0;
-            for (let i = 0; i < qt; i++) sum += Math.floor(Math.random() * sd) + 1;
-            return sum;
+            const sd = parseInt(notation.match(/d(\d+)/i)?.[1]) || 20;
+            const val = Math.floor(Math.random() * sd) + 1;
+            return { total: val, results: [val] };
           };
 
-          // Filter history to ONLY involve the DM (to/from AI or Details)
-          // Gemini requires alternating roles starting with 'user'.
           const filteredHistory = messages
-            .filter(msg => msg.type === 'InGame' || msg.type === 'DungeonMaster' || msg.type === 'Details')
+            .filter(msg => msg.type === "InGame" || msg.type === "DungeonMaster")
             .map(msg => ({
-              role: (msg.type === 'DungeonMaster' || msg.type === 'Details') ? 'model' : 'user',
-              parts: [{ text: msg.text.replace(/@dm/gi, '').trim() }]
+              role: msg.type === "DungeonMaster" ? "model" : "user",
+              parts: [{ text: msg.text.replace(/@dm/gi, "").trim() }]
             }));
 
-          // Ensure it starts with 'user' and alternates roles
           const finalHistory = [];
-          filteredHistory.forEach((msg, idx) => {
+          filteredHistory.forEach((msg) => {
             if (finalHistory.length === 0) {
-              if (msg.role === 'user') finalHistory.push(msg);
-              // Skip if first is model
+              if (msg.role === "user") finalHistory.push(msg);
             } else {
               const lastRole = finalHistory[finalHistory.length - 1].role;
               if (msg.role !== lastRole) {
                 finalHistory.push(msg);
               } else {
-                // Merge consecutive messages of same role
-                finalHistory[finalHistory.length - 1].parts[0].text += '\n' + msg.parts[0].text;
+                finalHistory[finalHistory.length - 1].parts[0].text += "\n" + msg.parts[0].text;
               }
             }
           });
 
+          const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
           await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId, campaignData?.scenarioText, finalHistory);
 
         } catch (error) {
@@ -229,6 +239,12 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
       }
     } catch (err) {
       console.error('Error sending message:', err);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowUp' && !newMessage) {
+      setNewMessage(lastMessage);
     }
   };
 
@@ -255,8 +271,11 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
           <button className="btn-icon" title="Settings" onClick={() => setIsSettingsOpen(true)}>
             <Settings size={20} />
           </button>
-          <button className="btn leave-btn" onClick={onBackToLanding} title="Leave Campaign">
-            LEAVE
+          <button className="btn-icon" title="Back to Campaigns" onClick={onBackToLanding}>
+            <ArrowLeft size={20} />
+          </button>
+          <button className="btn-icon danger" title="Sign Out" onClick={onSignOut}>
+            <LogOut size={20} />
           </button>
         </div>
       </div>
@@ -275,6 +294,7 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
                 key={msg.id}
                 message={msg}
                 isOwnMessage={msg.uid === user.uid}
+                isDiceRolling={msg.rollId ? activeRollIds.has(msg.rollId) : activeRollIds.has(msg.id)}
               />
             ))
           )}
@@ -285,10 +305,11 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
           <input
             className="input-field"
             value={newMessage}
+            onKeyDown={handleKeyDown}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message... (use @dm to summon AI)"
           />
-          <button type="submit" className="btn send-btn" disabled={!newMessage.trim() || isClearing}>
+          <button type="submit" className="btn send-btn" disabled={!newMessage.trim() || isClearing} style={{ width: '200px' }}>
             <Send size={18} />
           </button>
         </form>

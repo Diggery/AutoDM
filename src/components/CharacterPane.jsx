@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { getCharactersByUser, createCharacter, updateCharacter, updateCampaignMember, getCharactersByCampaign, assignCharacterToCampaign } from '../services/db';
 import { rolemasterSystem } from '../rules/Rolemaster';
 import { db } from '../firebase';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, collection, query, where } from 'firebase/firestore';
 import { Plus, User, ArrowLeft, MoreVertical, Search, CheckCircle, X } from 'lucide-react';
 import './CharacterPane.css';
 
@@ -22,8 +22,18 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
 
   useEffect(() => {
     if (user && campaignId) {
-      loadCharacters();
       loadAllUserCharacters();
+      
+      // Real-time synchronization for campaign characters
+      const q = query(collection(db, 'characters'), where('campaignId', '==', campaignId));
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const chars = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCharacters(chars);
+      }, (err) => {
+        console.error("Error syncing characters:", err);
+      });
+      
+      return () => unsubscribe();
     }
   }, [user, campaignId]);
 
@@ -77,14 +87,7 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
     return () => unsubscribe();
   }, [campaignId, user.uid]);
 
-  const loadCharacters = async () => {
-    try {
-      const chars = await getCharactersByCampaign(campaignId);
-      setCharacters(chars);
-    } catch (err) {
-      console.error("Error loading characters:", err);
-    }
-  };
+  // loadCharacters is now handled by the onSnapshot listener above
 
   const loadAllUserCharacters = async () => {
     try {
@@ -121,17 +124,8 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
   const handleUpdateActiveCharacter = async (updates) => {
     if (!viewingId) return;
     try {
+      // We only update Firestore; the onSnapshot listener will handle updating local state
       await updateCharacter(viewingId, updates);
-      const updatedChars = characters.map(c => 
-        c.id === viewingId ? { ...c, ...updates } : c
-      );
-      setCharacters(updatedChars);
-      
-      const newActive = updatedChars.find(c => c.id === viewingId);
-      // Only update app-level active character if the one we edited is the controlled one
-      if (viewingId === controlledId && onSelectCharacter) {
-        onSelectCharacter(newActive);
-      }
     } catch (err) {
       console.error("Failed to update character", err);
     }
@@ -149,7 +143,6 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
     
     setIsCreating(false);
     setNewCharName('');
-    await loadCharacters();
     handleView(newChar);
   };
 
@@ -157,7 +150,6 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
     try {
       await assignCharacterToCampaign(char.id, campaignId);
       setIsImporting(false);
-      await loadCharacters();
     } catch (err) {
       console.error("Error importing character:", err);
     }
@@ -182,8 +174,6 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
       // 3. Reset local states if it was the one we were viewing or controlling
       if (viewingId === char.id) setViewMode('roster');
       if (controlledId === char.id) setControlledId(null);
-
-      await loadCharacters();
     } catch (err) {
       console.error("Error removing character from campaign:", err);
     }
