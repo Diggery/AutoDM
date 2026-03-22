@@ -1,6 +1,6 @@
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { getActiveCampaignEntities, spawnNPCs, updateCharacter } from './db';
+import { getActiveCampaignEntities, spawnNPCs, updateCharacter, startEncounter, setInitiatives, nextTurn, endEncounter, getCampaignById } from './db';
 import { getRulesetById } from '../rules';
 import { SYSTEM_PROMPTS } from '../prompts';
 import { GoogleGenerativeAI } from '@google/generative-ai';
@@ -10,7 +10,7 @@ import equipmentData from '../rules/Rolemaster/data/equipment_data.json';
  * The Orchestrator manages the flow between the Player's intent, the Database state,
  * the Rule Module, and the LLM Narrator.
  */
-export async function processPlayerIntent(campaignId, user, intentText, apiKey, model, diceRoller, activeCharacter, rulesetId = 'rolemaster', scenarioText = '', history = []) {
+export async function processPlayerIntent(campaignId, user, intentText, apiKey, model, diceRoller, activeCharacter, rulesetId = 'rolemaster', campaignData = {}, history = []) {
   // Load the ruleset dynamically
   const rules = getRulesetById(rulesetId)?.system;
   if (!rules) throw new Error(`Ruleset ${rulesetId} not found`);
@@ -35,13 +35,13 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     // Support both simple number (fallback) and detailed result object
     const total = typeof diceData === 'object' ? diceData.total : diceData;
     const results = typeof diceData === 'object' ? diceData.results : [diceData];
-    
+
     // Use 1d100+1d10 notation for percentile rolls to force a d100 and d10 in the 3D engine
     const displayNotation = (notation === '1d100' || notation === 'd%') ? '1d100+1d10' : notation;
 
     // Generate a unique ID for this specific roll event if not already set
     if (!rollId) rollId = `roll_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
-    
+
     rolls.push({ notation: displayNotation, total, results });
     return total;
   };
@@ -50,11 +50,12 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
   const weaponsList = (character.weapons || []).map(w => w.name).join(', ') || 'None';
   const equippedWeapon = (character.weapons || []).find(w => w.in_use)?.name || 'None';
   const skillsList = character.skills ? Object.keys(character.skills).join(', ') : 'None';
-  
+
   const rulesText = `\n\n[PLAYER INVENTORY]: ${weaponsList}\n
   [EQUIPPED WEAPON]: ${equippedWeapon}\n
   [PLAYER SKILLS]: ${skillsList}\n
-  [DM DIRECTIVE]: ALWAYS use the "resolveAction" tool for any action requiring a roll, bonus, or rule check (e.g. attacks, skill checks).
+  [DM DIRECTIVE]: ALWAYS use the "resolveAction" tool for any intentional action requiring a roll, bonus, or rule check (e.g. attacks, skill checks).
+  [DM DIRECTIVE]: If the player is just asking for information, a description, or a status update (e.g. "How many enemies?", "What do I see?"), do NOT use any tools. Just answer the question narratively.
   [DM DIRECTIVE]: NEVER generate dice rolls, bonuses, or results math yourself in your narration. Wait for the tool output results.
   [DM DIRECTIVE]: If the player attacks, you MUST call "resolveAction" and then ONLY narrate based on the outcome provided by the tool.
   [DM DIRECTIVE]: If the player tries to equip, draw, or attack with a weapon NOT in their inventory, you MUST remind them they don't have it and ask them to use what they possess.
@@ -62,15 +63,50 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
   [DM DIRECTIVE]: You (the DM) MUST ONLY award items, wealth (gold, gems, jewelry), or equipment using the provided tools IF the player explicitly asks for them or describes finding them. Do NOT spontaneously give out rewards unless prompted by the user's intent.
   [DM DIRECTIVE]: If the player attacks without specifying a weapon, use their currently equipped weapon (listed above as [EQUIPPED WEAPON]). If they have NO weapon equipped, you MUST make it clear in your narration that they are attacking with their "bare hands".`;
 
+  const scenarioText = campaignData?.scenarioText || '';
+  const encounterState = campaignData?.encounterState || { isActive: false };
+
+  let encounterRulesText = "";
+  if (encounterState.isActive) {
+    const { combatants = [], currentTurnId, round = 1 } = encounterState;
+    const currentCombatant = combatants.find(c => c.id === currentTurnId) || {};
+
+    encounterRulesText = `\n\n[ENCOUNTER MODE ACTIVE]: Round ${round}.
+    The following combatants are in the encounter in this initiative order:
+    ${combatants.map(c => `- ${c.name} (Initiative: ${c.initiative}, Type: ${c.type})`).join('\n')}
+    
+    [CURRENT TURN]: It is currently ${currentCombatant.name || 'Unknown'}'s turn.
+    
+    [DM DIRECTIVE FOR ENCOUNTER]: 
+    - You must STRICTLY ENFORCE turn order. 
+    - If a player (${character.name}) tries to take an action but it is NOT their turn, you MUST reject the action and tell them to wait for their turn.
+    - Any players is allowed to ask questions, and you should answer, even out of turn, but they can only get information, not take actions.
+    - If it IS the player's turn, resolve their action. The turn will automatically advance if you use the "resolveAction" tool. If the player does something purely narrative that requires no roll, you MUST call "next_turn" to advance the initiative state.
+    - If it is an NPC's turn, you MUST take it immediately. Use the "resolveAction" tool (which auto-advances the turn) OR use the "next_turn" tool manually after narrating their action.
+    - [STRICT RULE]: Never narrate that it is someone's turn unless the [CURRENT TURN] in the database (shown above) matches your narration. If you need to change the current turn, use the tools.
+    - Chaining turns: If the turn advances and it becomes another NPC's turn, take their turn too! Chaining multiple actions in one response is encouraged to keep combat moving.
+    - If the players defeat all attacking NPCs, make peace with the NPCs, or are defeated, use the "end_encounter" tool.
+    `;
+  } else {
+    encounterRulesText = `\n\n
+    [DM DIRECTIVE FOR ENCOUNTER START]: You should decide to enter Encounter Mode by using the "start_encounter" tool in two situations:
+    1. A player attacks an NPC.
+    2. You (the DM) decide an NPC will attack a character or the party.
+    
+    [CRITICAL]: If the NPCs involved in the fight are not already listed as campaign entities, you MUST call "spawn_npcs" to create them BEFORE or AT THE SAME TIME as calling "start_encounter". Gemini supports multiple tool calls in one turn—use them!
+    
+    When combat starts, all players present will be added to the encounter, and you should send a message describing the situation.`;
+  }
+
   const genAI = new GoogleGenerativeAI(apiKey);
   const modelInstance = genAI.getGenerativeModel({
     model: model,
-    systemInstruction: SYSTEM_PROMPTS.AUTO_DM_BASE + (scenarioText ? `\n\nQuest Scenario: ${scenarioText}` : '') + rulesText,
+    systemInstruction: SYSTEM_PROMPTS.AUTO_DM_BASE + (scenarioText ? `\n\nQuest Scenario: ${scenarioText}` : '') + rulesText + encounterRulesText,
     tools: [{
       functionDeclarations: [
         {
           name: "resolveAction",
-          description: "Execute a rules-based action for the player. ALWAYS use this for any action requiring a roll or bonus. Map the user's intent to one of the [PLAYER SKILLS] if applicable. Supported Weapons: " + availableWeapons.join(', '),
+          description: "Execute a rules-based, intentional physical or mental action for the player. Use this for actions like 'attack', 'hide', 'climb', or using a skill. Do NOT use this for purely informational questions (e.g. 'how many', 'what do I see'). Supported Weapons: " + availableWeapons.join(', '),
           parameters: {
             type: "OBJECT",
             properties: {
@@ -154,6 +190,43 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
             },
             required: ["category", "itemName", "status"]
           }
+        },
+        {
+          name: "start_encounter",
+          description: "Transitions the game to Encounter Mode when combat begins. Use this when a player attacks an NPC or an NPC attacks a player.",
+          parameters: { type: "OBJECT", properties: {} }
+        },
+        {
+          name: "set_initiative",
+          description: "Sets the initiative scores for combatants in the encounter.",
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              initiatives: {
+                type: "ARRAY",
+                description: "List of initiative scores to update.",
+                items: {
+                  type: "OBJECT",
+                  properties: {
+                    idOrName: { type: "STRING", description: "The name of the combatant." },
+                    initiative: { type: "NUMBER", description: "The initiative score." }
+                  },
+                  required: ["idOrName", "initiative"]
+                }
+              }
+            },
+            required: ["initiatives"]
+          }
+        },
+        {
+          name: "next_turn",
+          description: "Advances the encounter to the next combatant in the initiative order.",
+          parameters: { type: "OBJECT", properties: {} }
+        },
+        {
+          name: "end_encounter",
+          description: "Ends the current encounter and returns to Adventure Mode.",
+          parameters: { type: "OBJECT", properties: {} }
         }
       ]
     }]
@@ -167,271 +240,288 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
 
   // Ask Gemini to process the text. It might just reply (if conversational) or it might call resolveAction
   const result = await chat.sendMessage(intentText);
-  const response = result.response;
+  const response = result.response;  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  let calls = response.functionCalls() || [];
+  let finalNarrative = response.text() || "";
 
-  const call = response.functionCalls()?.[0];
-
-  let finalNarrative = response.text();
-
-  if (call && call.name === "resolveAction") {
-    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
-
-    // 3. The Orchestrator intercepts the tool call and runs the determinist Rule Module
-    const actionArgs = call.args;
-
-    // Evaluate default equipped weapon if none explicitly named by AI
-    let weaponToUse = actionArgs.weapon;
-    if (!weaponToUse) {
-      if (character.weapons && Array.isArray(character.weapons)) {
-        const equipped = character.weapons.find(w => w.in_use);
-        if (equipped) weaponToUse = equipped.name;
-      } else if (character.equipment && Array.isArray(character.equipment.weapons)) {
-        const equipped = character.equipment.weapons.find(w => w.equipped);
-        if (equipped) weaponToUse = equipped.name;
-      }
-    }
-
-    // Lookup target entity from DB for rules module context
-    let targetEntity = {};
-    if (actionArgs.target) {
-      const activeEntities = await getActiveCampaignEntities(campaignId);
-      const lowerTarget = actionArgs.target.toLowerCase();
-      const matched = activeEntities.find(e => e.name && (e.name.toLowerCase().includes(lowerTarget) || lowerTarget.includes(e.name.toLowerCase())));
-      if (matched) targetEntity = matched;
-    }
-
-    // We pass intent to the Rule System
-    const ruleResult = await rules.resolveAction({
-      action: actionArgs.actionType,
-      target: actionArgs.target,
-      weapon: weaponToUse
-    }, character, targetEntity, wrappedDiceRoller);
-
-    console.log("[Orchestrator] 🎲 Rule Module Result:", ruleResult);
-
-    // 4. Send the result back to the Narrator to generate the final prose
-    const narrationResult = await chat.sendMessage([{
-      functionResponse: {
-        name: "resolveAction",
-        response: {
-          outcome: ruleResult
-        }
-      }
-    }]);
-
-    finalNarrative = narrationResult.response.text();
-    console.log("[Orchestrator] 📖 Narrator Prose Generated");
-
-    // Post Action Details message as requested
-    if (ruleResult && typeof ruleResult.roll !== 'undefined') {
-      const bonus = ruleResult.bonus || 0;
-      let detailText = "";
-      const normalizedAction = (actionArgs.actionType || '').toLowerCase().trim();
-
-      if (normalizedAction === 'attack') {
-        detailText = `${character.name} attacked with ${weaponToUse || 'their bare hands'} and rolled a ${ruleResult.roll} plus an OB of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
-      } else {
-        const actionLabel = actionArgs.actionType.charAt(0).toUpperCase() + actionArgs.actionType.slice(1);
-        detailText = `${character.name} attempted a ${actionLabel} skill check and rolled a ${ruleResult.roll} plus a bonus of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
-      }
-
-      await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
-        text: detailText,
-        uid: 'system_ai',
-        displayName: 'Action Details',
-        photoURL: '',
-        createdAt: serverTimestamp(),
-        isAi: true,
-        type: 'Details',
-        rollId: rollId,
-        diceRolls: rolls
-      });
-    }
-  } else if (call && call.name === "spawn_npcs") {
-    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
-    const { npcType, count = 1 } = call.args;
-
-    // Get base stats from rules
-    const stats = rules.getNPCStats ? rules.getNPCStats(npcType) : {};
-
-    if (stats) {
-      const spawnedIds = await spawnNPCs(campaignId, npcType, count, stats);
-      console.log(`[Orchestrator] 🐉 Spawned ${count} ${npcType}(s):`, spawnedIds);
-
-      const narrationResult = await chat.sendMessage([{
-        functionResponse: {
-          name: "spawn_npcs",
-          response: {
-            success: true,
-            message: `Successfully spawned ${count} ${npcType}(s).`,
-            npcDetails: stats
-          }
-        }
-      }]);
-
-      finalNarrative = narrationResult.response.text();
-    } else {
-      finalNarrative = `I tried to summon ${npcType}, but I couldn't find its stats in the records!`;
-    }
-  } else if (call && call.name === "roll_dice") {
-    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
-    const notation = call.args.notation || "1d20";
-    const totalResult = await wrappedDiceRoller(notation);
-    finalNarrative = `🎲 Rolling ${notation}... Result: **${totalResult}**`;
-    console.log("[Orchestrator] 🎲 Raw Dice Output Created:", totalResult);
-  } else if (call && call.name === "award_wealth") {
-    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
-    const { gold = 0, gems = 0, jewelry = 0 } = call.args;
+  // Recursive tool loop: keep executing tools as long as the AI provides them
+  while (calls.length > 0) {
+    console.log(`[Orchestrator] 🛑 Intercepted ${calls.length} Function Call(s)`);
+    const toolResponses = [];
     
-    if (character.id) {
-      const currentWealth = character.wealth || { gold: 0, gems: 0, jewelry: 0 };
-      await updateCharacter(character.id, {
-        wealth: {
-          gold: (currentWealth.gold || 0) + gold,
-          gems: (currentWealth.gems || 0) + gems,
-          jewelry: (currentWealth.jewelry || 0) + jewelry
-        }
-      });
-    }
+    for (const call of calls) {
+      if (call.name === "resolveAction") {
+        const actionArgs = call.args;
+        let actorEntity = character; // Default to player
 
-    const narrationResult = await chat.sendMessage([{
-      functionResponse: {
-        name: "award_wealth",
-        response: { success: true, awarded: { gold, gems, jewelry } }
-      }
-    }]);
-    finalNarrative = narrationResult.response.text();
-  } else if (call && call.name === "award_item") {
-    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
-    const { name, description, value } = call.args;
-
-    if (character.id) {
-      const currentItems = character.items || [];
-      await updateCharacter(character.id, {
-        items: [...currentItems, { name, description, value, acquiredAt: new Date().toISOString() }]
-      });
-    }
-
-    const narrationResult = await chat.sendMessage([{
-      functionResponse: {
-        name: "award_item",
-        response: { success: true, itemName: name }
-      }
-    }]);
-    finalNarrative = narrationResult.response.text();
-  } else if (call && call.name === "award_equipment") {
-    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
-    const { category, itemName, specialBonus = 0 } = call.args;
-
-    const items = equipmentData.equipment_list?.[category];
-    let foundItem = null;
-    if (items) {
-      for (const subCat of Object.values(items)) {
-        foundItem = subCat.find(i => i.name.toLowerCase() === itemName.toLowerCase());
-        if (foundItem) break;
-      }
-    }
-
-    if (foundItem && character.id) {
-      const currentList = character[category] || [];
-      const newItem = { 
-        ...foundItem, 
-        special_bonus: specialBonus, 
-        in_use: false, 
-        acquiredAt: new Date().toISOString() 
-      };
-      await updateCharacter(character.id, {
-        [category]: [...currentList, newItem]
-      });
-
-      const narrationResult = await chat.sendMessage([{
-        functionResponse: {
-          name: "award_equipment",
-          response: {
-            success: true,
-            itemAdded: foundItem.name,
-            itemStats: foundItem
+        // If the DM specified an actorId (for NPC turns)
+        if (actionArgs.actorId) {
+          const activeEntities = await getActiveCampaignEntities(campaignId);
+          const foundActor = activeEntities.find(e => e.id === actionArgs.actorId);
+          if (foundActor) {
+            actorEntity = foundActor;
           }
         }
-      }]);
-      finalNarrative = narrationResult.response.text();
-    } else {
-      const narrationResult = await chat.sendMessage([{
-        functionResponse: {
-          name: "award_equipment",
-          response: {
-            success: false,
-            error: `Item "${itemName}" not found in ${category} library.`
+
+        let weaponToUse = actionArgs.weapon;
+        if (!weaponToUse) {
+          if (actorEntity.weapons && Array.isArray(actorEntity.weapons)) {
+            const equipped = actorEntity.weapons.find(w => w.in_use);
+            if (equipped) weaponToUse = equipped.name;
+          } else if (actorEntity.equipment && Array.isArray(actorEntity.equipment.weapons)) {
+            const equipped = actorEntity.equipment.weapons.find(w => w.equipped);
+            if (equipped) weaponToUse = equipped.name;
           }
         }
-      }]);
-      finalNarrative = narrationResult.response.text();
-    }
-  } else if (call && call.name === "equip_item") {
-    console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
-    const { category, itemName, status } = call.args;
 
-    if (character.id) {
-      const currentList = character[category] || [];
-      let newList = [...currentList];
-      const itemIdx = newList.findIndex(item => item.name.toLowerCase() === itemName.toLowerCase());
-      
-      if (itemIdx !== -1) {
-        const togglingOn = (status === true || status === 'true');
-        newList[itemIdx] = { ...newList[itemIdx], in_use: togglingOn };
+        let targetEntity = {};
+        if (actionArgs.target) {
+          const activeEntities = await getActiveCampaignEntities(campaignId);
+          const lowerTarget = actionArgs.target.toLowerCase();
+          const matched = activeEntities.find(e => e.name && (e.name.toLowerCase().includes(lowerTarget) || lowerTarget.includes(e.name.toLowerCase())));
+          if (matched) targetEntity = matched;
+        }
 
-        if (togglingOn) {
-          if (category === 'weapons') {
-            // One weapon only
-            newList = newList.map((item, idx) => ({
-              ...item,
-              in_use: idx === itemIdx
-            }));
-          } else if (category === 'armour') {
-            const isShield = !!newList[itemIdx].bonus_versus_melee;
-            newList = newList.map((item, idx) => {
-              if (idx === itemIdx) return item;
-              const checkingShield = !!item.bonus_versus_melee;
-              if (isShield === checkingShield) {
-                return { ...item, in_use: false };
+        const ruleResult = await rules.resolveAction({
+          action: actionArgs.actionType,
+          target: actionArgs.target,
+          weapon: weaponToUse
+        }, actorEntity, targetEntity, wrappedDiceRoller);
+
+        // Auto-advance turn if in encounter mode
+        let nextTurnInfo = null;
+        if (encounterState.isActive && !actionArgs.actionType.toLowerCase().includes('perception')) {
+           console.log("[Orchestrator] ⚔️ Action resolved in encounter. Auto-advancing turn.");
+           await nextTurn(campaignId);
+           
+           // Fetch updated state to tell the AI whose turn it is now
+           const updatedCampaign = await getCampaignById(campaignId);
+           const state = updatedCampaign?.encounterState;
+           if (state) {
+             const nextActor = state.combatants.find(c => c.id === state.currentTurnId);
+             nextTurnInfo = { id: state.currentTurnId, name: nextActor?.name || "Unknown" };
+           }
+        }
+
+        toolResponses.push({
+          functionResponse: {
+            name: "resolveAction",
+            response: { 
+              outcome: ruleResult,
+              turnAdvancement: nextTurnInfo ? `Turn has advanced to ${nextTurnInfo.name} (${nextTurnInfo.id})` : "No turn change"
+            }
+          }
+        });
+
+        if (ruleResult && typeof ruleResult.roll !== 'undefined') {
+          const bonus = ruleResult.bonus || 0;
+          let detailText = "";
+          const normalizedAction = (actionArgs.actionType || '').toLowerCase().trim();
+
+          if (normalizedAction === 'attack') {
+            detailText = `${actorEntity.name} attacked ${actionArgs.target || 'a foe'} with ${weaponToUse || 'their bare hands'} and rolled a ${ruleResult.roll} plus a bonus of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
+          } else {
+            const actionLabel = actionArgs.actionType.charAt(0).toUpperCase() + actionArgs.actionType.slice(1);
+            detailText = `${actorEntity.name} attempted a ${actionLabel} skill check and rolled a ${ruleResult.roll} plus a bonus of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
+          }
+
+          await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
+            text: detailText,
+            uid: 'system_ai',
+            displayName: 'Action Details',
+            photoURL: '',
+            createdAt: serverTimestamp(),
+            isAi: true,
+            type: 'Details',
+            rollId: rollId,
+            diceRolls: rolls
+          });
+        }
+      } else if (call.name === "spawn_npcs") {
+        const { npcType, count = 1 } = call.args;
+        const stats = rules.getNPCStats ? rules.getNPCStats(npcType) : {};
+
+        if (stats) {
+          const spawnedIds = await spawnNPCs(campaignId, npcType, count, stats);
+          toolResponses.push({
+            functionResponse: {
+              name: "spawn_npcs",
+              response: { success: true, message: `Successfully spawned ${count} ${npcType}(s).`, npcDetails: stats }
+            }
+          });
+        }
+      } else if (call.name === "roll_dice") {
+        const notation = call.args.notation || "1d20";
+        const totalResult = await wrappedDiceRoller(notation);
+        finalNarrative += `\n🎲 Rolling ${notation}... Result: **${totalResult}**`;
+        toolResponses.push({
+          functionResponse: {
+            name: "roll_dice",
+            response: { success: true, total: totalResult }
+          }
+        });
+      } else if (call.name === "award_wealth") {
+        const { gold = 0, gems = 0, jewelry = 0 } = call.args;
+        if (character.id) {
+          const currentWealth = character.wealth || { gold: 0, gems: 0, jewelry: 0 };
+          await updateCharacter(character.id, {
+            wealth: {
+              gold: (currentWealth.gold || 0) + gold,
+              gems: (currentWealth.gems || 0) + gems,
+              jewelry: (currentWealth.jewelry || 0) + jewelry
+            }
+          });
+        }
+        toolResponses.push({
+          functionResponse: {
+            name: "award_wealth",
+            response: { success: true, awarded: { gold, gems, jewelry } }
+          }
+        });
+      } else if (call.name === "award_item") {
+        const { name, description, value } = call.args;
+        if (character.id) {
+          const currentItems = character.items || [];
+          await updateCharacter(character.id, {
+            items: [...currentItems, { name, description, value, acquiredAt: new Date().toISOString() }]
+          });
+        }
+        toolResponses.push({
+          functionResponse: {
+            name: "award_item",
+            response: { success: true, itemName: name }
+          }
+        });
+      } else if (call.name === "award_equipment") {
+        const { category, itemName, specialBonus = 0 } = call.args;
+        const items = equipmentData.equipment_list?.[category];
+        let foundItem = null;
+        if (items) {
+          for (const subCat of Object.values(items)) {
+            foundItem = subCat.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+            if (foundItem) break;
+          }
+        }
+        if (foundItem && character.id) {
+          const currentList = character[category] || [];
+          const newItem = { ...foundItem, special_bonus: specialBonus, in_use: false, acquiredAt: new Date().toISOString() };
+          await updateCharacter(character.id, { [category]: [...currentList, newItem] });
+          toolResponses.push({
+            functionResponse: {
+              name: "award_equipment",
+              response: { success: true, itemAdded: foundItem.name, itemStats: foundItem }
+            }
+          });
+        }
+      } else if (call.name === "equip_item") {
+        const { category, itemName, status } = call.args;
+        if (character.id) {
+          const currentList = character[category] || [];
+          let newList = [...currentList];
+          const itemIdx = newList.findIndex(item => item.name.toLowerCase() === itemName.toLowerCase());
+          if (itemIdx !== -1) {
+            const togglingOn = (status === true || status === 'true');
+            newList[itemIdx] = { ...newList[itemIdx], in_use: togglingOn };
+            if (togglingOn) {
+              if (category === 'weapons') {
+                newList = newList.map((item, idx) => ({ ...item, in_use: idx === itemIdx }));
               }
-              return item;
-            });
+            }
           }
+          await updateCharacter(character.id, { [category]: newList });
+          toolResponses.push({
+            functionResponse: {
+              name: "equip_item",
+              response: { success: true, itemName: itemName, status: status ? "equipped" : "unequipped" }
+            }
+          });
         }
+      } else if (call.name === "start_encounter") {
+        await startEncounter(campaignId);
+        toolResponses.push({
+          functionResponse: {
+            name: "start_encounter",
+            response: { success: true, message: "Encounter mode started! All players and nearby NPCs have been added. Please use the 'set_initiative' tool to assign initiative to the combatants." }
+          }
+        });
+      } else if (call.name === "set_initiative") {
+        const { initiatives } = call.args;
+        if (initiatives && Array.isArray(initiatives)) {
+          await setInitiatives(campaignId, initiatives);
+        }
+        toolResponses.push({
+          functionResponse: {
+            name: "set_initiative",
+            response: { success: true, message: "Initiatives updated successfully." }
+          }
+        });
+      } else if (call.name === "next_turn") {
+        await nextTurn(campaignId);
+        toolResponses.push({
+          functionResponse: {
+            name: "next_turn",
+            response: { success: true, message: "Advanced to next turn." }
+          }
+        });
+      } else if (call.name === "end_encounter") {
+        await endEncounter(campaignId);
+        toolResponses.push({
+          functionResponse: {
+            name: "end_encounter",
+            response: { success: true, message: "Encounter ended. Returned to Adventure Mode." }
+          }
+        });
+      }
+    }
+
+    // After executing all calls, send the responses back to the AI
+    if (toolResponses.length > 0) {
+      // Small pause between multiple actions for realism/pacing
+      await sleep(1500); 
+
+      const nextResult = await chat.sendMessage(toolResponses);
+      const nextResponse = nextResult.response;
+      const nextText = nextResponse.text() || "";
+      
+      // If there's narrative for this turn, save it to the DB now so it appears sequentially
+      if (nextText) {
+        await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
+          text: nextText,
+          uid: 'system_ai',
+          displayName: 'AutoDM Agent',
+          photoURL: '',
+          createdAt: serverTimestamp(),
+          isAi: true,
+          triggeredBy: user.uid,
+          type: 'DungeonMaster'
+        });
       }
 
-      await updateCharacter(character.id, { [category]: newList });
-
-      const narrationResult = await chat.sendMessage([{
-        functionResponse: {
-          name: "equip_item",
-          response: {
-            success: true,
-            itemName: itemName,
-            status: status ? "equipped" : "unequipped"
-          }
-        }
-      }]);
-      finalNarrative = narrationResult.response.text();
+      calls = nextResponse.functionCalls() || [];
+    } else {
+      calls = [];
     }
-  } else {
+  }
+
+  if (response.functionCalls()?.length === 0) {
     console.log("[Orchestrator] No rule tools called. Direct Conversational LLM Response.");
   }
 
   console.log("=========================================");
 
   // 5. Save the final narrative to Firestore with roll metadata
-  await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
-    text: finalNarrative,
-    uid: 'system_ai',
-    displayName: 'AutoDM Agent',
-    photoURL: '',
-    createdAt: serverTimestamp(),
-    isAi: true,
-    triggeredBy: user.uid,
-    type: 'DungeonMaster',
-    rollId: rollId,
-    diceRolls: rolls // Synchronize 3D dice across all clients
-  });
+  if (finalNarrative && finalNarrative.trim()) {
+    await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
+      text: finalNarrative.trim(),
+      uid: 'system_ai',
+      displayName: 'AutoDM Agent',
+      photoURL: '',
+      createdAt: serverTimestamp(),
+      isAi: true,
+      triggeredBy: user.uid,
+      type: 'DungeonMaster',
+      rollId: rollId,
+      diceRolls: rolls // Synchronize 3D dice across all clients
+    });
+  }
 }

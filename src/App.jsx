@@ -6,6 +6,7 @@ import Chat from './components/Chat';
 import CharacterPane from './components/CharacterPane';
 import DiceRoller from './components/DiceRoller';
 import GameStatusPane from './components/GameStatusPane';
+import RightPanelSwitcher from './components/RightPanelSwitcher';
 import ResizableLayout from './components/ResizableLayout';
 import LandingPage from './components/LandingPage';
 
@@ -64,7 +65,7 @@ function App() {
                   diceRollerRef={diceRollerRef}
                 />
               }
-              rightPanel={<GameStatusPane />}
+              rightPanel={<RightPanelSwitcher campaignId={selectedCampaign.id} />}
             />
           </div>
         )}

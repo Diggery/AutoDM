@@ -45,10 +45,16 @@
   flex: 1;
 }
 
+.name-fields {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
 .char-name-input {
   font-size: 1.5rem;
   color: var(--primary);
-  margin-bottom: 8px;
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
@@ -56,6 +62,35 @@
   font-weight: bold;
   outline: none;
   transition: border-color 0.2s;
+  padding: 0;
+}
+
+.char-name-input.first-name {
+  width: 100%;
+  grid-area: 1 / 1;
+}
+
+.first-name-container {
+  display: inline-grid;
+  grid-area: 1 / 1;
+  align-items: center;
+  min-width: 64px;
+}
+
+.first-name-container::after {
+  content: attr(data-value) " ";
+  visibility: hidden;
+  white-space: pre;
+  grid-area: 1 / 1;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0;
+}
+
+.char-name-input.surname {
+  flex: 1;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .char-name-input:focus,

@@ -113,6 +113,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   background: rgba(100, 56, 98, 0.1);
   gap: 1rem;
 }
@@ -138,6 +139,33 @@
   flex: 0 0 auto;
   min-width: 120px;
   max-width: 120px;
+}
+
+.speaking-indicator {
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  min-width: 2.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.target-ooc {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.target-dm {
+  background: var(--primary);
+  color: white;
+  border: 1px solid var(--primary-hover);
+  box-shadow: 0 0 10px rgba(219, 21, 14, 0.3);
 }
 
 .leave-btn {

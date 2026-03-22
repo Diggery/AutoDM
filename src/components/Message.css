@@ -58,6 +58,14 @@
   font-weight: 500;
 }
 
+.char-tag {
+  font-style: italic;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
 .ai-badge {
   background: var(--accent-bg);
   color: var(--accent);

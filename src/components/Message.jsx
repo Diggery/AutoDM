@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import './Message.css';
 
 export default function Message({ message, isOwnMessage, isDiceRolling }) {
-  const { text, displayName, photoURL, isAi } = message;
+  const { text, displayName, photoURL, isAi, characterName } = message;
 
   return (
     <div className={`message-wrapper ${isOwnMessage ? 'own-message' : ''} msg-wrapper-${(message.type || 'OutOfCharacter').toLowerCase()}`}>
@@ -17,9 +17,11 @@ export default function Message({ message, isOwnMessage, isDiceRolling }) {
       )}
       
       <div className="message-content">
-        {!isOwnMessage && message.type !== 'Details' && (
+        {(characterName || !isOwnMessage) && message.type !== 'Details' && (
           <div className="msg-sender">
-            <span className="name">{isAi ? 'AI Agent' : (displayName || 'Unknown')}</span>
+            <span className="name">
+              {isAi ? 'AI Agent' : (characterName || displayName || 'Unknown')}
+            </span>
             {isAi && <span className="ai-badge">AI</span>}
           </div>
         )}

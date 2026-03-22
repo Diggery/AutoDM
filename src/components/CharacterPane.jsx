@@ -25,7 +25,11 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
       loadAllUserCharacters();
       
       // Real-time synchronization for campaign characters
-      const q = query(collection(db, 'characters'), where('campaignId', '==', campaignId));
+      const q = query(
+        collection(db, 'characters'), 
+        where('campaignId', '==', campaignId),
+        where('type', '==', 'pc')
+      );
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const chars = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setCharacters(chars);
@@ -211,8 +215,9 @@ export default function CharacterPane({ user, campaignId, onSelectCharacter }) {
                 autoFocus
                 value={newCharName} 
                 onChange={(e) => setNewCharName(e.target.value)} 
-                placeholder="Character Name..."
+                placeholder="First Name..."
                 className="input-field"
+                maxLength={12}
               />
               <div className="form-actions">
                 <button type="button" className="btn secondary-btn" onClick={() => setIsCreating(false)}>Cancel</button>

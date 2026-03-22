@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Plus, X } from 'lucide-react';
 import templateData from '../data/character_template.json';
 import ruleData from '../data/character_data.json';
@@ -42,8 +42,30 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
   const [newSkillName, setNewSkillName] = useState('');
   const [isEquipmentModalOpen, setIsEquipmentModalOpen] = useState(null); // 'weapons' | 'armour' | null
 
+  const [localName, setLocalName] = useState(characterData.name || '');
+  const [localSurname, setLocalSurname] = useState(characterData.surname || '');
+
+  // Keep local state in sync when character changes (e.g. initial load or someone else updates)
+  useEffect(() => {
+    setLocalName(characterData.name || '');
+    setLocalSurname(characterData.surname || '');
+  }, [characterData.id, characterData.name, characterData.surname]);
+
   // Use the centralized rules engine as the source of truth for all calculations
-  const report = rolemasterSystem.getCharacterReport(characterData);
+  // Memoize so that simple name/surname keystrokes don't trigger the expensive logic
+  const report = useMemo(() => {
+    console.log("[RolemasterSheet] 🧮 Recalculating character report...");
+    return rolemasterSystem.getCharacterReport(characterData);
+  }, [
+    characterData?.stats,
+    characterData?.skills,
+    characterData?.weapons,
+    characterData?.armour,
+    characterData?.hp,
+    characterData?.level,
+    characterData?.race,
+    characterData?.profession
+  ]);
 
   // Sanitize stats: only keep what's in the template
   const validKeys = Object.keys(templateData.stats);
@@ -373,12 +395,33 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
       <div className="sheet-header">
         <div className="header-top-row">
           <div className="name-and-meta">
-            <input
-              className="char-name-input"
-              value={characterData.name || ''}
-              onChange={(e) => onUpdateCharacter({ name: e.target.value })}
-              placeholder="Character Name"
-            />
+            <div className="name-fields">
+              <div className="first-name-container" data-value={localName}>
+                <input
+                  className="char-name-input first-name"
+                  value={localName}
+                  maxLength={12}
+                  onChange={(e) => setLocalName(e.target.value)}
+                  onBlur={(e) => {
+                    if (e.target.value !== characterData.name) {
+                      onUpdateCharacter({ name: e.target.value });
+                    }
+                  }}
+                  placeholder="First Name"
+                />
+              </div>
+              <input
+                className="char-name-input surname"
+                value={localSurname}
+                onChange={(e) => setLocalSurname(e.target.value)}
+                onBlur={(e) => {
+                  if (e.target.value !== characterData.surname) {
+                    onUpdateCharacter({ surname: e.target.value });
+                  }
+                }}
+                placeholder="Surname / Title"
+              />
+            </div>
             <div className="char-meta">
               <select
                 value={race}

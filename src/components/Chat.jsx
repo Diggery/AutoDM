@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { LogOut, Settings, Send, Trash2, ArrowLeft } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, writeBatch, doc } from 'firebase/firestore';
+import { getCharactersByCampaign, resetCampaign } from '../services/db';
 import Message from './Message';
 import SettingsModal from './SettingsModal';
 import { AVAILABLE_MODELS } from '../services/ai';
@@ -102,9 +103,10 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
       });
 
       await batch.commit();
+      await resetCampaign(campaignId);
     } catch (err) {
-      console.error('Error clearing chat:', err);
-      alert("Failed to clear chat history.");
+      console.error('Error resetting session:', err);
+      alert("Failed to reset session.");
     } finally {
       setIsClearing(false);
     }
@@ -145,6 +147,7 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         displayName: user.displayName,
         photoURL: user.photoURL,
         createdAt: serverTimestamp(),
+        characterName: activeCharacter?.name || null,
         diceRolls: [{
           notation: displayNotation,
           total: rollData.total,
@@ -167,7 +170,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         displayName: user.displayName || 'Player',
         photoURL: user.photoURL || '',
         createdAt: serverTimestamp(),
-        type: 'InGame'
+        characterName: activeCharacter?.name || null,
+        type: prompt.toLowerCase().includes('@dm') ? 'InGame' : 'OutOfCharacter'
       });
 
       if (prompt.toLowerCase().includes('@dm')) {
@@ -223,7 +227,7 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
           });
 
           const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId, campaignData?.scenarioText, finalHistory);
+          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId, campaignData, finalHistory);
 
         } catch (error) {
           await addDoc(messagesRef, {
@@ -302,6 +306,9 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         </div>
 
         <form className="message-form" onSubmit={handleSend}>
+          <div className={`speaking-indicator ${newMessage.toLowerCase().includes('@dm') ? 'target-dm' : 'target-ooc'}`}>
+            {newMessage.toLowerCase().includes('@dm') ? `${activeCharacter?.name || 'Player'} to DM` : 'OOC'}
+          </div>
           <input
             className="input-field"
             value={newMessage}

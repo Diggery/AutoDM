@@ -58,6 +58,15 @@ export async function assignCharacterToCampaign(characterId, campaignId) {
 }
 
 /**
+ * Fetches a single campaign by ID.
+ */
+export async function getCampaignById(campaignId) {
+  const docRef = doc(db, 'campaigns', campaignId);
+  const campaignDoc = await getDoc(docRef);
+  return campaignDoc.exists() ? { id: campaignDoc.id, ...campaignDoc.data() } : null;
+}
+
+/**
  * Fetches all campaigns where the user is an owner or a member.
  */
 export async function getCampaignsByUser(userId) {
@@ -167,17 +176,23 @@ export async function deleteCampaign(campaignId) {
  */
 export async function getActiveCampaignEntities(campaignId) {
   try {
+    const q = query(collection(db, 'characters'), where('campaignId', '==', campaignId));
+    const snapshot = await getDocs(q);
+    
+    // Also check for 'activeEntities' in campaign doc (for legacy or specifically tracked IDs)
     const campaignDoc = await getDoc(doc(db, 'campaigns', campaignId));
-    if (!campaignDoc.exists()) return [];
+    const trackedIds = campaignDoc.exists() ? (campaignDoc.data().activeEntities || []) : [];
     
-    const entityIds = campaignDoc.data().activeEntities || [];
-    if (entityIds.length === 0) return [];
+    const entities = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     
-    const entities = [];
-    for (const id of entityIds) {
-      const char = await getCharacterById(id);
-      if (char) entities.push(char);
+    // If there are tracked IDs not caught by the query (unlikely but possible for NPCs), fetch them
+    for (const id of trackedIds) {
+      if (!entities.find(e => e.id === id)) {
+        const char = await getCharacterById(id);
+        if (char) entities.push(char);
+      }
     }
+    
     return entities;
   } catch (err) {
     console.error('Error fetching campaign entities', err);
@@ -212,4 +227,144 @@ export async function spawnNPCs(campaignId, npcType, count, stats) {
   });
   
   return entityIds;
+}
+
+/**
+ * Starts an encounter for the campaign with all currently active entities.
+ */
+export async function startEncounter(campaignId) {
+  const entities = await getActiveCampaignEntities(campaignId);
+  const combatants = entities.map(e => ({
+    id: e.id,
+    name: e.name || 'Unknown',
+    type: e.type || 'npc',
+    initiative: 0 // Default to 0, DM or system rolls this
+  }));
+
+  const campaignDoc = doc(db, 'campaigns', campaignId);
+  await updateDoc(campaignDoc, {
+    encounterState: {
+      isActive: true,
+      combatants,
+      currentTurnId: combatants.length > 0 ? combatants[0].id : null,
+      round: 1
+    }
+  });
+}
+
+/**
+ * Bulk updates initiatives for combatants and sorts them.
+ * initiatives is an array of { idOrName: 'string', initiative: number }
+ */
+export async function setInitiatives(campaignId, initiatives) {
+  const campaignDocRef = doc(db, 'campaigns', campaignId);
+  const campaignDoc = await getDoc(campaignDocRef);
+  if (!campaignDoc.exists()) return;
+  
+  const state = campaignDoc.data().encounterState;
+  if (!state || !state.isActive) return;
+  
+  let combatants = [...state.combatants];
+  for (const item of initiatives) {
+    const idx = combatants.findIndex(c => 
+      c.id === item.idOrName || 
+      c.name.toLowerCase() === item.idOrName.toLowerCase() ||
+      c.name.toLowerCase().includes(item.idOrName.toLowerCase())
+    );
+    if (idx !== -1) {
+      combatants[idx].initiative = item.initiative;
+    }
+  }
+  
+  // Sort descending by initiative score
+  combatants.sort((a, b) => b.initiative - a.initiative);
+  
+  // Update the current turn to the first in the list
+  const currentTurnId = combatants.length > 0 ? combatants[0].id : null;
+  
+  await updateDoc(campaignDocRef, {
+    'encounterState.combatants': combatants,
+    'encounterState.currentTurnId': currentTurnId
+  });
+}
+
+/**
+ * Advances the encounter to the next turn.
+ */
+export async function nextTurn(campaignId) {
+  const campaignDocRef = doc(db, 'campaigns', campaignId);
+  const campaignDoc = await getDoc(campaignDocRef);
+  if (!campaignDoc.exists()) return;
+  
+  const state = campaignDoc.data().encounterState;
+  if (!state || !state.isActive || !state.combatants || state.combatants.length === 0) return;
+  
+  const currentIdx = state.combatants.findIndex(c => c.id === state.currentTurnId);
+  let nextIdx = currentIdx + 1;
+  let newRound = state.round || 1;
+  
+  if (nextIdx >= state.combatants.length) {
+    nextIdx = 0;
+    newRound += 1;
+  }
+  
+  await updateDoc(campaignDocRef, {
+    'encounterState.currentTurnId': state.combatants[nextIdx].id,
+    'encounterState.round': newRound
+  });
+}
+
+/**
+ * Ends the encounter.
+ */
+export async function endEncounter(campaignId) {
+  const campaignDocRef = doc(db, 'campaigns', campaignId);
+  await updateDoc(campaignDocRef, {
+    encounterState: {
+      isActive: false,
+      combatants: [],
+      currentTurnId: null,
+      round: 0
+    }
+  });
+}
+
+/**
+ * Resets the entire campaign session:
+ * 1. Clears chat history (handled in Chat.jsx)
+ * 2. Removes all spawned NPCs from the database
+ * 3. Clears activeEntities and resets encounterState
+ */
+export async function resetCampaign(campaignId) {
+  const campaignDocRef = doc(db, 'campaigns', campaignId);
+  const campaignSnap = await getDoc(campaignDocRef);
+  
+  if (campaignSnap.exists()) {
+    const data = campaignSnap.data();
+    const npcIds = data.activeEntities || [];
+    
+    // We fetch and delete NPCs one by one (or could batch if needed)
+    for (const id of npcIds) {
+      try {
+        const charRef = doc(db, 'characters', id);
+        const charSnap = await getDoc(charRef);
+        if (charSnap.exists() && charSnap.data().type === 'npc') {
+          await deleteDoc(charRef);
+        }
+      } catch (err) {
+        console.error(`Failed to delete NPC ${id}:`, err);
+      }
+    }
+
+    // Reset the campaign document state
+    await updateDoc(campaignDocRef, {
+      activeEntities: [],
+      encounterState: {
+        isActive: false,
+        combatants: [],
+        currentTurnId: null,
+        round: 0
+      }
+    });
+  }
 }

@@ -101,15 +101,16 @@ export default function SettingsModal({ isOpen, onClose, onClearChat, isClearing
 
           <div className="setting-group">
             <label className="danger-text">
-              <Trash2 size={16} /> Data Management
+              <ShieldAlert size={16} /> Session Control
             </label>
-            <p className="setting-desc">Clear the entire chat history for this campaign.</p>
+            <p className="setting-desc">Reset the entire session: clears chat, removes spawned NPCs, and ends any active encounters.</p>
             <button 
               className="btn btn-danger" 
               onClick={onClearChat} 
               disabled={isClearing}
+              style={{ gap: '8px' }}
             >
-              <Trash2 size={16} /> Clear Chat History
+              <Trash2 size={16} /> Reset Session
             </button>
           </div>
         </div>
