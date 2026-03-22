@@ -31,6 +31,8 @@ const statStateKeys = {
   'Qu': 'Quickness'
 };
 
+import { rolemasterSystem } from '../index';
+
 const getLongStatName = (abbr) => {
   if (!abbr || abbr === 'None') return abbr?.toUpperCase() || '';
   return abbr.split('/').map(s => statLongNames[s.trim()] || s.trim().toUpperCase()).join('/').toUpperCase();
@@ -40,6 +42,9 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
   const [newSkillName, setNewSkillName] = useState('');
   const [isEquipmentModalOpen, setIsEquipmentModalOpen] = useState(null); // 'weapons' | 'armour' | null
   
+  // Use the centralized rules engine as the source of truth for all calculations
+  const report = rolemasterSystem.getCharacterReport(characterData);
+
   // Sanitize stats: only keep what's in the template
   const validKeys = Object.keys(templateData.stats);
   const sanitizedStats = {};
@@ -65,7 +70,7 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
     }
   }, [needsCleanup, characterData?.id]);
 
-  if (!characterData) return null;
+  if (!characterData || !report) return null;
 
   const stats = sanitizedStats;
   const skills = characterData.skills || {};
@@ -152,156 +157,6 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
     });
     
     onUpdateCharacter({ [type]: newList });
-  };
-
-  const calculateSkillBonus = (name, data) => {
-    const { ranks = 0, bonus: specialBonus = 0 } = data || {};
-    let rankBonus = -25;
-    if (ranks > 0) {
-      rankBonus = 0;
-      for (let i = 1; i <= ranks; i++) {
-        if (i <= 10) rankBonus += 5;
-        else if (i <= 20) rankBonus += 2;
-        else if (i <= 30) rankBonus += 1;
-        else rankBonus += 0.5;
-      }
-    }
-    
-    const skillInfo = ruleData.primary_skills?.find(s => s.skill === name) || 
-                     ruleData.secondary_skills?.find(s => s.skill === name);
-                     
-    let statBonus = 0;
-    let statUsed = 'None';
-    if (skillInfo?.stat && skillInfo.stat !== 'None') {
-      const statsUsed = skillInfo.stat.split('/');
-      statUsed = skillInfo.stat;
-      let sum = 0;
-      statsUsed.forEach(abbr => {
-        const stateKey = statStateKeys[abbr.trim()];
-        if (stateKey && stats[stateKey]) {
-           sum += getStatBonusDetails(stateKey, stats[stateKey].base).total;
-        }
-      });
-      statBonus = Math.floor(sum / statsUsed.length);
-    }
-    
-    return {
-      total: rankBonus + statBonus + specialBonus,
-      rankBonus,
-      statBonus,
-      specialBonus,
-      statUsed
-    };
-  };
-
-  const calculateAT = () => {
-    let highestAT = 1;
-    let activeArmor = null;
-
-    if (characterData.armour && characterData.armour.length > 0) {
-      for (const item of characterData.armour) {
-        if (item.in_use && item.AT && Number(item.AT) > highestAT) {
-          highestAT = Number(item.AT);
-          activeArmor = item;
-        }
-      }
-    }
-
-    // Fallback if the item doesn't have penalty data (old characters)
-    let penaltyData = activeArmor;
-    if (activeArmor && typeof activeArmor.min_maneuver === 'undefined') {
-       // Search equipment list for matching item name
-       for (const cat of Object.values(equipmentData.equipment_list.armor)) {
-         const found = cat.find(i => i.name === activeArmor.name);
-         if (found) {
-           penaltyData = found;
-           break;
-         }
-       }
-    }
-
-    const chart = penaltyData || { 
-      min_maneuver: 0, max_maneuver: 0, missile_penalty: 0, quickness_penalty: 0, essence_esf: 0, channeling_esf: 0 
-    };
-
-    // Determine Skill Category for Maneuvering
-    let skillCategory = 'None';
-    if (highestAT >= 5 && highestAT <= 8) skillCategory = 'Soft Leather';
-    else if (highestAT >= 9 && highestAT <= 12) skillCategory = 'Rigid Leather';
-    else if (highestAT >= 13 && highestAT <= 16) skillCategory = 'Chain';
-    else if (highestAT >= 17 && highestAT <= 20) skillCategory = 'Plate';
-
-    const skillName = skillCategory !== 'None' ? `Maneuvering in Armor (${skillCategory})` : null;
-    let skillBonus = 0;
-    if (skillName && skills[skillName]) {
-      skillBonus = calculateSkillBonus(skillName, skills[skillName]).total;
-    }
-
-    // Interpolate Maneuver Penalty
-    // 0 skill bonus = max penalty, 100 skill bonus = min penalty
-    const skillFactor = Math.min(Math.max(skillBonus, 0), 100) / 100;
-    const maneuverPenalty = Math.round((chart.max_maneuver || 0) + (skillFactor * ((chart.min_maneuver || 0) - (chart.max_maneuver || 0))));
-
-    return { 
-      at: highestAT, 
-      maneuverPenalty,
-      quicknessPenalty: chart.quickness_penalty || 0,
-      missilePenalty: chart.missile_penalty || 0,
-      essenceESF: chart.essence_esf || 0,
-      channelingESF: chart.channeling_esf || 0,
-      skillName: skillName || 'No Armor Training'
-    };
-  };
-
-  const armorData = calculateAT();
-
-  const calculateWeaponOB = (weapon) => {
-    let category = null;
-    if (equipmentData.equipment_list?.weapons) {
-       for (const [catName, items] of Object.entries(equipmentData.equipment_list.weapons)) {
-         if (items.some(i => i.name === weapon.name)) {
-           category = catName;
-           break;
-         }
-       }
-    }
-    
-    // 1. Skill Bonus (Expertise)
-    const skillName = category || weapon.name;
-    const skillData = skills[skillName] || { ranks: 0, bonus: 0 };
-    const skillCalc = calculateSkillBonus(skillName, skillData);
-    
-    // 2. Level Bonus
-    const cappedLevel = Math.min(level || 1, 20);
-    let levelBonus = cappedLevel * 1; // standard non-arms
-    if (profession === 'Fighter') {
-      levelBonus = cappedLevel * 3;
-    } else if (['Thief', 'Rogue', 'Warrior Monk', 'Monk', 'Ranger', 'Paladin', 'Bard'].includes(profession)) {
-      levelBonus = cappedLevel * 2;
-    }
-    
-    // 3. Weapon Quality (Special Bonus on the weapon item itself)
-    const weaponSpecial = Number(weapon.special_bonus || 0);
-    
-    // 4. Missile Attack Penalty (from armor)
-    let missilePenalty = 0;
-    if (category === 'Missile Weapons') {
-      missilePenalty = armorData.missilePenalty;
-    }
-    
-    // Total OB = SkillTotal (Rank+Stat+SkillSpecial) + LevelBonus + WeaponQuality - MissilePenalty
-    const total = skillCalc.total + levelBonus + weaponSpecial - missilePenalty;
-    
-    return {
-      total,
-      skill: skillCalc.rankBonus, 
-      stat: skillCalc.statBonus,
-      statName: skillCalc.statUsed,
-      skillSpecial: skillCalc.specialBonus,
-      level: levelBonus,
-      special: weaponSpecial,
-      missilePenalty
-    };
   };
 
   const renderEquipmentOptions = () => {
@@ -447,80 +302,17 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
     return null;
   };
 
-  const getStatBonusDetails = (statName, baseValue) => {
-    let baseBonus = 0;
-    if (baseValue) {
-      const bonusChart = ruleData.stat_bonuses || [];
-      for (const b of bonusChart) {
-        if (baseValue >= b.range[0] && baseValue <= b.range[1]) {
-          baseBonus = b.bonus;
-          break;
-        }
-      }
-    }
-    
-    const abbr = ruleData.stat_descriptions?.[statName]?.abbreviation || statName.substring(0, 3).toUpperCase();
-    const racialMods = ruleData.races?.[race]?.stat_modifiers || {};
-    const racialBonus = racialMods[abbr] || 0;
-    
-    return {
-      total: baseBonus + racialBonus,
-      base: baseBonus,
-      racial: racialBonus
-    };
-  };
+  const hpDetails = report.hp;
+  const hpTooltip = report.hp.tooltip;
 
-  const calculateMaxHPDetails = () => {
-    const tempCo = stats['Constitution']?.base || 0;
-    const startBHPT = Math.ceil(tempCo / 10);
-    
-    const bodyDevRanks = skills['Body Development']?.ranks || 0;
-    const hitDie = ruleData.races?.[race]?.base_hit_die || 10;
-    const maxRoll = hitDie;
-    const devHits = bodyDevRanks * maxRoll;
-    
-    const totalBHPT = startBHPT + devHits;
-    
-    const raceMax = ruleData.races?.[race]?.max_hits || (hitDie === 10 ? 120 : hitDie === 6 ? 60 : 100);
-    const coBonus = getStatBonusDetails('Constitution', tempCo).total;
-    const actualCap = raceMax + coBonus;
-    
-    const finalBHPT = Math.min(totalBHPT, actualCap);
-    
-    const totalHP = Math.floor(finalBHPT + (finalBHPT * (coBonus / 100)));
-    
-    return {
-      startBHPT,
-      devHits,
-      totalBHPT,
-      raceMax,
-      actualCap,
-      coBonus,
-      finalBHPT,
-      totalHP
-    };
-  };
+  const armorData = report.armor;
 
-  const hpDetails = calculateMaxHPDetails();
-  const hpTooltip = `Starting Base (Co/10): ${hpDetails.startBHPT}\nBody Dev (${skills['Body Development']?.ranks || 0} ranks @ max ${ruleData.races?.[race]?.base_hit_die || 10}/rank): +${hpDetails.devHits}\nUncapped BHPT: ${hpDetails.totalBHPT}\nRacial Max + Co Bonus Cap: ${hpDetails.actualCap}\nFinal BHPT: ${hpDetails.finalBHPT}\nConstitution Bonus Multiplier: +${hpDetails.coBonus}%\nTotal HP Equation: ${hpDetails.finalBHPT} + (${hpDetails.finalBHPT} x ${hpDetails.coBonus / 100})`;
-
-  const quDetails = getStatBonusDetails('Quickness', stats['Quickness']?.base);
-  const rawQuBonus = quDetails.total;
-  const effectiveQuBonus = Math.max(0, rawQuBonus - armorData.quicknessPenalty);
-  
-  let shieldBonus = 0;
-  if (characterData.armour) {
-    for (const item of characterData.armour) {
-      if (item.in_use && item.bonus_versus_melee) {
-        shieldBonus += Number(item.bonus_versus_melee);
-      }
-    }
-  }
-
-  const armorPenalty = 0;
-  const otherBonus = 0;
-  const totalDB = effectiveQuBonus + armorPenalty + shieldBonus + otherBonus;
-  const dbTooltip = `Raw Quickness Bonus: ${rawQuBonus > 0 ? '+' : ''}${rawQuBonus}\nArmor Qu Penalty: -${armorData.quicknessPenalty}\nEffective Qu Bonus: ${effectiveQuBonus}\nShield Bonus: ${shieldBonus > 0 ? '+' : ''}${shieldBonus}\nOther: ${otherBonus > 0 ? '+' : ''}${otherBonus}\nTotal DB: ${totalDB > 0 ? '+' : ''}${totalDB}`;
+  const dbDetails = report.db;
+  const effectiveQuBonus = report.db.effectiveQu;
+  const shieldBonus = report.db.shield;
+  const otherBonus = report.db.other;
+  const totalDB = report.db.total;
+  const dbTooltip = report.db.tooltip;
 
   const isPrimarySkill = (name) => ruleData.primary_skills?.some(s => s.skill === name) ?? false;
   
@@ -531,8 +323,8 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
   const secondarySkillsList = equippedSkills.filter(s => !isPrimarySkill(s.name));
 
   const renderSkillRow = (s) => {
-    const calc = calculateSkillBonus(s.name, s);
-    const tooltip = `Rank Bonus: ${calc.rankBonus}\nStat Bonus (${calc.statUsed}): ${calc.statBonus > 0 ? '+' : ''}${calc.statBonus}\nTotal: ${calc.total > 0 ? '+' : ''}${calc.total}`;
+    const calc = report.skills[s.name] || { total: 0, rankBonus: 0, statBonus: 0, specialBonus: 0, tooltip: '' };
+    const tooltip = calc.tooltip;
     
     return (
       <div key={s.name} className="equipped-item-row">
@@ -681,11 +473,10 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
             const desc = ruleData.stat_descriptions?.[statName]?.description || '';
             const tooltipStr = desc ? `${statName}: ${desc}` : statName;
             
-            const bonusDetails = getStatBonusDetails(statName, statData.base);
+            const bonusDetails = report.stats[statName];
             const totalBonus = bonusDetails.total;
             const displayBonus = totalBonus > 0 ? `+${totalBonus}` : `${totalBonus}`;
-            
-            const bonusTooltip = `Base Stat Bonus: ${bonusDetails.base > 0 ? '+' : ''}${bonusDetails.base}\nRacial Modifier: ${bonusDetails.racial > 0 ? '+' : ''}${bonusDetails.racial}\nTotal: ${displayBonus}`;
+            const bonusTooltip = bonusDetails.tooltip;
             
             return (
               <div key={statName} className="stat-box" title={tooltipStr}>
@@ -720,12 +511,12 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
           </button>
         </div>
         <div className="weapons-list" style={{ marginBottom: '24px' }}>
-          {(!characterData.weapons || characterData.weapons.length === 0) ? (
+          {(!report.weapons || report.weapons.length === 0) ? (
             <div className="empty-msg" style={{ fontSize: '0.85rem' }}>No weapons equipped.</div>
           ) : (
-            characterData.weapons.map((w, idx) => {
-              const obDetails = calculateWeaponOB(w);
-              const obTooltip = `Skill Ranks Bonus: +${obDetails.skill}\nStat Bonus (${obDetails.statName}): ${obDetails.stat > 0 ? '+' : ''}${obDetails.stat}\nProfession Level Bonus (${profession} Lvl ${Math.min(level || 1, 20)}): +${obDetails.level}\nWeapon Quality (Special): +${obDetails.special}\nTotal OB: ${obDetails.total > 0 ? '+' : ''}${obDetails.total}`;
+            report.weapons.map((w, idx) => {
+              const obDetails = w.calculated;
+              const obTooltip = obDetails.tooltip;
               
               return (
                 <div key={idx} className="equipped-item-row">
@@ -760,7 +551,7 @@ export default function RolemasterSheet({ characterData, onUpdateCharacter }) {
                     <div className="equip-bonus-group">
                       <span className="equip-bonus-label">OB</span>
                       <div className="equip-bonus-derived ob-derived" title={obTooltip}>
-                        {obDetails.total > 0 ? `+${obDetails.total}` : obDetails.total}
+                        {obDetails.ob > 0 ? `+${obDetails.ob}` : obDetails.ob}
                       </div>
                     </div>
                   </div>

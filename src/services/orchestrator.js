@@ -16,12 +16,12 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
 
   const allWeapons = rules.getAvailableWeapons ? rules.getAvailableWeapons() : [];
   const allNPCs = rules.getAvailableNPCs ? rules.getAvailableNPCs() : [];
-  
+
   // Optimize LLM prompt: if the user explicitly mentions a weapon, only supply matching weapons
   const lowerIntent = intentText.toLowerCase();
   const matchedWeapons = allWeapons.filter(w => lowerIntent.includes(w.toLowerCase()));
   const availableWeapons = matchedWeapons.length > 0 ? matchedWeapons : allWeapons;
-  
+
   // Use the active character provided by the UI, or fallback to a mock if none selected
   const character = activeCharacter || { name: user.displayName, weaponSkill: 50, quickness: 75 };
 
@@ -33,58 +33,63 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     return total;
   };
 
-  // Extract weapons from character for validation
+  // Extract weapons and skills from character for validation and mapping
   const weaponsList = (character.weapons || []).map(w => w.name).join(', ') || 'None';
-  const inventoryText = `\n\n[PLAYER INVENTORY]: ${weaponsList}\n[RULE]: If the player tries to draw or attack with a weapon NOT in their inventory, you MUST remind them they don't have it and ask them to use what they possess.`;
+  const skillsList = character.skills ? Object.keys(character.skills).join(', ') : 'None';
+  
+  const rulesText = `\n\n[PLAYER INVENTORY]: ${weaponsList}\n
+  [PLAYER SKILLS]: ${skillsList}\n
+  [RULE]: If the player tries to equip, draw, or attack with a weapon NOT in their inventory, you MUST remind them they don't have it and ask them to use what they possess.\n
+  [RULE]: If the player tries to cast any spells or use magic, you MUST respond with: "Sorry, I am not equipped to resolve spells and magic just yet, soon though!"`;
 
   const genAI = new GoogleGenerativeAI(apiKey);
   const modelInstance = genAI.getGenerativeModel({
     model: model,
-    systemInstruction: SYSTEM_PROMPTS.AUTO_DM_BASE + (scenarioText ? `\n\nQuest Scenario: ${scenarioText}` : '') + inventoryText,
+    systemInstruction: SYSTEM_PROMPTS.AUTO_DM_BASE + (scenarioText ? `\n\nQuest Scenario: ${scenarioText}` : '') + rulesText,
     tools: [{
-        functionDeclarations: [
-          {
-            name: "resolveAction",
-            description: "Execute a rules-based action for the player, e.g. attacking or casting a spell. ALWAYS use this if the player is attempting an action that requires a dice roll or rules arbitration. Supported Weapons: " + availableWeapons.join(', '),
-            parameters: {
-              type: "OBJECT",
-              properties: {
-                actionType: { type: "STRING", description: "The type of action (e.g. 'attack', 'stealth', 'perception')" },
-                target: { type: "STRING", description: "The target of the action, if any." },
-                weapon: { type: "STRING", description: "The weapon used for the action (mapped from Supported Weapons), if applicable." }
-              },
-              required: ["actionType"]
-            }
-          },
-          {
-            name: "spawn_npcs",
-            description: "Create new NPC entities (monsters/enemies) in the campaign. Use this when the DM introduces new foes or NPCs. Available NPCs: " + allNPCs.join(', '),
-            parameters: {
-              type: "OBJECT",
-              properties: {
-                npcType: { type: "STRING", description: "The type of NPC to spawn (e.g. 'Orc', 'Goblin')." },
-                count: { type: "NUMBER", description: "The number of NPCs to spawn. Default is 1." }
-              },
-              required: ["npcType"]
-            }
-          },
-          {
-            name: "roll_dice",
-            description: "Roll 3D dice using standard dice notation (e.g., '2d20', 'd6', '3d10+5') for simple, arbitrary dice rolls outside of rule actions.",
-            parameters: {
-              type: "OBJECT",
-              properties: {
-                notation: { type: "STRING", description: "The dice notation to roll. Examples: '2d20', '1d6', '4d10+2'." }
-              },
-              required: ["notation"]
-            }
+      functionDeclarations: [
+        {
+          name: "resolveAction",
+          description: "Execute a rules-based action for the player. ALWAYS use this for any action requiring a roll or bonus. Map the user's intent to one of the [PLAYER SKILLS] if applicable. Supported Weapons: " + availableWeapons.join(', '),
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              actionType: { type: "STRING", description: "The type of action or skill name (e.g. 'Stalking/Hiding', 'Perception', 'Athletics'). Use the exact name from [PLAYER SKILLS] if it fits the intent." },
+              target: { type: "STRING", description: "The target of the action, if any." },
+              weapon: { type: "STRING", description: "The weapon used for an attack (mapped from Supported Weapons or [PLAYER INVENTORY])." }
+            },
+            required: ["actionType"]
           }
-        ]
+        },
+        {
+          name: "spawn_npcs",
+          description: "Create new NPC entities (monsters/enemies) in the campaign. Use this when the DM introduces new foes or NPCs. Available NPCs: " + allNPCs.join(', '),
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              npcType: { type: "STRING", description: "The type of NPC to spawn (e.g. 'Orc', 'Goblin')." },
+              count: { type: "NUMBER", description: "The number of NPCs to spawn. Default is 1." }
+            },
+            required: ["npcType"]
+          }
+        },
+        {
+          name: "roll_dice",
+          description: "Roll 3D dice using standard dice notation (e.g., '2d20', 'd6', '3d10+5') for simple, arbitrary dice rolls outside of rule actions.",
+          parameters: {
+            type: "OBJECT",
+            properties: {
+              notation: { type: "STRING", description: "The dice notation to roll. Examples: '2d20', '1d6', '4d10+2'." }
+            },
+            required: ["notation"]
+          }
+        }
+      ]
     }]
   });
 
   const chat = modelInstance.startChat({ history });
-  
+
   console.log("=========================================");
   console.log("[Orchestrator] Player Intent:", intentText);
   console.log("[Orchestrator] Active Character:", character);
@@ -94,7 +99,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
   const response = result.response;
 
   const call = response.functionCalls()?.[0];
-  
+
   let finalNarrative = response.text();
 
   if (call && call.name === "resolveAction") {
@@ -105,27 +110,32 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
 
     // Evaluate default equipped weapon if none explicitly named by AI
     let weaponToUse = actionArgs.weapon;
-    if (!weaponToUse && character.equipment && Array.isArray(character.equipment.weapons)) {
-       const equipped = character.equipment.weapons.find(w => w.equipped);
-       if (equipped) weaponToUse = equipped.name;
+    if (!weaponToUse) {
+      if (character.weapons && Array.isArray(character.weapons)) {
+        const equipped = character.weapons.find(w => w.in_use);
+        if (equipped) weaponToUse = equipped.name;
+      } else if (character.equipment && Array.isArray(character.equipment.weapons)) {
+        const equipped = character.equipment.weapons.find(w => w.equipped);
+        if (equipped) weaponToUse = equipped.name;
+      }
     }
 
     // Lookup target entity from DB for rules module context
     let targetEntity = {};
     if (actionArgs.target) {
-       const activeEntities = await getActiveCampaignEntities(campaignId);
-       const lowerTarget = actionArgs.target.toLowerCase();
-       const matched = activeEntities.find(e => e.name && (e.name.toLowerCase().includes(lowerTarget) || lowerTarget.includes(e.name.toLowerCase())));
-       if (matched) targetEntity = matched;
+      const activeEntities = await getActiveCampaignEntities(campaignId);
+      const lowerTarget = actionArgs.target.toLowerCase();
+      const matched = activeEntities.find(e => e.name && (e.name.toLowerCase().includes(lowerTarget) || lowerTarget.includes(e.name.toLowerCase())));
+      if (matched) targetEntity = matched;
     }
 
     // We pass intent to the Rule System
-    const ruleResult = await rules.resolveAction({ 
-      action: actionArgs.actionType, 
+    const ruleResult = await rules.resolveAction({
+      action: actionArgs.actionType,
       target: actionArgs.target,
       weapon: weaponToUse
     }, character, targetEntity, wrappedDiceRoller);
-    
+
     console.log("[Orchestrator] 🎲 Rule Module Result:", ruleResult);
 
     // 4. Send the result back to the Narrator to generate the final prose
@@ -133,19 +143,25 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
       functionResponse: {
         name: "resolveAction",
         response: {
-           outcome: ruleResult
+          outcome: ruleResult
         }
       }
     }]);
-    
+
     finalNarrative = narrationResult.response.text();
     console.log("[Orchestrator] 📖 Narrator Prose Generated");
-    
+
     // Post Action Details message as requested
-    if (actionArgs.actionType === 'attack') {
-      const bonus = character.weaponSkill || 0;
-      const detailText = `${character.name} attacked with ${weaponToUse || 'their bare hands'} and rolled a ${ruleResult.roll} plus an OB of ${bonus} for a total of ${ruleResult.totalScore}, which ${ruleResult.outcome.toLowerCase()}.`;
-      
+    if (ruleResult && typeof ruleResult.roll !== 'undefined') {
+      const bonus = ruleResult.bonus || 0;
+      let detailText = "";
+      if (actionArgs.actionType === 'attack') {
+        detailText = `${character.name} attacked with ${weaponToUse || 'their bare hands'} and rolled a ${ruleResult.roll} plus an OB of ${bonus} for a total of ${ruleResult.totalScore}, which ${ruleResult.outcome.toLowerCase()}.`;
+      } else {
+        const actionLabel = actionArgs.actionType.charAt(0).toUpperCase() + actionArgs.actionType.slice(1);
+        detailText = `${character.name} attempted a ${actionLabel} check and rolled a ${ruleResult.roll} plus a bonus of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
+      }
+
       await addDoc(collection(db, 'campaigns', campaignId, 'messages'), {
         text: detailText,
         uid: 'system_ai',
@@ -159,14 +175,14 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
   } else if (call && call.name === "spawn_npcs") {
     console.log("[Orchestrator] 🛑 Intercepted Function Call:", call.name, call.args);
     const { npcType, count = 1 } = call.args;
-    
+
     // Get base stats from rules
     const stats = rules.getNPCStats ? rules.getNPCStats(npcType) : {};
-    
+
     if (stats) {
       const spawnedIds = await spawnNPCs(campaignId, npcType, count, stats);
       console.log(`[Orchestrator] 🐉 Spawned ${count} ${npcType}(s):`, spawnedIds);
-      
+
       const narrationResult = await chat.sendMessage([{
         functionResponse: {
           name: "spawn_npcs",
@@ -177,7 +193,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
           }
         }
       }]);
-      
+
       finalNarrative = narrationResult.response.text();
     } else {
       finalNarrative = `I tried to summon ${npcType}, but I couldn't find its stats in the records!`;

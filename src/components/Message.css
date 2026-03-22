@@ -114,6 +114,7 @@
   font-style: italic;
   opacity: 0.9;
   border-style: dashed;
+  border-color: #6b7280; /* Gray border for other users' OOC */
 }
 
 .msg-type-dungeonmaster {
