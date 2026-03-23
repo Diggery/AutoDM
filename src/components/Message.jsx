@@ -2,6 +2,8 @@ import ReactMarkdown from 'react-markdown';
 import './Message.css';
 
 export default function Message({ message, isOwnMessage, isDiceRolling }) {
+  if (message.type === 'Hidden') return null;
+
   const { text, displayName, photoURL, isAi, characterName } = message;
 
   return (

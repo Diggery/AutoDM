@@ -23,6 +23,11 @@ export class RolemasterRules extends GameSystemInterface {
     };
   }
 
+  // Returns a random initiative value (0 to 1)
+  rollInitiative(character) {
+    return Math.random();
+  }
+
   // Returns supported weapon lookup tables for the Orchestrator
   getAvailableWeapons() {
     return Object.keys(attacksData || {});

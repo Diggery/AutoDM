@@ -160,6 +160,53 @@ p {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.btn-end-turn {
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  overflow: visible;
+  box-sizing: border-box;
+  animation: growWidth 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.btn-end-turn:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+@keyframes growWidth {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.btn-end-turn {
+  width: 120px !important;
+  opacity: 0;
+  animation: growWidth 0.3s ease-out forwards;
+}
+
+
+
+
+
 /* Input Fields */
 .input-field {
   width: 100%;

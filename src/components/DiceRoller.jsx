@@ -7,6 +7,8 @@ const DiceRoller = forwardRef((props, ref) => {
   const containerRef = useRef(null);
   const diceBoxRef = useRef(null);
   const isInitialized = useRef(false);
+  const hideTimerRef = useRef(null);
+
 
   useEffect(() => {
     if (!containerRef.current || isInitialized.current) return;
@@ -18,24 +20,17 @@ const DiceRoller = forwardRef((props, ref) => {
       id: "dice-canvas",
       assetPath: "/",
       theme_colorset: "white",
-      theme_surface: "green-felt",
       theme_material: "plastic",
       baseScale: 200,
       strength: 1,
       shadows: false,
       light_intensity: 1.0,
       onRollComplete: (results) => {
-        if (props.onRollComplete) {
-          props.onRollComplete(results);
-        }
-        // Auto-hide dice after 5 seconds
-        setTimeout(() => {
-          if (containerRef.current) {
-            containerRef.current.style.opacity = "0";
-            containerRef.current.style.pointerEvents = "none";
-          }
-        }, 5000);
+        console.log("[DiceRoller] 🎲 Engine roll complete.");
+        if (props.onRollComplete) props.onRollComplete(results);
+        document.dispatchEvent(new CustomEvent('diceAnimationFinished_INTERNAL', { detail: results }));
       }
+
     });
 
     diceBox.initialize().then(() => {
@@ -48,73 +43,137 @@ const DiceRoller = forwardRef((props, ref) => {
 
     return () => {
       if (containerRef.current) containerRef.current.innerHTML = '';
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       isInitialized.current = false;
     };
   }, []);
 
+  const hideDice = () => {
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = setTimeout(() => {
+      if (containerRef.current) {
+        console.log("[DiceRoller] 🪄 Starting fade out sequence...");
+        containerRef.current.style.opacity = "0.001";
+
+        setTimeout(() => {
+          if (containerRef.current) {
+            console.log("[DiceRoller] 🪄 Stage 2: Hiding stage completely.");
+            containerRef.current.style.setProperty('display', 'none', 'important');
+            containerRef.current.style.setProperty('visibility', 'hidden', 'important');
+            containerRef.current.style.zIndex = "-1000";
+          }
+          try {
+            if (diceBoxRef.current && typeof diceBoxRef.current.clear === 'function') {
+              diceBoxRef.current.clear(); // Reverted: no await
+            }
+          } catch (e) {
+            console.warn("DiceBox clear failed:", e);
+          }
+        }, 500);
+      }
+    }, 3500);
+  };
+
   useImperativeHandle(ref, () => ({
-    roll: (notation, results = null) => {
+    clear: () => {
+      if (containerRef.current) {
+        containerRef.current.style.setProperty('display', 'none', 'important');
+        containerRef.current.style.setProperty('visibility', 'hidden', 'important');
+        containerRef.current.style.zIndex = "-1000";
+      }
+      if (diceBoxRef.current && typeof diceBoxRef.current.clear === 'function') {
+        diceBoxRef.current.clear();
+      }
+    },
+    roll: async (notation, results = null) => {
       console.log("[DiceRoller] roll requested for:", notation, "fixed results:", results);
+
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+
       if (diceBoxRef.current) {
         if (containerRef.current) {
+          containerRef.current.style.display = "block";
+          containerRef.current.style.visibility = "visible";
           containerRef.current.style.opacity = "1";
-          containerRef.current.style.pointerEvents = "auto";
-          console.log("[DiceRoller] Target container made visible. Triggering 3D engine...");
-        } else {
-          console.warn("[DiceRoller] Warning: containerRef is null, cannot make visible!");
-        }
-        
-        let rollOp;
-        let rollNotation = notation;
-        if (results && Array.isArray(results) && results.length > 0) {
-           if (rollNotation.includes('+') && results.length > 1) {
-             console.log("[DiceRoller] 🎲 TRACE: Triggering manual fixed-result roll injection:", rollNotation, results);
-             
-             // Inject results manually to bypass the physics engine's parser bug with multi-type deterministic rolls
-             const box = diceBoxRef.current;
-             box.notationVectors = box.startClickThrow(rollNotation);
-             if (box.notationVectors) {
-               box.notationVectors.result = results;
-               rollOp = new Promise((resolve) => {
-                 box.rollDice(() => {
-                   const res = box.getDiceResults();
-                   box.onRollComplete(res);
-                   const ev = new CustomEvent("rollComplete", { detail: res });
-                   document.dispatchEvent(ev);
-                   resolve(res);
-                 });
-               });
-             } else {
-               rollOp = diceBoxRef.current.roll(rollNotation);
-             }
-           } else {
-             rollNotation = `${rollNotation}@${results.join(',')}`;
-             console.log("[DiceRoller] 🎲 TRACE: Triggering single fixed-result roll:", rollNotation);
-             rollOp = diceBoxRef.current.roll(rollNotation);
-           }
-        } else {
-           console.log("[DiceRoller] 🎲 TRACE: Triggering random roll:", notation);
-           rollOp = diceBoxRef.current.roll(notation);
+          containerRef.current.style.zIndex = "1000";
+          containerRef.current.style.pointerEvents = "none";
+          console.log("[DiceRoller] Stage ready.");
         }
 
-        return rollOp.then(res => {
-          console.log("[DiceRoller] Physics engine completed roll:", res);
-          return res;
-        }).catch(err => {
-           console.error("[DiceRoller] Physics engine crashed:", err);
-           return null;
+        // REVERTED: Remove await clear() which might be hanging
+        try {
+          if (diceBoxRef.current && typeof diceBoxRef.current.clear === 'function') {
+            diceBoxRef.current.clear();
+          }
+        } catch (e) {
+          console.warn("[DiceRoller] Pre-roll clear failed:", e);
+        }
+
+
+
+        let rollNotation = notation;
+
+        // Setup internal event listener BEFORE triggering the roll
+        const completionPromise = new Promise((resolve) => {
+          let timeoutId;
+          const handler = (e) => {
+            clearTimeout(timeoutId);
+            document.removeEventListener('diceAnimationFinished_INTERNAL', handler);
+            console.log("[DiceRoller] 🎯 Internal event caught. Resolving.");
+            resolve(e.detail);
+          };
+          document.addEventListener('diceAnimationFinished_INTERNAL', handler);
+
+          // 6s Safety timeout (increased for reliability)
+          timeoutId = setTimeout(() => {
+            document.removeEventListener('diceAnimationFinished_INTERNAL', handler);
+            console.log("[DiceRoller] ⚠️ Safety timeout hit. Forcing resolve.");
+            resolve(null);
+          }, 6000);
         });
+
+        if (results && Array.isArray(results) && results.length > 0) {
+          if (rollNotation.includes('+') && results.length > 1) {
+            console.log("[DiceRoller] 🎲 TRACE: Triggering manual fixed-result roll injection for multi-die:", rollNotation, results);
+            const box = diceBoxRef.current;
+            box.notationVectors = box.startClickThrow(rollNotation);
+            if (box.notationVectors) {
+              box.notationVectors.result = results;
+              box.rollDice();
+            } else {
+              diceBoxRef.current.roll(rollNotation);
+            }
+          } else {
+            rollNotation = `${rollNotation}@${results.join(',')}`;
+            console.log("[DiceRoller] 🎲 TRACE: Triggering single fixed-result roll:", rollNotation);
+            diceBoxRef.current.roll(rollNotation);
+          }
+        } else {
+
+          console.log("[DiceRoller] 🎲 TRACE: Triggering random roll:", notation);
+          diceBoxRef.current.roll(notation);
+        }
+
+
+        const finalResult = await completionPromise;
+        console.log("[DiceRoller] 🎯 Roll cycle complete. Triggering hide in 3.5s.");
+        hideDice();
+        return finalResult;
+
+
       } else {
-        console.error("[DiceRoller] Critical: diceBoxRef.current is empty! The 3D engine failed to initialize.");
+        console.error("[DiceRoller] Critical: diceBoxRef.current is empty!");
       }
-      return null;
+      return Promise.resolve(null);
     }
   }));
 
   return createPortal(
-    <div 
-      id="dice-box-portal-container" 
-      ref={containerRef} 
+
+
+    <div
+      id="dice-box-portal-container"
+      ref={containerRef}
       className="dice-roller-overlay"
     ></div>,
     document.body

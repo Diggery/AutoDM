@@ -21,7 +21,7 @@ export default function RightPanelSwitcher({ campaignId }) {
   }, [campaignId]);
 
   if (encounterState && encounterState.isActive) {
-    return <EncounterPane encounterState={encounterState} />;
+    return <EncounterPane encounterState={encounterState} campaignId={campaignId} />;
   }
 
   return <GameStatusPane />;

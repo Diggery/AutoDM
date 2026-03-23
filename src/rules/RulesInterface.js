@@ -78,4 +78,13 @@ export class GameSystemInterface {
   getNPCStats(type) {
     throw new Error('getNPCStats not implemented');
   }
+
+  /**
+   * Rolls for initiative for a character.
+   * @param {Object} character - The character rolling.
+   * @returns {number} - The initiative score.
+   */
+  rollInitiative(character) {
+    throw new Error('rollInitiative not implemented');
+  }
 }

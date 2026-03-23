@@ -1,5 +1,6 @@
 import { db } from '../firebase';
 import { collection, doc, getDoc, getDocs, query, where, addDoc, updateDoc, deleteDoc, arrayUnion, setDoc } from 'firebase/firestore';
+import { getRulesetById } from '../rules';
 
 /**
  * Creates a new Character (PC or NPC).
@@ -232,17 +233,40 @@ export async function spawnNPCs(campaignId, npcType, count, stats) {
 /**
  * Starts an encounter for the campaign with all currently active entities.
  */
-export async function startEncounter(campaignId) {
-  const entities = await getActiveCampaignEntities(campaignId);
-  const combatants = entities.map(e => ({
-    id: e.id,
-    name: e.name || 'Unknown',
-    type: e.type || 'npc',
-    initiative: 0 // Default to 0, DM or system rolls this
-  }));
+export async function startEncounter(campaignId, initiatorId = null) {
+  const campaignDocRef = doc(db, 'campaigns', campaignId);
+  const campaignSnap = await getDoc(campaignDocRef);
+  if (!campaignSnap.exists()) return;
+  const campaignData = campaignSnap.data();
 
-  const campaignDoc = doc(db, 'campaigns', campaignId);
-  await updateDoc(campaignDoc, {
+  const entities = await getActiveCampaignEntities(campaignId);
+  
+  // Load the ruleset to get accurate initiative rolls
+  const rulesetId = (campaignData.rulesetId || 'rolemaster').toLowerCase();
+  const rules = getRulesetById(rulesetId)?.system;
+
+  const combatants = entities.map(e => {
+    let init = rules ? rules.rollInitiative(e) : Math.random();
+    
+    // If this is the initiator, they get "Advantage" (placed at top)
+    if (initiatorId && e.id === initiatorId) {
+      init = 100;
+    }
+
+    return {
+      id: e.id,
+      name: e.name || 'Unknown',
+      type: e.type || 'npc',
+      initiative: init,
+      hasActed: false
+    };
+  });
+
+
+  // Sort descending by initiative score
+  combatants.sort((a, b) => b.initiative - a.initiative);
+
+  await updateDoc(campaignDocRef, {
     encounterState: {
       isActive: true,
       combatants,
@@ -308,10 +332,17 @@ export async function nextTurn(campaignId) {
     newRound += 1;
   }
   
+  // Reset hasActed for all combatants when advancing the turn/round
+  const updatedCombatants = state.combatants.map(c => ({ ...c, hasActed: false }));
+  
   await updateDoc(campaignDocRef, {
     'encounterState.currentTurnId': state.combatants[nextIdx].id,
-    'encounterState.round': newRound
+    'encounterState.round': newRound,
+    'encounterState.combatants': updatedCombatants
   });
+
+
+  console.log(`[Database] ⚔️ Turn Advanced from ${state.combatants[currentIdx].name} to ${state.combatants[nextIdx].name} (ID: ${state.combatants[nextIdx].id}). It is now Round ${newRound}.`);
 }
 
 /**

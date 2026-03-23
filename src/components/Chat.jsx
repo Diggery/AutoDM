@@ -18,9 +18,14 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
   const [isClearing, setIsClearing] = useState(false);
   const [campaignData, setCampaignData] = useState(null);
   const [lastMessage, setLastMessage] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
   const messagesEndRef = useRef(null);
   const lastProcessedRollIdRef = useRef(null); 
+  const lastTriggeredTurnIdRef = useRef(null);
+  const pendingRollsRef = useRef(new Map());
   const mountTimeRef = useRef(Date.now());
+  const imperativelyRolledIdsRef = useRef(new Set());
+
 
   const messagesRef = collection(db, 'campaigns', campaignId, 'messages');
 
@@ -61,9 +66,11 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         const now = Date.now();
         
         // Only trigger for recently created messages that haven't been rolled yet
-        if (now - msgTime < 10000 && !activeRollIds.has(rollId) && lastProcessedRollIdRef.current !== rollId) {
+        // AND skip if they were rolled imperatively by the orchestrator
+        if (now - msgTime < 10000 && !activeRollIds.has(rollId) && lastProcessedRollIdRef.current !== rollId && !imperativelyRolledIdsRef.current.has(rollId)) {
           console.log("[Chat] 🎲 Triggering 3D roll for ID:", rollId);
           lastProcessedRollIdRef.current = rollId;
+
           
           setActiveRollIds(prev => new Set(prev).add(rollId));
           
@@ -76,12 +83,21 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
           
           Promise.all(animations).then(() => {
             console.log("[Chat] ✅ Roll complete for ID:", rollId);
+            
+            // Resolve any orchestration logic waiting for this specific roll (legacy sync)
+            if (pendingRollsRef.current.has(rollId)) {
+              const resolve = pendingRollsRef.current.get(rollId);
+              pendingRollsRef.current.delete(rollId);
+              resolve();
+            }
+
             setActiveRollIds(prev => {
               const next = new Set(prev);
               next.delete(rollId);
               return next;
             });
           });
+
         }
       }
     }
@@ -89,6 +105,27 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  // Automated NPC turn signal
+  useEffect(() => {
+    const encounter = campaignData?.encounterState;
+    if (encounter?.isActive && encounter.currentTurnId) {
+      const activeCombatant = encounter.combatants.find(c => c.id === encounter.currentTurnId);
+      const currentRound = encounter.round || 1;
+      const turnSignature = `${encounter.currentTurnId}_round_${currentRound}`;
+      
+      // If it's an NPC turn and we haven't poked the AI for this specific turn/round yet
+      // AND we aren't already processing another action
+      if (activeCombatant?.type === 'npc' && lastTriggeredTurnIdRef.current !== turnSignature && !isProcessing) {
+        console.log(`[Chat] 🤖 Detecting NPC turn: ${activeCombatant.name} (Round ${currentRound}). Sending signal to DM.`);
+        lastTriggeredTurnIdRef.current = turnSignature;
+        
+        // Trigger the DM without a visible user message if possible, or a "System" nudge
+        const signalPrompt = `@dm It is now ${activeCombatant.name}'s turn. Please narrate and resolve their action using the tools.`;
+        triggerDMAction(signalPrompt, true); // true = isSystemEntry
+      }
+    }
+  }, [campaignData?.encounterState?.currentTurnId, campaignData?.encounterState?.round, isProcessing]);
 
   const handleClearChat = async () => {
     if (!window.confirm("Are you sure you want to clear the entire chat history for this campaign? This action cannot be undone.")) return;
@@ -112,8 +149,11 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
     }
   };
 
-  const handleDiceRoll = async (notation) => {
-    console.log("[Chat] 🎲 Generating results for sync:", notation);
+  const handleDiceRoll = async (notation, results = null, rollId = null) => {
+    console.log("[Chat] 🎲 Generating results and triggering IMPERATIVE roll:", notation, rollId);
+    
+    let rollData = { total: 0, results: [] };
+
     if (notation === "1d100" || notation === "d%") {
       const d1 = Math.floor(Math.random() * 10);
       const d2 = Math.floor(Math.random() * 10);
@@ -121,12 +161,31 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
       if (val === 0) val = 100;
       const d100_val = d1 === 0 ? 100 : d1 * 10;
       const d10_val = d2 === 0 ? 10 : d2;
-      return { total: val, results: [d100_val, d10_val] };
+      rollData = { total: val, results: [d100_val, d10_val] };
+    } else {
+      const sd = parseInt(notation.match(/d(\d+)/i)?.[1]) || 20;
+      const val = Math.floor(Math.random() * sd) + 1;
+      rollData = { total: val, results: [val] };
     }
-    const sd = parseInt(notation.match(/d(\d+)/i)?.[1]) || 20;
-    const val = Math.floor(Math.random() * sd) + 1;
-    return { total: val, results: [val] };
+
+    // IMPERATIVE TRIGGER: This prevents the 'too early' button bug by awaiting the visual animation here
+    if (diceRollerRef.current) {
+      if (rollId) imperativelyRolledIdsRef.current.add(rollId);
+      console.log("[Chat] 🪄 Awaiting 3D animation for ID:", rollId);
+      
+      // The 3D engine NEEDS '1d100+1d10' to render two percentile dice, 
+      // otherwise it tries to apply 2 results [50, 4] to a single '1d100' die and times out.
+      const visualNotation = (notation === '1d100' || notation === 'd%') ? '1d100+1d10' : notation;
+
+      // We pass the visual notation and calculated results to the 3D engine immediately
+      await diceRollerRef.current.roll(visualNotation, rollData.results);
+      console.log("[Chat] 🪄 3D animation complete.");
+    }
+
+    return rollData;
   };
+
+
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -188,61 +247,103 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
           return;
         }
 
-        try {
-          const handleDiceRoll = async (notation) => {
-            console.log("[Chat] 🎲 Generating results for sync:", notation);
-            if (notation === "1d100" || notation === "d%") {
-              const d1 = Math.floor(Math.random() * 10);
-              const d2 = Math.floor(Math.random() * 10);
-              let val = (d1 * 10) + d2;
-              if (val === 0) val = 100;
-              const d100_val = d1 === 0 ? 100 : d1 * 10;
-              const d10_val = d2 === 0 ? 10 : d2;
-              return { total: val, results: [d100_val, d10_val] };
-            }
-            const sd = parseInt(notation.match(/d(\d+)/i)?.[1]) || 20;
-            const val = Math.floor(Math.random() * sd) + 1;
-            return { total: val, results: [val] };
-          };
-
-          const filteredHistory = messages
-            .filter(msg => msg.type === "InGame" || msg.type === "DungeonMaster")
-            .map(msg => ({
-              role: msg.type === "DungeonMaster" ? "model" : "user",
-              parts: [{ text: msg.text.replace(/@dm/gi, "").trim() }]
-            }));
-
-          const finalHistory = [];
-          filteredHistory.forEach((msg) => {
-            if (finalHistory.length === 0) {
-              if (msg.role === "user") finalHistory.push(msg);
-            } else {
-              const lastRole = finalHistory[finalHistory.length - 1].role;
-              if (msg.role !== lastRole) {
-                finalHistory.push(msg);
-              } else {
-                finalHistory[finalHistory.length - 1].parts[0].text += "\n" + msg.parts[0].text;
-              }
-            }
-          });
-
-          const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-          await processPlayerIntent(campaignId, user, prompt, apiKey, selectedModel, handleDiceRoll, activeCharacter, rulesetId, campaignData, finalHistory);
-
-        } catch (error) {
-          await addDoc(messagesRef, {
-            text: `⚠️ AI Error: ${error.message}`,
-            uid: 'system_ai',
-            displayName: 'System',
-            photoURL: '',
-            createdAt: serverTimestamp(),
-            isAi: true,
-            type: 'Details'
-          });
-        }
+        await triggerDMAction(prompt);
       }
     } catch (err) {
       console.error('Error sending message:', err);
+    }
+  };
+
+  const waitForRoll = (rollId) => {
+    if (!rollId) return Promise.resolve();
+    // If it's already finished, resolve immediately
+    if (lastProcessedRollIdRef.current === rollId && !activeRollIds.has(rollId)) return Promise.resolve();
+    
+    return new Promise((resolve) => {
+      pendingRollsRef.current.set(rollId, resolve);
+      // Safety timeout after 10 seconds
+      setTimeout(() => {
+        if (pendingRollsRef.current.has(rollId)) {
+          pendingRollsRef.current.delete(rollId);
+          resolve();
+        }
+      }, 10000);
+    });
+  };
+
+  /**
+   * Triggers the DM (Gemini) to process an intent.
+   * @param {string} prompt - The text to send to the DM
+   * @param {boolean} isSystemSignal - If true, this won't be saved as a user message first
+   */
+  const triggerDMAction = async (prompt, isSystemSignal = false) => {
+    if (!activeCharacter && !isSystemSignal) {
+      await addDoc(messagesRef, {
+        text: "Hi, you need to select a character to play!",
+        uid: 'system_ai',
+        displayName: 'System',
+        photoURL: '',
+        createdAt: serverTimestamp(),
+        isAi: true,
+        type: 'Details'
+      });
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      // 1. Build history
+      const filteredHistory = messages
+        .filter(msg => msg.type === "InGame" || msg.type === "DungeonMaster")
+        .map(msg => ({
+          role: msg.type === "DungeonMaster" ? "model" : "user",
+          parts: [{ text: msg.text.replace(/@dm/gi, "").trim() }]
+        }));
+
+      const finalHistory = [];
+      filteredHistory.forEach((msg) => {
+        if (finalHistory.length === 0) {
+          if (msg.role === "user") finalHistory.push(msg);
+        } else {
+          const lastRole = finalHistory[finalHistory.length - 1].role;
+          if (msg.role !== lastRole) {
+            finalHistory.push(msg);
+          } else {
+            finalHistory[finalHistory.length - 1].parts[0].text += "\n" + msg.parts[0].text;
+          }
+        }
+      });
+
+      // 2. Call processPlayerIntent
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      await processPlayerIntent(
+        campaignId,
+        user,
+        prompt,
+        apiKey,
+        selectedModel,
+        handleDiceRoll,
+        activeCharacter,
+        rulesetId,
+        campaignData,
+        finalHistory,
+        isSystemSignal
+      );
+
+
+    } catch (error) {
+      console.error("[Chat] triggerDMAction Error:", error);
+      await addDoc(messagesRef, {
+        text: `⚠️ AI Error: ${error.message}`,
+        uid: 'system_ai',
+        displayName: 'System',
+        photoURL: '',
+        createdAt: serverTimestamp(),
+        isAi: true,
+        type: 'Details'
+      });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
