@@ -1,11 +1,17 @@
 import React from 'react';
-import { nextTurn } from '../services/db';
-
+import { nextTurn } from '../services/encounterService';
 export default function EncounterPane({ encounterState, campaignId }) {
   const { combatants = [], currentTurnId, round = 1 } = encounterState;
+  const [isEndingTurn, setIsEndingTurn] = React.useState(false);
+
+  // Reset local end-turn state when turn changes
+  React.useEffect(() => {
+    setIsEndingTurn(false);
+  }, [currentTurnId]);
 
   const handleEndTurn = async () => {
     if (campaignId) {
+      setIsEndingTurn(true);
       await nextTurn(campaignId);
     }
   };
@@ -58,7 +64,7 @@ export default function EncounterPane({ encounterState, campaignId }) {
                   </div>
                 </div>
                 
-                {isCurrentTurn && isPlayer && c.hasActed && (
+                {isCurrentTurn && isPlayer && c.hasActed && !isEndingTurn && (
                   <button 
                     onClick={handleEndTurn}
                     style={{ 

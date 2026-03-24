@@ -9,7 +9,7 @@ export class GameSystemInterface {
    * @param {Object} intent - The action the player is trying to take (e.g., { type: 'attack', target: 'goblin', weapon: 'sword' })
    * @param {Object} character - The character's current state/stats.
    * @param {Object} gameState - The current state of the game/world.
-   * @param {Function} diceRoller - An async function(notation) to roll dice.
+   * @param {Function} diceRoller - An async function(notation, label) to roll dice. Can be called multiple times.
    * @returns {Promise<Object>} - Result of the action (JSON).
    */
   async resolveAction(intent, character, gameState, diceRoller) {

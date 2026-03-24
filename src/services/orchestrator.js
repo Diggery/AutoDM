@@ -1,7 +1,7 @@
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
-
-import { getActiveCampaignEntities, spawnNPCs, updateCharacter, startEncounter, setInitiatives, nextTurn, endEncounter, getCampaignById } from './db';
+import { getActiveCampaignEntities, spawnNPCs, updateCharacter, getCampaignById } from './db';
+import * as encounterService from './encounterService';
 import { getRulesetById } from '../rules';
 import { SYSTEM_PROMPTS } from '../prompts';
 import { GoogleGenerativeAI } from '@google/generative-ai';
@@ -53,7 +53,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    const wrappedDiceRoller = async (notation) => {
+    const wrappedDiceRoller = async (notation, label = null) => {
       // Generate a unique ID for this specific roll event if not already set
       if (!rollId) rollId = `roll_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
 
@@ -79,7 +79,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
       // Use 1d100+1d10 notation for percentile rolls to force a d100 and d10 in the 3D engine
       const displayNotation = (notation === '1d100' || notation === 'd%') ? '1d100+1d10' : notation;
 
-      rolls.push({ notation: displayNotation, total, results });
+      rolls.push({ notation: displayNotation, total, results, label });
       return total;
     };
 
@@ -143,11 +143,13 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     - You must STRICTLY ENFORCE turn order. 
     - If a player (${character.name}) tries to take an action but it is NOT their turn, you MUST reject the action and tell them to wait for their turn.
     - Any player is allowed to ask questions, and you should answer, even out of turn, but they can only get information, not take actions.
-    - If it IS the player's turn, resolve their action. The turn will automatically advance if you use the "resolveAction" tool.
+    - If it IS the player's turn, resolve their action. The turn will automatically advance if you use the "resolveAction" tool (for NPCs) or wait for manual end turn (for PCs).
     - If it is an NPC's turn, you MUST act as that NPC. 
     - [CRITICAL]: When acting as an NPC, you MUST use the "resolveAction" tool with the correct 'actorId' (e.g. "${currentCombatant.id}") so the system knows it is the NPC attacking, not the player.
     - [STRICT RULE]: Never narrate that it is someone's turn unless the [CURRENT TURN] in the database (shown above) matches your narration. If you need to change the current turn, use the tools.
     - ONE ACTION PER TURN: Once you have resolved an NPC's action, your turn is DONE. Do NOT chain multiple NPC turns together. Wait for the next Turn Signal from the system.
+    - AUTOMATIC ADVANCE: For NPCs, the system will automatically advance the turn after you call "resolveAction". 
+    - For PCs, you must set their 'hasActed' flag by calling "resolveAction", which will show them the "End Turn" button.
     - If the players defeat all attacking NPCs, make peace with the NPCs, or are defeated, use the "end_encounter" tool.
     `;
   } else {
@@ -319,6 +321,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
   let rollsSent = false;
   let actionDetails = "";
   let initialNarration = response.text() || "";
+  const actedCombatantIds = new Set();
 
 
   // Recursive tool loop: keep executing tools as long as the AI provides them
@@ -399,31 +402,17 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
           }
 
           if (encounterState.isActive) {
-            console.log(`[Orchestrator] ⚔️ Marking action for: ${actorEntity.name} (ID: ${actorEntity.id || 'N/A'})`);
-            const updatedCombatants = encounterState.combatants.map(c => {
-              const actorId = actorEntity.id;
-              const actorName = (actorEntity.name || '').toLowerCase().trim();
-              const combatantId = c.id;
-              const combatantName = (c.name || '').toLowerCase().trim();
-              
-              const idMatch = actorId && combatantId && actorId === combatantId;
-              const nameMatch = actorName && combatantName && (actorName === combatantName || combatantName.includes(actorName) || actorName.includes(combatantName));
-              const isMatch = idMatch || nameMatch;
-              
-              console.log(`[Orchestrator] TRACE Matching: ${combatantName} (ID: ${combatantId}) vs Actor: ${actorName} (ID: ${actorId}). Result: ID=${idMatch}, Name=${nameMatch}`);
-              
-              if (isMatch) console.log(`[Orchestrator] ✅ MATCH FOUND for acted combatant: ${c.name}`);
-              return isMatch ? { ...c, hasActed: true } : c;
-            });
+            console.log(`[Orchestrator] ⚔️ Recording action for: ${actorEntity.name} (ID: ${actorEntity.id || 'N/A'})`);
+            if (actorEntity.id) actedCombatantIds.add(actorEntity.id);
 
-
-
-            const campaignDocRef = doc(db, 'campaigns', campaignId);
-            await updateDoc(campaignDocRef, {
-              'encounterState.combatants': updatedCombatants
-            });
-            // Update local encounterState for subsequent tool calls in the same loop
-            encounterState.combatants = updatedCombatants;
+            // Apply Mechanical Damage to target if hit
+            if (ruleResult.success && ruleResult.damageApplied > 0 && targetEntity.id) {
+               console.log(`[Orchestrator] 💥 Applying mechanical damage: ${ruleResult.damageApplied} to ${targetEntity.name}`);
+               const damageResult = await encounterService.applyDamage(campaignId, targetEntity.id, ruleResult.damageApplied);
+               if (damageResult) {
+                 actionDetails += `\n💥 ${damageResult.name} takes ${ruleResult.damageApplied} damage! (Remaining HP: ${damageResult.newHp})`;
+               }
+            }
           }
 
 
@@ -455,6 +444,10 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
             } else {
               const actionLabel = actionArgs.actionType.charAt(0).toUpperCase() + actionArgs.actionType.slice(1);
               detailText = `${actorEntity.name} attempted a ${actionLabel} skill check and rolled a ${ruleResult.roll} plus a bonus of ${bonus} for a total of ${ruleResult.totalScore}, which was a ${ruleResult.outcome.toLowerCase()}.`;
+            }
+
+            if (ruleResult.critical) {
+              detailText += ` CRITICAL EFFECT: ${ruleResult.critical.result}`;
             }
 
             actionDetails += `\n${detailText}`;
@@ -582,7 +575,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
 
         case TOOL_NAMES.START_ENCOUNTER: {
           const { initiatorId = null } = call.args;
-          await startEncounter(campaignId, initiatorId);
+          await encounterService.startEncounter(campaignId, initiatorId);
           toolResponses.push({
             functionResponse: {
               name: TOOL_NAMES.START_ENCOUNTER,
@@ -595,7 +588,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
         case TOOL_NAMES.SET_INITIATIVE: {
           const { initiatives } = call.args;
           if (initiatives && Array.isArray(initiatives)) {
-            await setInitiatives(campaignId, initiatives);
+            await encounterService.setInitiatives(campaignId, initiatives);
           }
           toolResponses.push({
             functionResponse: {
@@ -608,7 +601,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
 
         case TOOL_NAMES.NEXT_TURN: {
           console.log("[Orchestrator] ⏭️ 'next_turn' tool called by AI.");
-          await nextTurn(campaignId);
+          await encounterService.nextTurn(campaignId);
           toolResponses.push({
             functionResponse: {
               name: TOOL_NAMES.NEXT_TURN,
@@ -619,7 +612,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
         }
 
         case TOOL_NAMES.END_ENCOUNTER: {
-          await endEncounter(campaignId);
+          await encounterService.endEncounter(campaignId);
           toolResponses.push({
             functionResponse: {
               name: TOOL_NAMES.END_ENCOUNTER,
@@ -657,7 +650,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
         console.log("[Orchestrator] ⏭️ NPC turn resolved. Advancing after pacing delay.");
         // Extra buffer for narration and action details to be read
         await sleep(2000); 
-        await nextTurn(campaignId);
+        await encounterService.nextTurn(campaignId);
         shouldAdvanceTurn = false;
         hasAdvancedTurn = true;
       }
@@ -751,7 +744,19 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
     await addDoc(collection(db, 'campaigns', campaignId, 'messages'), msgData);
   }
 
-  // 6. Final safety: Ensure NPC turns ALWAYS advance if they were initiated by the system and haven't already advanced.
+  // 6. Final Step: Mark combatants as 'hasActed' in the DB.
+  // This causes the "End Turn" button to appear ONLY AFTER all narrations and details are sent.
+  if (encounterState?.isActive && actedCombatantIds.size > 0) {
+    console.log("[Orchestrator] 🛡️ Finalizing hasActed status for:", Array.from(actedCombatantIds));
+    const updatedCombatants = encounterState.combatants.map(c => 
+      actedCombatantIds.has(c.id) ? { ...c, hasActed: true } : c
+    );
+    await updateDoc(doc(db, 'campaigns', campaignId), {
+      'encounterState.combatants': updatedCombatants
+    });
+  }
+
+  // 7. Final safety: Ensure NPC turns ALWAYS advance if they were initiated by the system and haven't already advanced.
   // This prevents the game from hanging if the AI fails to use a turn-ending tool or times out.
   if (encounterState?.isActive && !hasAdvancedTurn && isSystemSignal) {
     const currentCombatant = encounterState.combatants?.find(c => c.id === encounterState.currentTurnId);
@@ -759,7 +764,7 @@ export async function processPlayerIntent(campaignId, user, intentText, apiKey, 
       console.log("[Orchestrator] 🛡️ Final safety check: NPC turn active at end of SYSTEM intent. Forcing turn advance.");
       // Extra buffer for narration and action details to be read
       await sleep(2000);
-      await nextTurn(campaignId);
+      await encounterService.nextTurn(campaignId);
     }
   }
 

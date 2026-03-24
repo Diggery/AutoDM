@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { LogOut, Settings, Send, Trash2, ArrowLeft } from 'lucide-react';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, writeBatch, doc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, writeBatch, doc, updateDoc } from 'firebase/firestore';
 import { getCharactersByCampaign, resetCampaign } from '../services/db';
 import Message from './Message';
 import SettingsModal from './SettingsModal';
@@ -116,13 +116,31 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
       
       // If it's an NPC turn and we haven't poked the AI for this specific turn/round yet
       // AND we aren't already processing another action
-      if (activeCombatant?.type === 'npc' && lastTriggeredTurnIdRef.current !== turnSignature && !isProcessing) {
-        console.log(`[Chat] 🤖 Detecting NPC turn: ${activeCombatant.name} (Round ${currentRound}). Sending signal to DM.`);
-        lastTriggeredTurnIdRef.current = turnSignature;
-        
-        // Trigger the DM without a visible user message if possible, or a "System" nudge
-        const signalPrompt = `@dm It is now ${activeCombatant.name}'s turn. Please narrate and resolve their action using the tools.`;
-        triggerDMAction(signalPrompt, true); // true = isSystemEntry
+      if (activeCombatant?.type === 'npc' && !isProcessing) {
+        // Use turnTriggered in Firestore to 'claim' the trigger across all clients
+        if (encounter.turnTriggered !== turnSignature) {
+           console.log(`[Chat] 🤖 Claiming NPC turn: ${activeCombatant.name} (Round ${currentRound}).`);
+           
+           // Immediately mark it as triggered in local state to prevent multiple calls from THIS client
+           lastTriggeredTurnIdRef.current = turnSignature;
+           
+           // Attempt to claim it in Firestore
+           const claimTrigger = async () => {
+             try {
+               await updateDoc(doc(db, 'campaigns', campaignId), {
+                 'encounterState.turnTriggered': turnSignature
+               });
+               
+               console.log(`[Chat] ✅ Claim successful. Sending signal to DM.`);
+               const signalPrompt = `@dm It is now ${activeCombatant.name}'s turn. Please narrate and resolve their action using the tools. You should determine their action (attack, flee, etc.) based on the current context.`;
+               triggerDMAction(signalPrompt, true);
+             } catch (err) {
+               console.warn("[Chat] NPC turn trigger claim failed (likely another client claimed it).", err);
+             }
+           };
+
+           claimTrigger();
+        }
       }
     }
   }, [campaignData?.encounterState?.currentTurnId, campaignData?.encounterState?.round, isProcessing]);
@@ -230,10 +248,10 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         photoURL: user.photoURL || '',
         createdAt: serverTimestamp(),
         characterName: activeCharacter?.name || null,
-        type: prompt.toLowerCase().includes('@dm') ? 'InGame' : 'OutOfCharacter'
+        type: (prompt.toLowerCase().includes('@dm') || prompt.startsWith('/')) ? 'InGame' : 'OutOfCharacter'
       });
 
-      if (prompt.toLowerCase().includes('@dm')) {
+      if (prompt.toLowerCase().includes('@dm') || prompt.startsWith('/')) {
         if (!activeCharacter) {
           await addDoc(messagesRef, {
             text: "Hi, you need to select a character to play!",
@@ -297,7 +315,7 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         .filter(msg => msg.type === "InGame" || msg.type === "DungeonMaster")
         .map(msg => ({
           role: msg.type === "DungeonMaster" ? "model" : "user",
-          parts: [{ text: msg.text.replace(/@dm/gi, "").trim() }]
+          parts: [{ text: msg.text.replace(/@dm/gi, "").replace(/^\//, "").trim() }]
         }));
 
       const finalHistory = [];
@@ -407,8 +425,8 @@ export default function Chat({ user, campaignId, rulesetId, activeCharacter, onS
         </div>
 
         <form className="message-form" onSubmit={handleSend}>
-          <div className={`speaking-indicator ${newMessage.toLowerCase().includes('@dm') ? 'target-dm' : 'target-ooc'}`}>
-            {newMessage.toLowerCase().includes('@dm') ? `${activeCharacter?.name || 'Player'} to DM` : 'OOC'}
+          <div className={`speaking-indicator ${(newMessage.toLowerCase().includes('@dm') || newMessage.startsWith('/')) ? 'target-dm' : 'target-ooc'}`}>
+            {(newMessage.toLowerCase().includes('@dm') || newMessage.startsWith('/')) ? `${activeCharacter?.name || 'Player'} to DM` : 'OOC'}
           </div>
           <input
             className="input-field"

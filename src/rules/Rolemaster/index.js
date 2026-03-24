@@ -4,6 +4,7 @@ import templateData from './data/character_template.json';
 import npcData from './data/npc_data.json';
 import ruleData from './data/character_data.json';
 import equipmentData from './data/equipment_data.json';
+import slashingData from './data/OneHandedSlashing.json';
 import RolemasterSheet from './components/RolemasterSheet';
 
 /**
@@ -405,8 +406,75 @@ export class RolemasterRules extends GameSystemInterface {
     };
   }
 
-  // Simplified resolveAction using external async dice roller
-  async resolveAction(intent, character, gameState, diceRoller) {
+  // Open-ended roll helper (Rolemaster 1-5, 96-100)
+  async rollOpenEnded(diceRoller, label = "Open-Ended Roll") {
+    let total = 0;
+    let roll = diceRoller ? await diceRoller('1d100', label) : (Math.floor(Math.random() * 100) + 1);
+    
+    if (roll >= 96) {
+      total = roll;
+      while (roll >= 96) {
+        roll = diceRoller ? await diceRoller('1d100', `${label} (Exploding)`) : (Math.floor(Math.random() * 100) + 1);
+        total += roll;
+      }
+    } else if (roll <= 5) {
+      total = roll;
+      roll = diceRoller ? await diceRoller('1d100', `${label} (Exploding Low)`) : (Math.floor(Math.random() * 100) + 1);
+      total -= roll;
+    } else {
+      total = roll;
+    }
+    return total;
+  }
+
+  // Lookup result in attack tables
+  lookupAttackResult(tableName, roll, at) {
+    const table = slashingData[tableName];
+    if (!table) return "0";
+
+    const cappedRoll = Math.min(150, Math.max(0, roll));
+    
+    // Find the row. Tables often have ranges or specific numbers.
+    // We'll look for the closest roll that is <= cappedRoll
+    const row = table.rows.find(r => {
+       if (r.roll.includes('-')) {
+         const [min, max] = r.roll.split('-').map(Number);
+         return cappedRoll >= min && cappedRoll <= max;
+       }
+       return Number(r.roll) === cappedRoll;
+    }) || table.rows.reverse().find(r => Number(r.roll.split('-')[0]) <= cappedRoll);
+
+    if (!row) return "0";
+
+    // Columns are AT20 to AT1 (Index 0 to 19)
+    const colIndex = 20 - at;
+    return row.results[colIndex] || "0";
+  }
+
+  // Parse Rolemaster result string (e.g. "8EK" -> { damage: 8, severity: 'E', type: 'K' })
+  parseResultString(res) {
+    if (!res || res === "0") return { damage: 0 };
+    
+    const match = res.match(/^(\d+)([A-E])([KSP])$/);
+    if (match) {
+      return {
+        damage: parseInt(match[1]),
+        severity: match[2],
+        type: match[3]
+      };
+    }
+    
+    // Sometimes it's just damage
+    const damageOnly = res.match(/^(\d+)$/);
+    if (damageOnly) {
+      return { damage: parseInt(damageOnly[1]) };
+    }
+
+    return { damage: 0 };
+  }
+
+  // Simplified resolveAction with Critical Strike support
+  async resolveAction(intent, character, targetEntity, gameState, diceRoller) {
     const actionType = (intent.action || '').toLowerCase().trim();
 
     if (actionType === 'attack') {
@@ -414,18 +482,28 @@ export class RolemasterRules extends GameSystemInterface {
       const obDetails = this.calculateWeaponOB(weaponName, character);
       const bonus = obDetails.total;
 
-      const roll = diceRoller ? await diceRoller('1d100') : (Math.floor(Math.random() * 100) + 1);
+      const roll = await this.rollOpenEnded(diceRoller, "Attack Roll");
       const total = roll + bonus;
 
-      let resultText = "Miss";
-      let damage = 0;
+      // Determine target AT
+      const targetArmor = this.calculateAT(targetEntity || {});
+      const targetAT = targetArmor.at || 1;
 
-      if (total >= 100) {
-        resultText = "Critical Hit!";
-        damage = 15;
-      } else if (total >= 70) {
-        resultText = "Hit";
-        damage = 5;
+      // Table Lookup (Hardcoded to Broadsword for now as example)
+      const rawResult = this.lookupAttackResult("table_8_3_7_broadsword_attack", total, targetAT);
+      const parsed = this.parseResultString(rawResult);
+
+      let resultText = parsed.damage > 0 ? "Hit" : "Miss";
+      let damage = parsed.damage;
+      let criticalInfo = null;
+
+      if (parsed.severity) {
+        resultText = `${parsed.severity} ${parsed.type} Critical!`;
+        
+        // Roll for Critical Effect
+        const critRoll = diceRoller ? await diceRoller('1d100', `${parsed.severity} Critical Strike`) : (Math.floor(Math.random() * 100) + 1);
+        criticalInfo = this.determineCriticalEffect(critRoll, parsed.severity);
+        damage += (criticalInfo.extraDamage || 0);
       }
 
       return {
@@ -434,11 +512,12 @@ export class RolemasterRules extends GameSystemInterface {
         bonus: bonus,
         totalScore: total,
         outcome: resultText,
-        damageApplied: damage
+        damageApplied: damage,
+        critical: criticalInfo
       };
     } else {
       // Handle Maneuvers (Skill Checks)
-      const roll = diceRoller ? await diceRoller('1d100') : (Math.floor(Math.random() * 100) + 1);
+      const roll = await this.rollOpenEnded(diceRoller, "Skill Check");
 
       const skillName = actionType;
       const skills = character.skills || {};
@@ -492,6 +571,18 @@ export class RolemasterRules extends GameSystemInterface {
         action: actionType
       };
     }
+  }
+
+  // Mock Critical Table lookup based on severity
+  determineCriticalEffect(roll, severity = 'A') {
+    // Severity modifiers (A=0, B=+10, C=+20, D=+30, E=+40)
+    const severityBonus = { 'A': 0, 'B': 10, 'C': 20, 'D': 30, 'E': 40 }[severity] || 0;
+    const modifiedRoll = roll + severityBonus;
+
+    if (modifiedRoll >= 90) return { result: "Fell foe instantly!", extraDamage: 20, stunned: 3 };
+    if (modifiedRoll >= 60) return { result: "Severe wound.", extraDamage: 10, stunned: 1 };
+    if (modifiedRoll >= 30) return { result: "Light wound.", extraDamage: 5, stunned: 0 };
+    return { result: "Minor grazing.", extraDamage: 0, stunned: 0 };
   }
 
   // Simplified applyEffect
